@@ -94,6 +94,47 @@ class Grille:
 
 # --- FIN de la classe Grille ---
 
+# IA function ------------
+
+def nb_case_autour_1(x,y):
+	nb = 0
+	i = x - 1
+	j = y - 1
+	while (i <= x + 1 ):
+		j = 0
+		while (j <= y + 1):
+			if (grilleTemp[i][j] = CONST_ROUTE):
+				nb+=1
+			j+=1
+		i+=1
+	return res
+
+def nb_case_autour_2(x,y):
+	nb = 0
+	i = x - 2
+	j = y - 2
+	while (i <= x + 2 ):
+		j = 0
+		while (j <= y + 2):
+			if (grilleTemp[i][j] = CONST_ROUTE):
+				nb+=1
+			j+=1
+		i+=1
+	return res
+
+def nb_case_autour_3(x,y):
+	nb = 0
+	i = x - 3
+	j = y - 3
+	while (i <= x + 3 ):
+		j = 0
+		while (j <= y + 3):
+			if (grilleTemp[i][j] = CONST_ROUTE):
+				nb+=1
+			j+=1
+		i+=1
+	return res
+
 # Autres ------------
 def contenu_grille(grille):
 	for i in range(len(grille)):
