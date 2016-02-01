@@ -3,6 +3,7 @@
 """
 
 import pygame
+import os
 import HUD
 
 # Define some colors
@@ -15,12 +16,12 @@ BLUE = (0, 0, 255)
 pygame.init()
 
 # Set the width and height of the screen [width, height]
-screen_width = 900
-screen_height = 700
+screen_width = 1200
+screen_height = 910
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 screen = pygame.display.set_mode([screen_width, screen_height])
 
 pygame.display.set_caption("Dagobert (the Game) !")
-
 # Loop until the user clicks the close button.
 done = False
 
@@ -34,16 +35,16 @@ while not done:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			done = True
-
+		elif event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_RIGHT:
+				hud.selectNext()
+			elif event.key == pygame.K_LEFT:
+				hud.selectPrev()
+			elif event.key == pygame.K_UP:
+				hud.setLife(100)
+			elif event.key == pygame.K_DOWN:
+				hud.removeLife(5)
 	# --- Game logic should go here
-
-	# --- Screen-clearing code goes here
-
-	# Here, we clear the screen to white. Don't put other drawing commands
-	# above this, or they will be erased with this command.
-
-	# If you want a background image, replace this clear with blit'ing the
-	# background image.
 	screen.fill((75,75,75))
 	hud.draw()
 
