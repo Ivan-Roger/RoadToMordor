@@ -5,8 +5,8 @@ class UserInterface:
 	def __init__(self,screenP):
 		self.selected = 1
 		self.screen = screenP
-		self.coins = pygame.image.load("coin.png")
-		self.test = pygame.image.load("test.png")
+		self.coins = pygame.image.load("images/coin.png")
+		self.test = pygame.image.load("images/test.png")
 		self.lifePercent = 100
 
 	def draw(self):

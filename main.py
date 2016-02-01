@@ -3,6 +3,7 @@
 """
 
 import pygame
+import Grille
 import os
 import HUD
 
@@ -20,6 +21,7 @@ screen_width = 1200
 screen_height = 910
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 screen = pygame.display.set_mode([screen_width, screen_height])
+grille = Grille.Grille(20,16,3,screen.subsurface((50,100,1000,800)))
 
 pygame.display.set_caption("Dagobert (the Game) !")
 # Loop until the user clicks the close button.
@@ -46,6 +48,7 @@ while not done:
 				hud.removeLife(5)
 	# --- Game logic should go here
 	screen.fill((75,75,75))
+	grille.draw()
 	hud.draw()
 
 	# --- Go ahead and update the screen with what we've drawn.
