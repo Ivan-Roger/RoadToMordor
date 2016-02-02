@@ -175,6 +175,14 @@ class Grille:
 			return False
 
 	# IA function ------------
+	
+	def nb_tour(self):
+		nb = 0
+		for i in range((len(self.grille)/2)+1,len(self.grille)):
+			for j in range(len(self.grille[0])):
+				if (self.grille[i][j] == CONST_FRONT_TOWER_IA_1 or self.grille[i][j] == CONST_FRONT_TOWER_IA_2 or self.grille[i][j] == CONST_FRONT_TOWER_IA_3 or self.grille[i][j] == CONST_FRONT_TOWER_IA_4 or self.grille[i][j] == CONST_FRONT_TOWER_IA_5 or self.grille[i][j] == CONST_FRONT_TOWER_IA_6):
+					nb+=1
+		return nb
 
 	def nb_case_autour_1(self,x,y):
 		nb = 0
