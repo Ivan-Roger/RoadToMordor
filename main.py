@@ -4,6 +4,7 @@
 
 import pygame
 import Grille
+import joueur_classe
 import os
 import HUD
 
@@ -28,8 +29,10 @@ pygame.display.set_caption("Dagobert (the Game) !")
 done = False
 
 # Used to manage how fast the screen updates
+joueur = joueur_classe.Joueur("Player 1","humain",1)
+joueurIA = joueur_classe.Joueur("Computer","orc",0)
 clock = pygame.time.Clock()
-hud = HUD.UserInterface(screen)
+hud = HUD.UserInterface(screen,joueur,joueurIA)
 
 # -------- Main Program Loop -----------
 while not done:
@@ -51,6 +54,7 @@ while not done:
 			elif event.key == pygame.K_RIGHT:
 				grille.selectRight()
 			elif event.key == pygame.K_RETURN:
+
 				if not grille.build(hud.getSelected()):
 					print('Construction impossible sur un obstacle')
 	# --- Game logic should go here

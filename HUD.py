@@ -3,10 +3,12 @@ import Grille
 
 class UserInterface:
 	""" Classe pour l'interface utilisateur """
-	def __init__(self,screenP):
+	def __init__(self,screenP, joueur1, joueur2):
 		self.selected = 0
 		self.balance = 500
 		self.screen = screenP
+		self.joueur1 = joueur1
+		self.joueur2 = joueur2
 		self.images = {}
 		self.images['test'] = pygame.image.load("images/test.png")
 		self.images['coinsSprites'] = pygame.image.load("images/coin.png")
@@ -27,7 +29,6 @@ class UserInterface:
 		self.images['towers'][3] = self.images['sprites'].subsurface((190,70,50,50))
 		self.images['towers'][4] = self.images['test']
 		self.images['towers'][5] = self.images['test']
-		self.lifePercent = 100
 		self.turn = 0
 
 	def draw(self):
@@ -39,7 +40,7 @@ class UserInterface:
 		# Contour barre de vie
 		pygame.draw.rect(self.screen,(225,50,50),(10,10,200,30),1)
 		# Barre de vie
-		pygame.draw.rect(self.screen,(225,100,100),(10,10,2*self.lifePercent,30),0)
+		pygame.draw.rect(self.screen,(225,100,100),(10,10,-2*self.lifePercent,30),0)
 		# Texte du % de vie
 		text = pygame.font.SysFont('Calibiri', 25, False, False).render(str(self.lifePercent)+"%",True,(25,25,25))
 		self.screen.blit(text, [95, 15])
