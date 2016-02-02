@@ -5,8 +5,17 @@ class UserInterface:
 	def __init__(self,screenP):
 		self.selected = 1
 		self.screen = screenP
-		self.coins = pygame.image.load("coin.png")
-		self.test = pygame.image.load("test.png")
+		self.images = {}
+		self.images['coins'] = pygame.image.load("images/coin.png")
+		self.images['test'] = pygame.image.load("images/test.png")
+		self.images['sprites'] = pygame.image.load("images/sprites.png")
+		self.images['towers'] = {}
+		self.images['towers'][0] = self.images['sprites'].subsurface((10,70,50,50))
+		self.images['towers'][1] = self.images['sprites'].subsurface((70,70,50,50))
+		self.images['towers'][2] = self.images['sprites'].subsurface((130,70,50,50))
+		self.images['towers'][3] = self.images['sprites'].subsurface((190,70,50,50))
+		self.images['towers'][4] = self.images['test']
+		self.images['towers'][5] = self.images['test']
 		self.lifePercent = 100
 
 	def draw(self):
@@ -24,7 +33,7 @@ class UserInterface:
 		self.screen.blit(text, [95, 15])
 
 		# Image pieces
-		self.screen.blit(self.coins,(240,0))
+		self.screen.blit(self.images['coins'],(240,0))
 
 		# Nombre de pieces
 		text = pygame.font.SysFont('Calibiri', 40, False, False).render("325",True,(25,25,25))
@@ -35,7 +44,7 @@ class UserInterface:
 		for i in range(0,6):
 			x_pos = (i*50)+225+(i*50)
 			y_off = 5 if i+1 == self.selected else 0
-			self.screen.blit(self.test,(x_pos,screenRect[3]-(50+y_off)))
+			self.screen.blit(self.images['towers'][i],(x_pos,screenRect[3]-(50+y_off)))
 
 	def selectNext(self):
 		self.selected+=1
