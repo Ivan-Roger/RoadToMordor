@@ -41,18 +41,18 @@ class UserInterface:
 		# Contour barre de vie
 		pygame.draw.rect(self.screen,(25,59,128),(10,10,200,30),1)
 		# Barre de vie
-		pygame.draw.rect(self.screen,(45,106,229),(10,10,2*self.joueur1.getVie(),30),0)
+		pygame.draw.rect(self.screen,(45,106,229),(10,10,2*self.joueur1.getVieChateauPourcent(),30),0)
 		# Texte du % de vie
-		text = pygame.font.Font('alagard.ttf', 25).render(str(self.joueur1.getVie())+"%",True,(25,25,25))
+		text = pygame.font.Font('alagard.ttf', 25).render(str(self.joueur1.getVieChateauPourcent())+"%",True,(25,25,25))
 		self.screen.blit(text, [95, 15])
 
 		# Contour barre de vie
 		pygame.draw.rect(self.screen,(149,0,0),(1190,10,-200,30),1)
 		# Barre de vie
-		pygame.draw.rect(self.screen,(193,46,26),(1190,10,-2*self.joueur2.getVie(),30),0)
+		pygame.draw.rect(self.screen,(193,46,26),(1190,10,-2*self.joueur2.getVieChateauPourcent(),30),0)
 		# Texte du % de vie
-		text = pygame.font.Font('alagard.ttf', 25).render(str(self.joueur2.getVie())+"%",True,(25,25,25))
-		self.screen.blit(text, [1080, 15])
+		text = pygame.font.Font('alagard.ttf', 25).render(str(self.joueur2.getVieChateauPourcent())+"%",True,(25,25,25))
+		self.screen.blit(text, [1070, 15])
 
 		# Image pieces
 		self.screen.blit(self.images['coins'][(self.turn/5)%8],(240,0))

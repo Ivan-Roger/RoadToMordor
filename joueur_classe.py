@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from unite_classe import *
 
 class Joueur():
@@ -6,8 +8,10 @@ class Joueur():
 
 		# Nom du joueur
 		self.nom = nom
+		# Vie maximum du chateau
+		self.vieChateauMax = 1000
 		# Vie du chateau du joueur
-		self.vieChateau = 1000
+		self.vieChateau = self.vieChateauMax
 		# Argent du joueur
 		self.argent = 100
 		# Race du joueur
@@ -34,6 +38,12 @@ class Joueur():
 	def getVieChateau (self):
 		return self.vieChateau
 
+	def getVieChateauPourcent (self):
+		compt = int((float(self.vieChateau)/float(self.vieChateauMax))*100.0)
+		if self.vieChateau>0 and compt==0:
+			compt=1
+		return compt
+
 	# Retourne l'argent d'un joueur
 	def getArgent (self):
 		return self.argent
@@ -46,7 +56,7 @@ class Joueur():
 	def getEquipe (self):
 		return self.equipe
 
-	# Retourne les sprites d'un joueur (associés à la race)
+	# Retourne les sprites d'un joueur (associes a la race)
 	def getSprite (self):
 		return self.sprite
 
@@ -60,17 +70,17 @@ class Joueur():
 	def setArgent (self, argent):
 		return self.argent
 
-	# Modifie les sprites d'un joueur (associés à la race)
+	# Modifie les sprites d'un joueur (associes a la race)
 	def setSprite (self, sprite):
 		return self.sprite
 
 
 	def payer (self, montant):
-		# Vérifier que le joueur a assez d'argent
+		# Verifier que le joueur a assez d'argent
 		self.setArgent(self.getArgent - montant)
 
 	def recevoir (self, montant):
-		# Vérifier que le joueur a assez d'argent
+		# Verifier que le joueur a assez d'argent
 		self.setArgent(self.getArgent + montant)
 
 ############### Creation des unites
@@ -256,5 +266,5 @@ class Joueur():
 				unite.setAttMag(unite.getAttMag() + 0)
 				unite.setResPhy(unite.getResPhy() + 0)
 				unite.setResMag(unite.getResMag() + 0)
-				unite.setPrix(unite.getPrix() + 0))
+				unite.setPrix(unite.getPrix() + 0)
 				self.niveauUnite['Pretre'] = 3

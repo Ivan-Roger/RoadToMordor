@@ -85,7 +85,7 @@ class Grille:
 		self.images['herbe'][CONST_BACK_FLEUR] = self.images['sprites'].subsurface((10,130,50,50))
 		self.images['construc'] = {}
 		self.images['construc'][CONST_FRONT_ROUTE] = self.images['test']
-		self.images['construc'][CONST_FRONT_ROCHER] = self.images['test']
+		self.images['construc'][CONST_FRONT_ROCHER] = self.images['sprites'].subsurface((190,190,50,50))
 		self.images['construc'][CONST_FRONT_BUCHES] = self.images['sprites'].subsurface((10,190,50,50))
 		self.images['construc'][CONST_FRONT_TRONC] = self.images['sprites'].subsurface((70,190,50,50))
 		self.images['construc'][CONST_FRONT_FORET] = self.images['sprites'].subsurface((130,190,50,50))
@@ -99,8 +99,8 @@ class Grille:
 		self.images['construc'][CONST_FRONT_TOWER_IA_2] = self.images['sprites'].subsurface((70,10,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_IA_3] = self.images['sprites'].subsurface((130,10,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_IA_4] = self.images['sprites'].subsurface((190,10,50,50))
-		self.images['construc'][CONST_FRONT_TOWER_IA_5] = self.images['sprites'].subsurface((250,70,50,50))
-		self.images['construc'][CONST_FRONT_TOWER_IA_6] = self.images['sprites'].subsurface((310,70,50,50))
+		self.images['construc'][CONST_FRONT_TOWER_IA_5] = self.images['sprites'].subsurface((250,10,50,50))
+		self.images['construc'][CONST_FRONT_TOWER_IA_6] = self.images['sprites'].subsurface((310,10,50,50))
 		self.turn=0
 
 	def draw(self):
@@ -127,7 +127,8 @@ class Grille:
 			self.grille = fusion_grille(grilleTemp,self.grille)
 		self.generer_foret()
 		self.generer_obstacles()
-		self.generer_tour()
+		for i in range(10):
+			self.generer_tour()
 
 	def generer_foret(self):
 		for i in range(len(self.grille)):
