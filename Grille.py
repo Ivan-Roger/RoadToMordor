@@ -39,9 +39,9 @@ def creer_grille(x,y):
 		for i in range(y):
 			alea = random.randrange(6)
 			if alea == 0:
-				ligne.append({'background':CONST_BACK_FLEUR,'front':CONST_FRONT_VIDE})
+				ligne.append({'background':CONST_BACK_FLEUR,'front':CONST_FRONT_VIDE, 'orientation':0})
 			else:
-				ligne.append({'background':CONST_BACK_VIDE,'front':CONST_FRONT_VIDE})
+				ligne.append({'background':CONST_BACK_VIDE,'front':CONST_FRONT_VIDE, 'orientation':0})
 	return grille
 
 def generer_route(grilleTemp):
@@ -54,6 +54,7 @@ def generer_route(grilleTemp):
 	route = []
 	while construc:
 		route.append([x,y])
+		print(route[len(route)-1],[x,y])
 		grilleTemp[x][y]['front'] = CONST_FRONT_ROUTE
 		alea = random.randrange(3)
 		if alea == 0: #Tout droit
@@ -81,23 +82,23 @@ def generer_route(grilleTemp):
 
 	for ind,c in enumerate(route):
 		try:
-			if orion[ind+1] = 0:
-				if orion[ind] = 0:
-					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 0
-				elif orion[ind] = 1:
-					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 4
-				elif orion[ind] = 2:
-					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 2
-			elif orion[ind+1] = 1:
-				if orion[ind] = 0:
-					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 3
-				elif orion[ind] = 1:
-					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 1
-			elif orion[ind+1] = 2:
-				if orion[ind] = 0:
-					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 5
-				elif orion[ind] = 2:
-					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 1
+			if orion[ind+1] ==0:
+				if orion[ind] == 0:
+					grilleTemp[c[0]][c[1]]['orientation'] = 0
+				elif orion[ind] == 1:
+					grilleTemp[c[0]][c[1]]['orientation'] = 4
+				elif orion[ind] == 2:
+					grilleTemp[c[0]][c[1]]['orientation'] = 2
+			elif orion[ind+1] == 1:
+				if orion[ind] == 0:
+					grilleTemp[c[0]][c[1]]['orientation'] = 3
+				elif orion[ind] == 1:
+					grilleTemp[c[0]][c[1]]['orientation'] = 1
+			elif orion[ind+1] == 2:
+				if orion[ind] == 0:
+					grilleTemp[c[0]][c[1]]['orientation'] = 5
+				elif orion[ind] == 2:
+					grilleTemp[c[0]][c[1]]['orientation'] = 1
 		except IndexError:
 			pass
 
@@ -129,6 +130,13 @@ class Grille:
 		self.images['construc'][CONST_FRONT_TRONC] = self.images['sprites'].subsurface((70,190,50,50))
 		self.images['construc'][CONST_FRONT_FORET] = self.images['sprites'].subsurface((130,190,50,50))
 
+		self.images['routes'] = {}
+		self.images['routes'][0] = self.images['sprites'].subsurface((10+60*0,250,50,50))
+		self.images['routes'][1] = self.images['sprites'].subsurface((10+60*1,250,50,50))
+		self.images['routes'][2] = self.images['sprites'].subsurface((10+60*2,250,50,50))
+		self.images['routes'][3] = self.images['sprites'].subsurface((10+60*3,250,50,50))
+		self.images['routes'][4] = self.images['sprites'].subsurface((10+60*4,250,50,50))
+		self.images['routes'][5] = self.images['sprites'].subsurface((10+60*5,250,50,50))
 		"""
 		self.images['construc'][CONST_FRONT_TOWER_1] = self.images['sprites'].subsurface((10,70,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_2] = self.images['sprites'].subsurface((70,70,50,50))
@@ -156,7 +164,7 @@ class Grille:
 				if self.grille[i][j]['front'] == CONST_FRONT_BAT:
 					self.grille[i][j]['batiment'].draw(self.screen.subsurface((i*taille,j*taille,taille,taille)))
 				elif self.grille[i][j]['front'] == CONST_FRONT_ROUTE:
-					
+					self.screen.blit(self.images['routes'][self.grille[i][j]['orientation']],[i*taille,j*taille])
 				elif self.grille[i][j]['front'] != CONST_FRONT_VIDE:
 					self.screen.blit(self.images['construc'][self.grille[i][j]['front']],[i*taille,j*taille])
 
