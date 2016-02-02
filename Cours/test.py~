@@ -1,0 +1,73 @@
+import sys
+import pygame
+import os
+sys.path.append('../')
+import menu
+
+if __name__ == '__main__':
+   pygame.init()
+	width = 1200
+	height = 910
+	size = width, height
+	screen = pygame.display.set_mode(size)
+	os.environ['SDL_VIDEO_CENTERED'] = '1'
+	menu = Menu.Menu(screen)
+	done = False
+	# Boucle de jeu
+	while not done:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				done = True
+		menu.draw()
+
+
+else:
+	if 1 == 2:
+		pygame.init()
+
+		width = 1200
+		height = 910
+
+		#os.environ['SDL_VIDEO_CENTERED'] = '1'
+		size = width, height
+		screen = pygame.display.set_mode(size)
+		os.environ['SDL_VIDEO_CENTERED'] = '1'
+		clock = pygame.time.Clock()
+
+		text = pygame.font.SysFont("Arial",50)
+
+		a = text.render("Florian INARD",True,(255,255,255))
+		b = text.render("Ivan ROGER",True,(255,255,255))
+		c = text.render("Mathias NOVEL",True,(255,255,255))
+		d = text.render("Matthieu VIVIER",True,(255,255,255))
+		e = text.render("Maxime GERMAIN",True,(255,255,255))
+		f = text.render("Hugo VERONESE",True,(255,255,255))
+
+		textpos = a.get_rect()
+		textpos.centerx = screen.get_rect().centerx
+		textpos[1]= height*2
+		#print("textpos = {0}".format(textpos))
+
+		done = False
+		# Boucle de jeu
+		while not done:
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					done = True
+
+			screen.fill((0,0,0))
+			textpos[1]-=1
+			screen.blit(a,textpos)
+			textpos[1]-=200
+			screen.blit(b,textpos)
+			textpos[1]-=200
+			screen.blit(c,textpos)
+			textpos[1]-=200
+			screen.blit(d,textpos)
+			textpos[1]-=200
+			screen.blit(e,textpos)
+			textpos[1]-=200
+			screen.blit(f,textpos)
+			textpos[1]+=1000
+			pygame.display.flip()
+			clock.tick(60)
