@@ -19,4 +19,4 @@ while not done:
 	if res_m == 'QUIT':
 		done = True
 	elif res_m == 'PLAY':
-		game.launch()
+		done = not game.launch()

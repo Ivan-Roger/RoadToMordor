@@ -18,6 +18,12 @@ class Menu:
 		pygame.init()
 		self.screen = pygame.display.set_mode([self.screen_width, self.screen_height])
 		pygame.display.set_caption("Dagobert - Menu")
+		DagobertIcon = pygame.Surface((64,64))
+		text = pygame.font.Font("alagard.ttf",64)
+		DagobertIcon.fill((0,0,0))
+		DagobertIcon.convert()
+		DagobertIcon.blit(text.render("D",True,(0,255,255)),(12,4))
+		pygame.display.set_icon(DagobertIcon)
 		self.clock = pygame.time.Clock()
 		#pygame.display.update()
 
@@ -59,21 +65,25 @@ class Menu:
 
 	def draw(self):
 		#Creation des texte
+		textS = pygame.font.Font("alagard.ttf",40)
 		text = pygame.font.Font("alagard.ttf",50)
 		m = text.render("Dagobert",True,(255,255,255))
-		j = text.render("Jouer",True,(255,255,255))
-		c = text.render("Credit",True,(255,255,255))
-		q = text.render("Quitter",True,(255,255,255))
+		j = textS.render("Jouer",True,(180,180,180))
+		c = textS.render("Credit",True,(180,180,180))
+		q = textS.render("Quitter",True,(180,180,180))
 
 		#Position de hauteur
 		jouer_y_off=0
 		quit_y_off=0
 		credit_y_off=0
 		if self.selected==0:
+			j = text.render("Jouer",True,(255,255,255))
 			jouer_y_off=20
 		elif self.selected==1:
+			c = text.render("Credit",True,(255,255,255))
 			credit_y_off=20
 		elif self.selected==2:
+			q = text.render("Quitter",True,(255,255,255))
 			quit_y_off=20
 
 		self.screen.blit(m,(self.screen.get_rect().centerx-(m.get_rect().width/2),50))
