@@ -80,7 +80,7 @@ def generer_route(grilleTemp):
 				if orion[ind] = 0:
 					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 0
 				elif orion[ind] = 1:
-					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 5
+					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 4
 				elif orion[ind] = 2:
 					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 2
 			elif orion[ind+1] = 1:
@@ -90,12 +90,11 @@ def generer_route(grilleTemp):
 					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 1
 			elif orion[ind+1] = 2:
 				if orion[ind] = 0:
-					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 4
+					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 5
 				elif orion[ind] = 2:
 					grilleTemp[route[ind][0]][route[ind][1]]['orientation'] = 1
 		except IndexError:
 			pass
-
 
 
 class Grille:
@@ -206,7 +205,7 @@ class Grille:
 			return False
 
 	# IA function ------------
-	
+
 	def nb_tour(self):
 		nb = 0
 		for i in range((len(self.grille)/2)+1,len(self.grille)):
