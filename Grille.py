@@ -156,6 +156,8 @@ class Grille:
 
 				if self.grille[i][j]['front'] == CONST_FRONT_BAT:
 					self.grille[i][j]['batiment'].draw(self.screen.subsurface((i*taille,j*taille,taille,taille)))
+				elif self.grille[i][j]['front'] == CONST_FRONT_ROUTE:
+					
 				elif self.grille[i][j]['front'] != CONST_FRONT_VIDE:
 					self.screen.blit(self.images['construc'][self.grille[i][j]['front']],[i*taille,j*taille])
 
@@ -223,7 +225,7 @@ class Grille:
 			return False
 
 	# IA function ------------
-	
+
 	def nb_tour(self):
 		nb = 0
 		for i in range((len(self.grille)/2)+1,len(self.grille)):
