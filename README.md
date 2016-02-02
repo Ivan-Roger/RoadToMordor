@@ -1,3 +1,0 @@
-# Dagobert (the Game) #
-
-In dev ...

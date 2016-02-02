@@ -4,15 +4,15 @@ class CreditInterface:
 
 	def __init__(self,screenP):
 		self.screen = screenP
-		self.background_image = pygame.image.load("wallhaven-279660.jpg")
+		self.background_image = pygame.image.load("back.jpg")
 		self.pos = 1001
 		self.fini = False
 
 
 	def draw(self):
 		#Creation des texte
-		text_nom = pygame.font.SysFont("Arial",50)
-		text_fonction = pygame.font.SysFont("Arial",70)
+		text_nom = pygame.font.Font("alagard.ttf",50, bold=True)
+		text_fonction = pygame.font.Font("alagard.ttf",70, bold=True)
 		florian = text_nom.render("Florian INARD",True,(255,255,255))
 		ivan = text_nom.render("Ivan ROGER",True,(255,255,255))
 		mathias = text_nom.render("Mathias NOVEL",True,(255,255,255))
@@ -47,7 +47,7 @@ class CreditInterface:
 		if self.pos < -1100:
 			self.fini = True
 
-		self.pos-=20
+		self.pos-=2
 		sonpos[1]+=self.pos
 		matthieupos[1]+=self.pos+100
 
