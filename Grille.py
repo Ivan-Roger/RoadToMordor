@@ -1,6 +1,7 @@
 import random
 import os
 import pygame
+import batiment_classe
 
 CONST_BACK_VIDE = 0
 CONST_BACK_FLEUR = 1
@@ -12,6 +13,9 @@ CONST_FRONT_ROCHER = 3
 CONST_FRONT_BUCHES = 4
 CONST_FRONT_TRONC = 5
 
+CONST_FRONT_BAT = 9
+
+"""
 CONST_FRONT_TOWER_1 = 10
 CONST_FRONT_TOWER_2 = 11
 CONST_FRONT_TOWER_3 = 12
@@ -25,6 +29,7 @@ CONST_FRONT_TOWER_IA_3 = 22
 CONST_FRONT_TOWER_IA_4 = 23
 CONST_FRONT_TOWER_IA_5 = 24
 CONST_FRONT_TOWER_IA_6 = 25
+"""
 
 def creer_grille(x,y):
 	grille = list()
@@ -107,31 +112,38 @@ class Grille:
 		self.tile_size = 50
 		self.screen = screen
 		self.generer_nb_grille(count)
+		self.turn=0
+
 		self.images = {}
 		self.images['test'] = pygame.image.load("images/test.png")
 		self.images['sprites'] = pygame.image.load("images/sprites.png")
+
 		self.images['herbe'] = {}
 		self.images['herbe'][CONST_BACK_VIDE] = self.images['sprites'].subsurface((70,130,50,50))
 		self.images['herbe'][CONST_BACK_FLEUR] = self.images['sprites'].subsurface((10,130,50,50))
+
 		self.images['construc'] = {}
 		self.images['construc'][CONST_FRONT_ROUTE] = self.images['test']
 		self.images['construc'][CONST_FRONT_ROCHER] = self.images['sprites'].subsurface((190,190,50,50))
 		self.images['construc'][CONST_FRONT_BUCHES] = self.images['sprites'].subsurface((10,190,50,50))
 		self.images['construc'][CONST_FRONT_TRONC] = self.images['sprites'].subsurface((70,190,50,50))
 		self.images['construc'][CONST_FRONT_FORET] = self.images['sprites'].subsurface((130,190,50,50))
+
+		"""
 		self.images['construc'][CONST_FRONT_TOWER_1] = self.images['sprites'].subsurface((10,70,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_2] = self.images['sprites'].subsurface((70,70,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_3] = self.images['sprites'].subsurface((130,70,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_4] = self.images['sprites'].subsurface((190,70,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_5] = self.images['sprites'].subsurface((250,70,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_6] = self.images['sprites'].subsurface((310,70,50,50))
+
 		self.images['construc'][CONST_FRONT_TOWER_IA_1] = self.images['sprites'].subsurface((10,10,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_IA_2] = self.images['sprites'].subsurface((70,10,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_IA_3] = self.images['sprites'].subsurface((130,10,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_IA_4] = self.images['sprites'].subsurface((190,10,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_IA_5] = self.images['sprites'].subsurface((250,10,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_IA_6] = self.images['sprites'].subsurface((310,10,50,50))
-		self.turn=0
+		"""
 
 	def draw(self):
 		self.turn+=1
@@ -140,8 +152,12 @@ class Grille:
 		for i in range(len(self.grille)):
 			for j in range(len(self.grille[0])):
 				self.screen.blit(self.images['herbe'][self.grille[i][j]['background']],[i*taille,j*taille])
-				if self.grille[i][j]['front'] != CONST_FRONT_VIDE:
+
+				if self.grille[i][j]['front'] == CONST_FRONT_BAT:
+					self.grille[i][j]['batiment'].draw(self.screen.subsurface((i*taille,j*taille,taille,taille)))
+				elif self.grille[i][j]['front'] != CONST_FRONT_VIDE:
 					self.screen.blit(self.images['construc'][self.grille[i][j]['front']],[i*taille,j*taille])
+
 				if i == self.selectX and j == self.selectY:
 					pygame.draw.rect(self.screen,(200,25,25),(i*taille,j*taille,taille,taille),2+(self.turn/15)%2)
 
@@ -198,8 +214,9 @@ class Grille:
 			self.selectY = 0
 
 	def build(self,batiment):
-		if self.grille[self.selectX][self.selectY]['front'] == CONST_FRONT_VIDE:
-			self.grille[self.selectX][self.selectY]['front'] = batiment
+		if self.grille[self.selectX][self.selectY]['front'] == CONST_FRONT_VIDE and selectX<cols/2:
+			self.grille[temp_i][temp_j]['front'] = CONST_FRONT_BAT
+			self.grille[temp_i][temp_j]['batiment'] = batiment_classe.Batiment(batiment,1,"Tour Joueur",5,5,1,0)
 			return True
 		else:
 			return False
@@ -214,48 +231,12 @@ class Grille:
 					nb+=1
 		return nb
 
-	def nb_case_autour_1(self,x,y):
+	def nb_case_autour(self,radius,x,y):
 		nb = 0
-		i = x - 1
-		while (i <= x + 1):
-			j = y - 1
-			while (j <= y + 1):
-				#print("case en cours : {2},{3}  case de base : {0},{1}".format(i,j,x,y))
-				try:
-					if self.grille[i][j]['front'] == CONST_FRONT_ROUTE:
-						nb+=1
-				except IndexError:
-					continue
-				finally:
-					j+=1
-			i+=1
-		return nb
-
-
-
-	def nb_case_autour_2(self,x,y):
-		nb = 0
-		i = x - 2
-		while (i <= x + 2):
-			j = y - 2
-			while (j <= y + 2):
-				#print("case en cours : {2},{3}  case de base : {0},{1}".format(i,j,x,y))
-				try:
-					if self.grille[i][j]['front'] == CONST_FRONT_ROUTE:
-						nb+=1
-				except IndexError:
-					continue
-				finally:
-					j+=1
-			i+=1
-		return nb
-
-	def nb_case_autour_3(self,x,y):
-		nb = 0
-		i = x - 3
-		while (i <= x + 3):
-			j = y - 3
-			while (j <= y + 3):
+		i = x - radius
+		while (i <= x + radius):
+			j = y - radius
+			while (j <= y + radius):
 				#print("case en cours : {2},{3}  case de base : {0},{1}".format(i,j,x,y))
 				try:
 					if self.grille[i][j]['front'] == CONST_FRONT_ROUTE:
@@ -272,36 +253,17 @@ class Grille:
 		for i in range((len(self.grille)/2)+1,len(self.grille)):
 			for j in range(len(self.grille[0])):
 				if self.grille[i][j]['front'] == CONST_FRONT_VIDE:
-					nbcase = self.nb_case_autour_1(i,j)
+					nbcase = self.nb_case_autour(1,i,j)
 					if (nbcase > max1):
 						max1 = nbcase
 						temp_i = i
 						temp_j = j
 				#print("i: {0} j:{1} nb {2} max {3}".format(i,j,nbcase,max1))
-		self.grille[temp_i][temp_j]['front'] = CONST_FRONT_TOWER_IA_1
+		self.grille[temp_i][temp_j]['front'] = CONST_FRONT_BAT
+		self.grille[temp_i][temp_j]['batiment'] = batiment_classe.Batiment(0,0,"Tour IA",5,5,1,0)
 # --- FIN de la classe Grille ---
 
-
 # Autres ------------
-def contenu_grille(grille):
-	for i in range(len(grille)):
-		for j in range(len(grille[i])):
-			print("Aux coordonnees {0},{1} : {2}".format(i,j,grille[i][j]))
-
-def choix_nb_grille(x,y): #il faudrait essayer d'arranger la mochete de boucle for en bas de la fonction
-	continuer = True
-	while continuer:
-		try:
-			nb = int(input("Combien voulez-vous de chemin ? (1,2 ou 3)"))
-			if nb not in (1,2,3):
-				print("Entre 1 et 3 connard !")
-			else :
-				continuer = False
-		except NameError:
-			print("Walah c'est pas un nombre gros mongole !")
-	return generer_nb_grille(x,y,nb)
-
-
 
 def fusion_grille(grille1,grille2):
 	res = []
@@ -316,36 +278,3 @@ def fusion_grille(grille1,grille2):
 				ligne.append(grille2[i][j-len(grille1[0])])
 
 	return res
-
-
-def afficher_map(grille,taille):
-	# Init modules pygames
-	pygame.init()
-
-	# Affiche la fenetre
-	os.environ['SDL_VIDEO_CENTERED'] = '1'
-	size = width, height = len(grille)*taille,len(grille[0])*taille
-	screen = pygame.display.set_mode(size)
-
-
-
-	# Game loop
-	while 1:
-	    for event in pygame.event.get():
-	    	if event.type == pygame.QUIT:
-	    		sys.exit()
-
-		screen.fill((0,0,0))
-		# Ajoute notre images a la file des affichages prevus
-		for i in range(len(grille)):
-			for j in range(len(grille[0])):
-				if grille[i][j] == CONST_ROUTE:
-					pygame.draw.rect(screen,(255,255,255),[i*taille,j*taille,taille,taille],0)
-				elif grille[i][j] == CONST_FORET:
-					pygame.draw.rect(screen,(30,109,2),[i*taille,j*taille,taille,taille],0)
-				elif grille[i][j] == CONST_ROCHER:
-					pygame.draw.rect(screen,(109,109,109),[i*taille,j*taille,taille,taille],0)
-					#screen.blit(background_image, [i*20,j*20])
-
-	    # Affiche toute la liste FIFO (ici que notre image de fond)
-	    pygame.display.flip()

@@ -18,7 +18,7 @@ BLUE = (0, 0, 255)
 pygame.init()
 
 # Set the width and height of the screen [width, height]
-screen_width = 1200
+screen_width = 1400
 screen_height = 910
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 screen = pygame.display.set_mode([screen_width, screen_height])
