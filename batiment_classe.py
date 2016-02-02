@@ -2,7 +2,7 @@ import pygame
 
 class Batiment:
 
-		def __init__(self, id_tour,equipe, nom, attPhy, attMag, distanceAtt, prix):
+		def __init__(self, id_tour, equipe, nom, attPhy, attMag, distanceAtt, prix):
 			self.id_tour = id_tour
 			self.equipe = equipe
 			self.nom = nom
@@ -10,11 +10,13 @@ class Batiment:
 			self.attMag = attMag
 			self.distanceAtt = distanceAtt
 			self.prix = prix
+			self.niveau = 0
 
-			self.image_tour = pygame.image.load("images/sprites.jpg").subsurface((self.id_tour*60+10,70-self.equipe*60,50,50))
-			self.image_niveau = pygame.image.load("images/sprites.jpg").subsurface((370,30-self.equipe*20,10,10))
+			sprites = pygame.image.load("images/sprites.png")
+			self.image_tour = sprites.subsurface((self.id_tour*60+10,70-self.equipe*60,50,50))
+			self.image_niveau = sprites.subsurface((370,30-self.equipe*20,10,10))
 
-		def draw(screen):
+		def draw(self,screen):
 			screen.blit(self.image_tour,(0,0))
 			for i in range(self.niveau):
 				screen.blit(self.image_niveau,(20*i,40))
