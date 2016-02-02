@@ -33,17 +33,25 @@ if __name__ == '__main__':
 					if menu.selected == 1:
 						print("Jeux !")
 					elif menu.selected == 2:
-						while not credit.fini:
+						while not credit.fini or not done:
+							for event in pygame.event.get():
+								if event.type == pygame.QUIT:
+									done = True
+								if event.type == pygame.KEYDOWN:
+									if event.key == pygame.K_ESCAPE:
+										done = True
 							credit.draw()
 							pygame.display.flip()
 						menu.init()
 						credit.init()
+						done = False
 					elif menu.selected == 0:
 						menu.jouer_select()
 
 
 		menu.draw()
 		pygame.display.flip()
+		pygame.time.Clock().tick(60)
 
 
 else:

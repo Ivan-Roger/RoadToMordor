@@ -4,7 +4,7 @@ class MenuInterface:
 
 	def __init__(self,screenP):
 		self.screen = screenP
-		self.background_image = pygame.image.load("wallhaven-279660.jpg")
+		self.background_image = pygame.image.load("back.jpg")
 		self.jouer_pos = 500
 		self.credit_pos = 500
 		self.selected = 0
@@ -12,8 +12,8 @@ class MenuInterface:
 
 	def draw(self):
 		#Creation des texte
-		text = pygame.font.SysFont("Arial",50)
-		m = text.render("Menu",True,(255,255,255))
+		text = pygame.font.Font("alagard.ttf",50)
+		m = text.render("Dagobert",True,(255,255,255))
 		j = text.render("Jouer",True,(255,255,255))
 		c = text.render("Credit",True,(255,255,255))
 
