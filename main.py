@@ -38,14 +38,21 @@ while not done:
 		if event.type == pygame.QUIT:
 			done = True
 		elif event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_RIGHT:
+			if event.key == pygame.K_d:
 				hud.selectNext()
-			elif event.key == pygame.K_LEFT:
+			elif event.key == pygame.K_q:
 				hud.selectPrev()
 			elif event.key == pygame.K_UP:
-				hud.setLife(100)
+				grille.selectUp()
 			elif event.key == pygame.K_DOWN:
-				hud.removeLife(5)
+				grille.selectDown()
+			elif event.key == pygame.K_LEFT:
+				grille.selectLeft()
+			elif event.key == pygame.K_RIGHT:
+				grille.selectRight()
+			elif event.key == pygame.K_RETURN:
+				if not grille.build(hud.getSelected()):
+					print('Construction impossible sur un obstacle')
 	# --- Game logic should go here
 	screen.fill((75,75,75))
 	grille.draw()

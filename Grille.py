@@ -4,12 +4,19 @@ import pygame
 
 CONST_BACK_VIDE = 0
 CONST_BACK_FLEUR = 1
+
 CONST_FRONT_VIDE = 0
 CONST_FRONT_ROUTE = 1
 CONST_FRONT_FORET = 2
 CONST_FRONT_ROCHER = 3
 CONST_FRONT_BUCHES = 4
 CONST_FRONT_TRONC = 5
+CONST_FRONT_TOWER_1 = 10
+CONST_FRONT_TOWER_2 = 11
+CONST_FRONT_TOWER_3 = 12
+CONST_FRONT_TOWER_4 = 13
+CONST_FRONT_TOWER_5 = 14
+CONST_FRONT_TOWER_6 = 15
 
 def creer_grille(x,y):
 	grille = list()
@@ -17,7 +24,7 @@ def creer_grille(x,y):
 		ligne = list()
 		grille.append(ligne)
 		for i in range(y):
-			alea = random.randrange(4)
+			alea = random.randrange(6)
 			if alea == 0:
 				ligne.append({'background':CONST_BACK_FLEUR,'front':CONST_FRONT_VIDE})
 			else:
@@ -55,6 +62,8 @@ def generer_route(grilleTemp):
 class Grille:
 
 	def __init__(self,rows,cols,count,screen):
+		self.selectX = 5
+		self.selectY = 3
 		self.rows = rows
 		self.cols = cols
 		self.tile_size = 50
@@ -64,24 +73,33 @@ class Grille:
 		self.images['test'] = pygame.image.load("images/test.png")
 		self.images['sprites'] = pygame.image.load("images/sprites.png")
 		self.images['herbe'] = {}
-		self.images['herbe'][CONST_BACK_VIDE] = self.images['sprites'].subsurface((10,130,50,50))
-		self.images['herbe'][CONST_BACK_FLEUR] = self.images['sprites'].subsurface((70,130,50,50))
+		self.images['herbe'][CONST_BACK_VIDE] = self.images['sprites'].subsurface((70,130,50,50))
+		self.images['herbe'][CONST_BACK_FLEUR] = self.images['sprites'].subsurface((10,130,50,50))
 		self.images['construc'] = {}
-		self.images['construc'][CONST_FRONT_VIDE] = self.images['sprites'].subsurface((190,190,50,50))
 		self.images['construc'][CONST_FRONT_ROUTE] = self.images['test']
 		self.images['construc'][CONST_FRONT_ROCHER] = self.images['test']
 		self.images['construc'][CONST_FRONT_BUCHES] = self.images['sprites'].subsurface((10,190,50,50))
 		self.images['construc'][CONST_FRONT_TRONC] = self.images['sprites'].subsurface((70,190,50,50))
 		self.images['construc'][CONST_FRONT_FORET] = self.images['sprites'].subsurface((130,190,50,50))
+		self.images['construc'][CONST_FRONT_TOWER_1] = self.images['sprites'].subsurface((10,70,50,50))
+		self.images['construc'][CONST_FRONT_TOWER_2] = self.images['sprites'].subsurface((70,70,50,50))
+		self.images['construc'][CONST_FRONT_TOWER_3] = self.images['sprites'].subsurface((130,70,50,50))
+		self.images['construc'][CONST_FRONT_TOWER_4] = self.images['sprites'].subsurface((190,70,50,50))
+		self.images['construc'][CONST_FRONT_TOWER_5] = self.images['test']
+		self.images['construc'][CONST_FRONT_TOWER_6] = self.images['test']
+		self.turn=0
 
 	def draw(self):
+		self.turn+=1
 		taille = self.tile_size
 		# Ajoute notre images a la file des affichages prevus
 		for i in range(len(self.grille)):
 			for j in range(len(self.grille[0])):
 				self.screen.blit(self.images['herbe'][self.grille[i][j]['background']],[i*taille,j*taille])
-				if self.grille[i][j] != 0:
+				if self.grille[i][j]['front'] != CONST_FRONT_VIDE:
 					self.screen.blit(self.images['construc'][self.grille[i][j]['front']],[i*taille,j*taille])
+				if i == self.selectX and j == self.selectY:
+					pygame.draw.rect(self.screen,(200,25,25),(i*taille,j*taille,taille,taille),2+(self.turn/15)%2)
 
 	def generer_nb_grille(self,nb):
 		x = self.rows
@@ -115,6 +133,31 @@ class Grille:
 						self.grille[i][j]['front'] = CONST_FRONT_BUCHES
 					elif alea >= 11 and alea <=13:
 						self.grille[i][j]['front'] = CONST_FRONT_TRONC
+
+	def selectLeft(self):
+		self.selectX-=1
+		if self.selectX<0:
+			self.selectX = self.rows-1
+	def selectRight(self):
+		self.selectX+=1
+		if self.selectX>=self.rows:
+			self.selectX = 0
+	def selectUp(self):
+		self.selectY-=1
+		if self.selectY<0:
+			self.selectY = self.cols-1
+	def selectDown(self):
+		self.selectY+=1
+		if self.selectY>=self.cols:
+			self.selectY = 0
+
+	def build(self,batiment):
+		if self.grille[self.selectX][self.selectY]['front'] == CONST_FRONT_VIDE:
+			self.grille[self.selectX][self.selectY]['front'] = batiment
+			return True
+		else:
+			return False
+
 # --- FIN de la classe Grille ---
 
 # IA function ------------
