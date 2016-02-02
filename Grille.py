@@ -18,6 +18,17 @@ CONST_FRONT_TOWER_3 = 12
 CONST_FRONT_TOWER_4 = 13
 CONST_FRONT_TOWER_5 = 14
 CONST_FRONT_TOWER_6 = 15
+<<<<<<< HEAD
+
+CONST_FRONT_TOWER_IA_1 = 20
+CONST_FRONT_TOWER_IA_2 = 21
+CONST_FRONT_TOWER_IA_3 = 22
+CONST_FRONT_TOWER_IA_4 = 23
+CONST_FRONT_TOWER_IA_5 = 24
+CONST_FRONT_TOWER_IA_6 = 25
+
+=======
+>>>>>>> 1e33c835a6fdaf7e3b25c7108d69f20b30b29ea8
 
 def creer_grille(x,y):
 	grille = list()
@@ -88,6 +99,12 @@ class Grille:
 		self.images['construc'][CONST_FRONT_TOWER_4] = self.images['sprites'].subsurface((190,70,50,50))
 		self.images['construc'][CONST_FRONT_TOWER_5] = self.images['test']
 		self.images['construc'][CONST_FRONT_TOWER_6] = self.images['test']
+		self.images['construc'][CONST_FRONT_TOWER_IA_1] = self.images['sprites'].subsurface((10,10,50,50))
+		self.images['construc'][CONST_FRONT_TOWER_IA_2] = self.images['sprites'].subsurface((70,10,50,50))
+		self.images['construc'][CONST_FRONT_TOWER_IA_3] = self.images['sprites'].subsurface((130,10,50,50))
+		self.images['construc'][CONST_FRONT_TOWER_IA_4] = self.images['sprites'].subsurface((190,10,50,50))
+		self.images['construc'][CONST_FRONT_TOWER_IA_5] = self.images['test']
+		self.images['construc'][CONST_FRONT_TOWER_IA_6] = self.images['test']
 		self.turn=0
 
 	def draw(self):
@@ -115,7 +132,10 @@ class Grille:
 		self.generer_foret()
 		self.generer_obstacles()
 		self.generer_tour()
+<<<<<<< HEAD
+=======
 
+>>>>>>> 1e33c835a6fdaf7e3b25c7108d69f20b30b29ea8
 
 	def generer_foret(self):
 		for i in range(len(self.grille)):
@@ -161,6 +181,76 @@ class Grille:
 		else:
 			return False
 
+<<<<<<< HEAD
+	# IA function ------------
+
+	def nb_case_autour_1(self,x,y):
+		nb = 0
+		i = x - 1
+		while (i <= x + 1):
+			j = y - 1
+			while (j <= y + 1):
+				#print("case en cours : {2},{3}  case de base : {0},{1}".format(i,j,x,y))
+				try:
+					if self.grille[i][j]['front'] == CONST_FRONT_ROUTE:
+						nb+=1
+				except IndexError:
+					continue
+				finally:
+					j+=1
+			i+=1
+		return nb
+
+
+
+	def nb_case_autour_2(self,x,y):
+		nb = 0
+		i = x - 2
+		while (i <= x + 2):
+			j = y - 2
+			while (j <= y + 2):
+				#print("case en cours : {2},{3}  case de base : {0},{1}".format(i,j,x,y))
+				try:
+					if self.grille[i][j]['front'] == CONST_FRONT_ROUTE:
+						nb+=1
+				except IndexError:
+					continue
+				finally:
+					j+=1
+			i+=1
+		return nb
+
+	def nb_case_autour_3(self,x,y):
+		nb = 0
+		i = x - 3
+		while (i <= x + 3):
+			j = y - 3
+			while (j <= y + 3):
+				#print("case en cours : {2},{3}  case de base : {0},{1}".format(i,j,x,y))
+				try:
+					if self.grille[i][j]['front'] == CONST_FRONT_ROUTE:
+						nb+=1
+				except IndexError:
+					continue
+				finally:
+					j+=1
+			i+=1
+		return nb
+
+	def generer_tour(self):
+		temp_i, temp_j, max1, nbcase = 0,0,0,0
+		for i in range((len(self.grille)/2)+1,len(self.grille)):
+			for j in range(len(self.grille[0])):
+				if self.grille[i][j]['front'] == CONST_FRONT_VIDE:
+					nbcase = self.nb_case_autour_1(i,j)
+					if (nbcase > max1):
+						max1 = nbcase
+						temp_i = i
+						temp_j = j
+				#print("i: {0} j:{1} nb {2} max {3}".format(i,j,nbcase,max1))
+		self.grille[temp_i][temp_j]['front'] = CONST_FRONT_TOWER_IA_1
+# --- FIN de la classe Grille ---
+=======
 # --- FIN de la classe Grille ---
 
 # IA function ------------
@@ -203,6 +293,7 @@ def nb_case_autour_3(x,y):
 			j+=1
 		i+=1
 	return res
+>>>>>>> 1e33c835a6fdaf7e3b25c7108d69f20b30b29ea8
 
 # Autres ------------
 def contenu_grille(grille):
