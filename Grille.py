@@ -5,6 +5,7 @@ import pygame
 CONST_ROUTE = 1
 CONST_FORET = 2
 CONST_ROCHER = 3
+CONST_TOUR = 4
 
 def creer_grille(x,y):
 	grille = list()
@@ -63,6 +64,8 @@ class Grille:
 					pygame.draw.rect(self.screen,(30,109,2),[i*taille,j*taille,taille,taille],0)
 				elif self.grille[i][j] == CONST_ROCHER:
 					pygame.draw.rect(self.screen,(109,109,109),[i*taille,j*taille,taille,taille],0)
+				elif self.grille[i][j] == CONST_TOUR:
+					pygame.draw.rect(self.screen,(255,0,0),[i*taille,j*taille,taille,taille],0)
 					#screen.blit(background_image, [i*20,j*20])
 
 	def generer_nb_grille(self,nb):
@@ -77,6 +80,7 @@ class Grille:
 			self.grille = fusion_grille(grilleTemp,self.grille)
 		self.generer_foret()
 		self.generer_rocher()
+		self.generer_tour()
 
 	def generer_foret(self):
 		for i in range(len(self.grille)):
@@ -92,48 +96,78 @@ class Grille:
 				if alea == 1 and self.grille[i][j] != CONST_ROUTE and self.grille[i][j] != CONST_FORET:
 					self.grille[i][j] = CONST_ROCHER
 
+	# IA function ------------
+
+	def nb_case_autour_1(self,x,y):
+		nb = 0
+		i = x - 1
+		while (i <= x + 1):
+			j = y - 1
+			while (j <= y + 1):
+				#print("case en cours : {2},{3}  case de base : {0},{1}".format(i,j,x,y))
+				try:
+					if (self.grille[i][j] == CONST_ROUTE):
+						nb+=1
+				except IndexError:
+					continue
+				finally:
+					j+=1
+			i+=1
+		return nb
+
+
+
+	def nb_case_autour_2(self,x,y):
+		nb = 0
+		i = x - 2
+		while (i <= x + 2):
+			j = y - 2
+			while (j <= y + 2):
+				#print("case en cours : {2},{3}  case de base : {0},{1}".format(i,j,x,y))
+				try:
+					if (self.grille[i][j] == CONST_ROUTE):
+						nb+=1
+				except IndexError:
+					continue
+				finally:
+					j+=1
+			i+=1
+		return nb
+
+	def nb_case_autour_3(self,x,y):
+		nb = 0
+		i = x - 3
+		while (i <= x + 3):
+			j = y - 3
+			while (j <= y + 3):
+				#print("case en cours : {2},{3}  case de base : {0},{1}".format(i,j,x,y))
+				try:
+					if (self.grille[i][j] == CONST_ROUTE):
+						nb+=1
+				except IndexError:
+					continue
+				finally:
+					j+=1
+			i+=1
+		return nb
+
+	def generer_tour(self):
+		temp_i, temp_j, max1, nbcase = 0,0,0,0
+		for i in range((len(self.grille)/2)+1,len(self.grille)):
+			for j in range(len(self.grille[0])):
+				if(self.grille[i][j] != CONST_ROUTE and self.grille[i][j] != CONST_ROCHER):
+					nbcase = self.nb_case_autour_3(i,j)
+					if (nbcase > max1):
+						max1 = nbcase
+						temp_i = i
+						temp_j = j
+				print("i: {0} j:{1} nb {2} max {3}".format(i,j,nbcase,max1))
+		self.grille[temp_i][temp_j] = CONST_TOUR
+
+
+
+
 # --- FIN de la classe Grille ---
-
-# IA function ------------
-
-def nb_case_autour_1(x,y):
-	nb = 0
-	i = x - 1
-	j = y - 1
-	while (i <= x + 1 ):
-		j = 0
-		while (j <= y + 1):
-			if (grilleTemp[i][j] = CONST_ROUTE):
-				nb+=1
-			j+=1
-		i+=1
-	return res
-
-def nb_case_autour_2(x,y):
-	nb = 0
-	i = x - 2
-	j = y - 2
-	while (i <= x + 2 ):
-		j = 0
-		while (j <= y + 2):
-			if (grilleTemp[i][j] = CONST_ROUTE):
-				nb+=1
-			j+=1
-		i+=1
-	return res
-
-def nb_case_autour_3(x,y):
-	nb = 0
-	i = x - 3
-	j = y - 3
-	while (i <= x + 3 ):
-		j = 0
-		while (j <= y + 3):
-			if (grilleTemp[i][j] = CONST_ROUTE):
-				nb+=1
-			j+=1
-		i+=1
-	return res
 
 # Autres ------------
 def contenu_grille(grille):
