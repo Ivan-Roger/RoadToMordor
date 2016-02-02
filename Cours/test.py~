@@ -3,47 +3,22 @@ import pygame
 import os
 sys.path.append('../')
 import menu
-import credit
 
 if __name__ == '__main__':
-	pygame.init()
-
+   pygame.init()
 	width = 1200
 	height = 910
-
 	size = width, height
 	screen = pygame.display.set_mode(size)
 	os.environ['SDL_VIDEO_CENTERED'] = '1'
-
-	menu = menu.MenuInterface(screen)
-	credit = credit.CreditInterface(screen)
-
+	menu = Menu.Menu(screen)
 	done = False
 	# Boucle de jeu
 	while not done:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				done = True
-			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_LEFT:
-					menu.jouer_select()
-				if event.key == pygame.K_RIGHT:
-					menu.credit_select()
-				if event.key == pygame.K_RETURN:
-					if menu.selected == 1:
-						print("Jeux !")
-					elif menu.selected == 2:
-						while not credit.fini:
-							credit.draw()
-							pygame.display.flip()
-						menu.init()
-						credit.init()
-					elif menu.selected == 0:
-						menu.jouer_select()
-
-
 		menu.draw()
-		pygame.display.flip()
 
 
 else:
@@ -59,7 +34,18 @@ else:
 		os.environ['SDL_VIDEO_CENTERED'] = '1'
 		clock = pygame.time.Clock()
 
+		text = pygame.font.SysFont("Arial",50)
 
+		a = text.render("Florian INARD",True,(255,255,255))
+		b = text.render("Ivan ROGER",True,(255,255,255))
+		c = text.render("Mathias NOVEL",True,(255,255,255))
+		d = text.render("Matthieu VIVIER",True,(255,255,255))
+		e = text.render("Maxime GERMAIN",True,(255,255,255))
+		f = text.render("Hugo VERONESE",True,(255,255,255))
+
+		textpos = a.get_rect()
+		textpos.centerx = screen.get_rect().centerx
+		textpos[1]= height*2
 		#print("textpos = {0}".format(textpos))
 
 		done = False
