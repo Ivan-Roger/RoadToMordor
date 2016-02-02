@@ -4,7 +4,7 @@ class CreditInterface:
 
 	def __init__(self,screenP):
 		self.screen = screenP
-		self.background_image = pygame.image.load("back.jpg")
+		self.background_image = pygame.image.load("images/back.jpg")
 		self.pos = 1001
 		self.fini = False
 
@@ -47,7 +47,7 @@ class CreditInterface:
 		if self.pos < -1100:
 			self.fini = True
 
-		self.pos-=2
+		self.pos-=1
 		sonpos[1]+=self.pos
 		matthieupos[1]+=self.pos+100
 

@@ -2,6 +2,7 @@ import sys
 import pygame
 import os
 sys.path.append('../')
+sys.path.append('./')
 import menu
 import credit
 
@@ -33,7 +34,7 @@ if __name__ == '__main__':
 					if menu.selected == 1:
 						print("Jeux !")
 					elif menu.selected == 2:
-						while not credit.fini or not done:
+						while not (credit.fini or done):
 							for event in pygame.event.get():
 								if event.type == pygame.QUIT:
 									done = True

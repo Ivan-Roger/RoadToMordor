@@ -4,7 +4,7 @@ class MenuInterface:
 
 	def __init__(self,screenP):
 		self.screen = screenP
-		self.background_image = pygame.image.load("back.jpg")
+		self.background_image = pygame.image.load("images/back.jpg")
 		self.jouer_pos = 500
 		self.credit_pos = 500
 		self.selected = 0
