@@ -50,11 +50,10 @@ def generer_route(grilleTemp):
 	construc = True
 	y = random.randrange(inf,sup)
 	x,choix = 0,0
-	orion = []
+	orion = [0]
 	route = []
 	while construc:
 		route.append([x,y])
-		print(route[len(route)-1],[x,y])
 		grilleTemp[x][y]['front'] = CONST_FRONT_ROUTE
 		alea = random.randrange(3)
 		if alea == 0: #Tout droit
