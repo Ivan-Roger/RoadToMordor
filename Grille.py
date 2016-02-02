@@ -121,7 +121,7 @@ def fusion_grille(grille1,grille2):
 		ligne = []
 		res.append(ligne)
 		for j in range(len(grille1[0])+len(grille2[0])):
-			print("x = {0}, y = {1}".format(i,j))
+			#print("x = {0}, y = {1}".format(i,j))
 			if j <= len(grille1[0])-1:
 				ligne.append(grille1[i][j])
 			else:
