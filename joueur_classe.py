@@ -69,9 +69,9 @@ class Joueur():
 	# Creer et retourne un objet soigneur
 	def creationSoigneur(self):
 		if race == 'humain':
-			nom = 'Prêtre'
+			nom = 'Pretre'
 		else:
-			nom = 'Prêtre Orc'
+			nom = 'Pretre Orc'
 		return Unite(nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
 
 
