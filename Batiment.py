@@ -11,10 +11,14 @@ class Batiment:
 			self.distanceAtt = distanceAtt
 			self.prix = prix
 
-			self.image = pygame.image.load("images/sprites.jpg").subsurface((self.id_tour*60+10,70-self.equipe*60,50,50))
+			self.image_tour = pygame.image.load("images/sprites.jpg").subsurface((self.id_tour*60+10,70-self.equipe*60,50,50))
+			self.image_niveau = pygame.image.load("images/sprites.jpg").subsurface((370,30-self.equipe*20,10,10))
 
 		def draw(screen):
-			screen.blit(self.image,(0,0))
+			screen.blit(self.image_tour,(0,0))
+			for i in range(self.niveau):
+				screen.blit(self.image_niveau,(20*i,40))
+
 
 
 		#Getter et Setter de merde
