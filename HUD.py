@@ -30,7 +30,7 @@ class UserInterface:
 		self.images['towers'][4] = self.images['sprites'].subsurface((250,70,50,50))
 		self.images['towers'][5] = self.images['sprites'].subsurface((310,70,50,50))
 		self.turn = 0
-		self.lifePercent = 62
+		#self.lifePercent = 62
 
 	def draw(self):
 		self.turn+=1
@@ -41,24 +41,24 @@ class UserInterface:
 		# Contour barre de vie
 		pygame.draw.rect(self.screen,(25,59,128),(10,10,200,30),1)
 		# Barre de vie
-		pygame.draw.rect(self.screen,(45,106,229),(10,10,2*self.lifePercent,30),0)
+		pygame.draw.rect(self.screen,(45,106,229),(10,10,2*self.joueur1.getVie(),30),0)
 		# Texte du % de vie
-		text = pygame.font.Font('alagard.ttf', 25).render(str(self.lifePercent)+"%",True,(25,25,25))
+		text = pygame.font.Font('alagard.ttf', 25).render(str(self.joueur1.getVie())+"%",True,(25,25,25))
 		self.screen.blit(text, [95, 15])
 
 		# Contour barre de vie
 		pygame.draw.rect(self.screen,(149,0,0),(1190,10,-200,30),1)
 		# Barre de vie
-		pygame.draw.rect(self.screen,(193,46,26),(1190,10,-2*self.lifePercent,30),0)
+		pygame.draw.rect(self.screen,(193,46,26),(1190,10,-2*self.joueur2.getVie(),30),0)
 		# Texte du % de vie
-		text = pygame.font.Font('alagard.ttf', 25).render(str(self.lifePercent)+"%",True,(25,25,25))
+		text = pygame.font.Font('alagard.ttf', 25).render(str(self.joueur2.getVie())+"%",True,(25,25,25))
 		self.screen.blit(text, [1080, 15])
 
 		# Image pieces
 		self.screen.blit(self.images['coins'][(self.turn/5)%8],(240,0))
 
 		# Nombre de pieces
-		text = pygame.font.Font('alagard.ttf', 40).render(str(self.balance),True,(25,25,25))
+		text = pygame.font.Font('alagard.ttf', 40).render(str(self.joueur1.getArgent()),True,(25,25,25))
 		self.screen.blit(text, [325, 10])
 
 		# Barre de selection
@@ -80,18 +80,6 @@ class UserInterface:
 
 	def getSelected(self):
 		return self.selected+10
-
-	def setLife(self,value):
-		self.lifePercent = value
-
-	def getLife(self):
-		return self.lifePercent
-
-	def setBalance(self,value):
-		self.balance = value
-
-	def getBalance(self):
-		return self.balance
 
 	def removeLife(self,value):
 		self.lifePercent-=value
