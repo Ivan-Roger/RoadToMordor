@@ -2,10 +2,21 @@ import random
 import os
 import pygame
 
+<<<<<<< HEAD
 CONST_ROUTE = 1
 CONST_FORET = 2
 CONST_ROCHER = 3
 CONST_TOUR = 4
+=======
+CONST_BACK_VIDE = 0
+CONST_BACK_FLEUR = 1
+CONST_FRONT_VIDE = 0
+CONST_FRONT_ROUTE = 1
+CONST_FRONT_FORET = 2
+CONST_FRONT_ROCHER = 3
+CONST_FRONT_BUCHES = 4
+CONST_FRONT_TRONC = 5
+>>>>>>> a76b0712d416d931004eb0bb3ec42f6b27d20e4e
 
 def creer_grille(x,y):
 	grille = list()
@@ -13,7 +24,11 @@ def creer_grille(x,y):
 		ligne = list()
 		grille.append(ligne)
 		for i in range(y):
-			ligne.append(0)
+			alea = random.randrange(4)
+			if alea == 0:
+				ligne.append({'background':CONST_BACK_FLEUR,'front':CONST_FRONT_VIDE})
+			else:
+				ligne.append({'background':CONST_BACK_VIDE,'front':CONST_FRONT_VIDE})
 	return grille
 
 def generer_route(grilleTemp):
@@ -24,19 +39,19 @@ def generer_route(grilleTemp):
 	x,choix = 0,0
 
 	while construc:
-		grilleTemp[x][y] = CONST_ROUTE
+		grilleTemp[x][y]['front'] = CONST_FRONT_ROUTE
 		alea = random.randrange(3)
 		if alea == 0: #Tout droit
 			x+=1
 			choix = 0
 		elif alea == 1: #En bas
-			if y < len(grilleTemp[0])-2 and grilleTemp[x-1][y+1] != CONST_ROUTE and choix != 2:#Si la route peut encore descendre
+			if y < len(grilleTemp[0])-2 and grilleTemp[x-1][y+1]['front'] != CONST_FRONT_ROUTE and choix != 2:#Si la route peut encore descendre
 				y+=1
 				choix =1
 			else: #Si l'aleatoire a decider de descendre alors que c'est pas possible, on avance
 				x+=1
 		elif alea == 2: #En haut
-			if y > 1 and grilleTemp[x-1][y-1] != CONST_ROUTE and choix != 1: #Si la route peut encore monter
+			if y > 1 and grilleTemp[x-1][y-1]['front'] != CONST_FRONT_ROUTE and choix != 1: #Si la route peut encore monter
 				y-=1
 				choix =2
 			else: #Si l'aleatoire a decider de monter alors que c'est pas possible, on avance
@@ -52,12 +67,26 @@ class Grille:
 		self.tile_size = 50
 		self.screen = screen
 		self.generer_nb_grille(count)
+		self.images = {}
+		self.images['test'] = pygame.image.load("images/test.png")
+		self.images['sprites'] = pygame.image.load("images/sprites.png")
+		self.images['herbe'] = {}
+		self.images['herbe'][CONST_BACK_VIDE] = self.images['sprites'].subsurface((10,130,50,50))
+		self.images['herbe'][CONST_BACK_FLEUR] = self.images['sprites'].subsurface((70,130,50,50))
+		self.images['construc'] = {}
+		self.images['construc'][CONST_FRONT_VIDE] = self.images['sprites'].subsurface((190,190,50,50))
+		self.images['construc'][CONST_FRONT_ROUTE] = self.images['test']
+		self.images['construc'][CONST_FRONT_ROCHER] = self.images['test']
+		self.images['construc'][CONST_FRONT_BUCHES] = self.images['sprites'].subsurface((10,190,50,50))
+		self.images['construc'][CONST_FRONT_TRONC] = self.images['sprites'].subsurface((70,190,50,50))
+		self.images['construc'][CONST_FRONT_FORET] = self.images['sprites'].subsurface((130,190,50,50))
 
 	def draw(self):
 		taille = self.tile_size
 		# Ajoute notre images a la file des affichages prevus
 		for i in range(len(self.grille)):
 			for j in range(len(self.grille[0])):
+<<<<<<< HEAD
 				if self.grille[i][j] == CONST_ROUTE:
 					pygame.draw.rect(self.screen,(255,255,255),[i*taille,j*taille,taille,taille],0)
 				elif self.grille[i][j] == CONST_FORET:
@@ -67,6 +96,11 @@ class Grille:
 				elif self.grille[i][j] == CONST_TOUR:
 					pygame.draw.rect(self.screen,(255,0,0),[i*taille,j*taille,taille,taille],0)
 					#screen.blit(background_image, [i*20,j*20])
+=======
+				self.screen.blit(self.images['herbe'][self.grille[i][j]['background']],[i*taille,j*taille])
+				if self.grille[i][j] != 0:
+					self.screen.blit(self.images['construc'][self.grille[i][j]['front']],[i*taille,j*taille])
+>>>>>>> a76b0712d416d931004eb0bb3ec42f6b27d20e4e
 
 	def generer_nb_grille(self,nb):
 		x = self.rows
@@ -79,20 +113,25 @@ class Grille:
 			generer_route(grilleTemp)
 			self.grille = fusion_grille(grilleTemp,self.grille)
 		self.generer_foret()
+<<<<<<< HEAD
 		self.generer_rocher()
 		self.generer_tour()
+=======
+		self.generer_obstacles()
+>>>>>>> a76b0712d416d931004eb0bb3ec42f6b27d20e4e
 
 	def generer_foret(self):
 		for i in range(len(self.grille)):
 			for j in range(len(self.grille[0])):
 				alea = random.randrange(10)
-				if alea == 1 and self.grille[i][j] != CONST_ROUTE and self.grille[i][j] != CONST_ROCHER:
-					self.grille[i][j] = CONST_FORET
+				if alea == 1 and self.grille[i][j]['front'] == CONST_FRONT_VIDE:
+					self.grille[i][j]['front'] = CONST_FRONT_FORET
 
-	def generer_rocher(self):
+	def generer_obstacles(self):
 		for i in range(len(self.grille)):
 			for j in range(len(self.grille[0])):
 				alea = random.randrange(17)
+<<<<<<< HEAD
 				if alea == 1 and self.grille[i][j] != CONST_ROUTE and self.grille[i][j] != CONST_FORET:
 					self.grille[i][j] = CONST_ROCHER
 
@@ -168,6 +207,58 @@ class Grille:
 
 
 # --- FIN de la classe Grille ---
+=======
+				if alea == 1 and self.grille[i][j]['front'] == CONST_FRONT_VIDE:
+					alea = random.randrange(20)
+					if alea >= 0 and alea <=5:
+						self.grille[i][j]['front'] = CONST_FRONT_ROCHER
+					elif alea >= 6 and alea <=10:
+						self.grille[i][j]['front'] = CONST_FRONT_BUCHES
+					elif alea >= 11 and alea <=13:
+						self.grille[i][j]['front'] = CONST_FRONT_TRONC
+# --- FIN de la classe Grille ---
+
+# IA function ------------
+
+def nb_case_autour_1(x,y):
+	nb = 0
+	i = x - 1
+	j = y - 1
+	while (i <= x + 1 ):
+		j = 0
+		while (j <= y + 1):
+			if grilleTemp[i][j]['front'] == CONST_FRONT_ROUTE:
+				nb+=1
+			j+=1
+		i+=1
+	return res
+
+def nb_case_autour_2(x,y):
+	nb = 0
+	i = x - 2
+	j = y - 2
+	while (i <= x + 2 ):
+		j = 0
+		while (j <= y + 2):
+			if grilleTemp[i][j]['front'] == CONST_FRONT_ROUTE:
+				nb+=1
+			j+=1
+		i+=1
+	return res
+
+def nb_case_autour_3(x,y):
+	nb = 0
+	i = x - 3
+	j = y - 3
+	while (i <= x + 3 ):
+		j = 0
+		while (j <= y + 3):
+			if grilleTemp[i][j]['front'] == CONST_FRONT_ROUTE:
+				nb+=1
+			j+=1
+		i+=1
+	return res
+>>>>>>> a76b0712d416d931004eb0bb3ec42f6b27d20e4e
 
 # Autres ------------
 def contenu_grille(grille):
@@ -196,7 +287,7 @@ def fusion_grille(grille1,grille2):
 		ligne = []
 		res.append(ligne)
 		for j in range(len(grille1[0])+len(grille2[0])):
-			print("x = {0}, y = {1}".format(i,j))
+			#print("x = {0}, y = {1}".format(i,j))
 			if j <= len(grille1[0])-1:
 				ligne.append(grille1[i][j])
 			else:

@@ -21,7 +21,11 @@ screen_width = 1200
 screen_height = 910
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 screen = pygame.display.set_mode([screen_width, screen_height])
+<<<<<<< HEAD
 grille = Grille.Grille(20,16,1,screen.subsurface((100,50,1000,800)))
+=======
+grille = Grille.Grille(20,16,2,screen.subsurface((100,50,1000,800)))
+>>>>>>> a76b0712d416d931004eb0bb3ec42f6b27d20e4e
 
 pygame.display.set_caption("Dagobert (the Game) !")
 # Loop until the user clicks the close button.
