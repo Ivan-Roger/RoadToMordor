@@ -15,15 +15,17 @@ class UserInterface:
 		self.images['test'] = pygame.image.load("images/test.png")
 		self.images['sprites'] = pygame.image.load("images/sprites.png")
 		self.images['coinsSprites'] = pygame.image.load("images/coin.png")
+
 		self.images['coins'] = {}
-		self.images['coins'][0] = self.images['coinsSprites'].subsurface((7,7,50,50))
-		self.images['coins'][1] = self.images['coinsSprites'].subsurface((61,7,50,50))
-		self.images['coins'][2] = self.images['coinsSprites'].subsurface((114,7,50,50))
-		self.images['coins'][3] = self.images['coinsSprites'].subsurface((168,7,50,50))
-		self.images['coins'][4] = self.images['coinsSprites'].subsurface((221,7,50,50))
-		self.images['coins'][5] = self.images['coinsSprites'].subsurface((274,7,50,50))
-		self.images['coins'][6] = self.images['coinsSprites'].subsurface((327,7,50,50))
-		self.images['coins'][7] = self.images['coinsSprites'].subsurface((381,7,50,50))
+		self.images['coins'][0] = self.images['sprites'].subsurface((10,310,50,50))
+		self.images['coins'][1] = self.images['sprites'].subsurface((70,310,50,50))
+		self.images['coins'][2] = self.images['sprites'].subsurface((130,310,50,50))
+		self.images['coins'][3] = self.images['sprites'].subsurface((190,310,50,50))
+		self.images['coins'][4] = self.images['sprites'].subsurface((250,310,50,50))
+		self.images['coins'][5] = self.images['sprites'].subsurface((310,310,50,50))
+		self.images['coins'][6] = self.images['sprites'].subsurface((370,310,50,50))
+		self.images['coins'][7] = self.images['sprites'].subsurface((430,310,50,50))
+
 		self.images['towers'] = {}
 		self.images['towers'][0] = self.images['sprites'].subsurface((10,70,50,50))
 		self.images['towers'][1] = self.images['sprites'].subsurface((70,70,50,50))
@@ -31,6 +33,7 @@ class UserInterface:
 		self.images['towers'][3] = self.images['sprites'].subsurface((190,70,50,50))
 		self.images['towers'][4] = self.images['sprites'].subsurface((250,70,50,50))
 		self.images['towers'][5] = self.images['sprites'].subsurface((310,70,50,50))
+
 		self.images['units'] = {}
 		self.images['units'][0] = self.images['test']
 		self.images['units'][1] = self.images['test']
@@ -67,7 +70,7 @@ class UserInterface:
 
 		# Nombre de pieces
 		text = pygame.font.Font('alagard.ttf', 40).render(str(self.joueur1.getArgent()),True,(25,25,25))
-		self.screen.blit(text, [325, 10])
+		self.screen.blit(text, [290, 10])
 
 		# Barre de selection
 		pygame.draw.rect(self.screen,(200,200,200),(0,screenRect[3]-60,screenRect[2],60),0)
@@ -91,6 +94,9 @@ class UserInterface:
 			self.mode='units'
 		else:
 			self.mode='towers'
+
+	def getMode(self):
+		return self.mode
 
 	def getSelected(self):
 		return self.selected

@@ -168,7 +168,10 @@ class Grille:
 					self.screen.blit(self.images['construc'][self.grille[i][j]['front']],[i*taille,j*taille])
 
 				if i == self.selectX and j == self.selectY:
-					pygame.draw.rect(self.screen,(200,25,25),(i*taille,j*taille,taille,taille),2+(self.turn/15)%2)
+					if (self.turn/15)%2==0:
+						pygame.draw.rect(self.screen,(200,25,25),pygame.Rect(i*taille,j*taille,taille-1,taille-1),2)
+					else:
+						pygame.draw.rect(self.screen,(200,25,25),pygame.Rect(i*taille,j*taille,taille,taille),1)
 
 	def generer_nb_grille(self,nb):
 		x = self.cols
@@ -222,7 +225,7 @@ class Grille:
 		if self.selectY>=self.rows:
 			self.selectY = 0
 
-	def build(self,batiment,joueur):
+	def use(self,batiment,joueur):
 		if self.grille[self.selectX][self.selectY]['front'] == CONST_FRONT_VIDE and self.selectX<=self.cols/2:
 			tour = batiment_classe.Batiment(batiment,1,"Tour Joueur")
 			if joueur.payer(tour.getPrix()):

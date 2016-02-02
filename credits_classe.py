@@ -1,6 +1,6 @@
 import pygame
 
-class CreditInterface:
+class Credits:
 
 	def __init__(self,screenP):
 		self.screen = screenP
