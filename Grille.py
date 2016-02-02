@@ -50,11 +50,10 @@ def generer_route(grilleTemp):
 	construc = True
 	y = random.randrange(inf,sup)
 	x,choix = 0,0
-	orion = []
+	orion = [0]
 	route = []
 	while construc:
 		route.append([x,y])
-		print(route[len(route)-1],[x,y])
 		grilleTemp[x][y]['front'] = CONST_FRONT_ROUTE
 		alea = random.randrange(3)
 		if alea == 0: #Tout droit
@@ -172,8 +171,8 @@ class Grille:
 					pygame.draw.rect(self.screen,(200,25,25),(i*taille,j*taille,taille,taille),2+(self.turn/15)%2)
 
 	def generer_nb_grille(self,nb):
-		x = self.rows
-		y = self.cols
+		x = self.cols
+		y = self.rows
 		y/=nb
 		self.grille = creer_grille(x,y)
 		generer_route(self.grille)
@@ -209,24 +208,28 @@ class Grille:
 	def selectLeft(self):
 		self.selectX-=1
 		if self.selectX<0:
-			self.selectX = self.rows-1
+			self.selectX = self.cols-1
 	def selectRight(self):
 		self.selectX+=1
-		if self.selectX>=self.rows:
+		if self.selectX>=self.cols:
 			self.selectX = 0
 	def selectUp(self):
 		self.selectY-=1
 		if self.selectY<0:
-			self.selectY = self.cols-1
+			self.selectY = self.rows-1
 	def selectDown(self):
 		self.selectY+=1
-		if self.selectY>=self.cols:
+		if self.selectY>=self.rows:
 			self.selectY = 0
 
-	def build(self,batiment):
-		if self.grille[self.selectX][self.selectY]['front'] == CONST_FRONT_VIDE and selectX<cols/2:
-			self.grille[temp_i][temp_j]['front'] = CONST_FRONT_BAT
-			self.grille[temp_i][temp_j]['batiment'] = batiment_classe.Batiment(batiment,1,"Tour Joueur",5,5,1,0)
+	def build(self,batiment,joueur):
+		if self.grille[self.selectX][self.selectY]['front'] == CONST_FRONT_VIDE and self.selectX<=self.cols/2:
+			tour = batiment_classe.Batiment(batiment,1,"Tour Joueur")
+			if joueur.payer(tour.getPrix()):
+				self.grille[self.selectX][self.selectY]['front'] = CONST_FRONT_BAT
+				self.grille[self.selectX][self.selectY]['batiment'] = tour
+			else:
+				return False
 			return True
 		else:
 			return False
@@ -270,7 +273,9 @@ class Grille:
 						temp_j = j
 				#print("i: {0} j:{1} nb {2} max {3}".format(i,j,nbcase,max1))
 		self.grille[temp_i][temp_j]['front'] = CONST_FRONT_BAT
-		self.grille[temp_i][temp_j]['batiment'] = batiment_classe.Batiment(0,0,"Tour IA",5,5,1,0)
+		self.grille[temp_i][temp_j]['batiment'] = batiment_classe.Batiment(0,0,"Tour IA")
+		# Faire payer l'IA
+		#joueur.payer(self.grille[temp_i][temp_j]['batiment'].getPrix())
 # --- FIN de la classe Grille ---
 
 # Autres ------------

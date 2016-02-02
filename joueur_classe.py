@@ -64,24 +64,26 @@ class Joueur():
 
 	# Modifie le nombre de point de vies du chateau
 	def setVieChateau (self, vieChateau):
-		return self.vieChateau
+		self.vieChateau = vieChateau
 
 	# Modifie l'argent d'un joueur
 	def setArgent (self, argent):
-		return self.argent
+		self.argent = argent
 
 	# Modifie les sprites d'un joueur (associes a la race)
 	def setSprite (self, sprite):
-		return self.sprite
-
+		self.sprite = sprite
 
 	def payer (self, montant):
 		# Verifier que le joueur a assez d'argent
-		self.setArgent(self.getArgent - montant)
+		if (self.getArgent()-montant)<0:
+			return False
+		self.setArgent(self.getArgent() - montant)
+		return True
 
 	def recevoir (self, montant):
 		# Verifier que le joueur a assez d'argent
-		self.setArgent(self.getArgent + montant)
+		self.setArgent(self.getArgent() + montant)
 
 ############### Creation des unites
 

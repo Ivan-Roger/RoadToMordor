@@ -7,10 +7,13 @@ class UserInterface:
 		self.selected = 0
 		self.balance = 500
 		self.screen = screenP
+		self.turn = 0
+		self.mode = 'towers'
 		self.joueur1 = joueur1
 		self.joueur2 = joueur2
 		self.images = {}
 		self.images['test'] = pygame.image.load("images/test.png")
+		self.images['sprites'] = pygame.image.load("images/sprites.png")
 		self.images['coinsSprites'] = pygame.image.load("images/coin.png")
 		self.images['coins'] = {}
 		self.images['coins'][0] = self.images['coinsSprites'].subsurface((7,7,50,50))
@@ -21,7 +24,6 @@ class UserInterface:
 		self.images['coins'][5] = self.images['coinsSprites'].subsurface((274,7,50,50))
 		self.images['coins'][6] = self.images['coinsSprites'].subsurface((327,7,50,50))
 		self.images['coins'][7] = self.images['coinsSprites'].subsurface((381,7,50,50))
-		self.images['sprites'] = pygame.image.load("images/sprites.png")
 		self.images['towers'] = {}
 		self.images['towers'][0] = self.images['sprites'].subsurface((10,70,50,50))
 		self.images['towers'][1] = self.images['sprites'].subsurface((70,70,50,50))
@@ -29,7 +31,13 @@ class UserInterface:
 		self.images['towers'][3] = self.images['sprites'].subsurface((190,70,50,50))
 		self.images['towers'][4] = self.images['sprites'].subsurface((250,70,50,50))
 		self.images['towers'][5] = self.images['sprites'].subsurface((310,70,50,50))
-		self.turn = 0
+		self.images['units'] = {}
+		self.images['units'][0] = self.images['test']
+		self.images['units'][1] = self.images['test']
+		self.images['units'][2] = self.images['test']
+		self.images['units'][3] = self.images['test']
+		self.images['units'][4] = self.images['test']
+		self.images['units'][5] = self.images['test']
 		#self.lifePercent = 62
 
 	def draw(self):
@@ -62,11 +70,11 @@ class UserInterface:
 		self.screen.blit(text, [325, 10])
 
 		# Barre de selection
-		pygame.draw.rect(self.screen,(200,200,200),(200,screenRect[3]-60,800,60),0)
+		pygame.draw.rect(self.screen,(200,200,200),(0,screenRect[3]-60,screenRect[2],60),0)
 		for i in range(0,6):
 			x_pos = (i*50)+225+(i*50)
 			y_off = 5 if i == self.selected else 0
-			self.screen.blit(self.images['towers'][i],(x_pos,screenRect[3]-(50+y_off)))
+			self.screen.blit(self.images[self.mode][i],(x_pos,screenRect[3]-(50+y_off)))
 
 	def selectNext(self):
 		self.selected+=1
@@ -78,8 +86,14 @@ class UserInterface:
 		if self.selected<0:
 			self.selected=5
 
+	def switchMode(self):
+		if self.mode=='towers':
+			self.mode='units'
+		else:
+			self.mode='towers'
+
 	def getSelected(self):
-		return self.selected+10
+		return self.selected
 
 	def removeLife(self,value):
 		self.lifePercent-=value

@@ -22,7 +22,7 @@ screen_width = 1400
 screen_height = 910
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 screen = pygame.display.set_mode([screen_width, screen_height])
-grille = Grille.Grille(20,16,1,screen.subsurface((100,50,1000,800)))
+grille = Grille.Grille(16,20,1,screen.subsurface((200,50,1000,800)))
 
 pygame.display.set_caption("Dagobert (the Game) !")
 # Loop until the user clicks the close button.
@@ -45,6 +45,8 @@ while not done:
 				hud.selectNext()
 			elif event.key == pygame.K_q:
 				hud.selectPrev()
+			elif event.key == pygame.K_a:
+				hud.switchMode()
 			elif event.key == pygame.K_UP:
 				grille.selectUp()
 			elif event.key == pygame.K_DOWN:
@@ -54,8 +56,8 @@ while not done:
 			elif event.key == pygame.K_RIGHT:
 				grille.selectRight()
 			elif event.key == pygame.K_RETURN:
-				if not grille.build(hud.getSelected()):
-					print('Construction impossible sur un obstacle')
+				if not grille.build(hud.getSelected(),joueur):
+					print('Construction impossible')
 	# --- Game logic should go here
 	screen.fill((75,75,75))
 	grille.draw()
