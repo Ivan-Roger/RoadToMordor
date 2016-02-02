@@ -5,9 +5,7 @@ class Credits:
 	def __init__(self,screenP):
 		self.screen = screenP
 		self.background_image = pygame.image.load("images/back.jpg")
-		self.pos = 1001
-		self.fini = False
-
+		self.reset()
 
 	def draw(self):
 		#Creation des texte
@@ -44,8 +42,7 @@ class Credits:
 		codepos.centerx = self.screen.get_rect().centerx
 
 		#Position de hauteur
-		if self.pos < -1100:
-			self.fini = True
+		self.fini = (self.pos<-1100)
 
 		self.pos-=1
 		sonpos[1]+=self.pos
@@ -72,6 +69,8 @@ class Credits:
 		self.screen.blit(mathias,mathiaspos)
 		self.screen.blit(maxime,maximepos)
 
-	def init(self):
-		self.pos = 1001
+		return self.fini
+
+	def reset(self):
+		self.pos = 500
 		self.fini = False

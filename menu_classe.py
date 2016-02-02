@@ -1,5 +1,7 @@
 # coding=utf-8
+
 import pygame
+import credits_classe
 import os
 
 class Menu:
@@ -9,6 +11,7 @@ class Menu:
 		self.screen_width = 900
 		self.screen_height = 500
 		os.environ['SDL_VIDEO_CENTERED'] = '1'
+
 
 		self.selected = 0
 
@@ -27,9 +30,12 @@ class Menu:
 		self.clock = pygame.time.Clock()
 		#pygame.display.update()
 
+		self.credits = credits_classe.Credits(self.screen)
 		self.background_image = pygame.image.load("images/back.jpg")
 
 		# -------- Main Program Loop -----------
+		showCredits = False
+		credits_finis = True
 		done = False
 		while not done:
 			# --- Main event loop
@@ -38,19 +44,30 @@ class Menu:
 					return 'QUIT'
 				elif event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_LEFT:
-						self.selectPrev()
+						if credits_finis:
+							self.selectPrev()
 					elif event.key == pygame.K_RIGHT:
-						self.selectNext()
-					elif event.key == pygame.K_RETURN:
+						if credits_finis:
+							self.selectNext()
+					elif event.key == pygame.K_ESCAPE:
 						if self.selected==1:
-							print('Credits')
-						else:
-							done = True
+							credits_finis = True
+					elif event.key == pygame.K_RETURN:
+						if credits_finis:
+							if self.selected==1:
+								showCredits = True
+								credits_finis = False
+								self.credits.reset()
+							else:
+								done = True
 
         	# --- Game logic should go here
 			self.screen.fill((75,75,75))
 			self.screen.blit(self.background_image, (0,0))
-			self.draw()
+			if showCredits and not credits_finis:
+				credits_finis = self.credits.draw()
+			else:
+				self.draw()
 			# --- Go ahead and update the screen with what we've drawn.
 			pygame.display.flip()
 			# --- Limit to 10 frames per second
