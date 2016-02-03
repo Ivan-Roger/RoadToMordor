@@ -8,13 +8,13 @@ import os
 import HUD
 
 class Game:
-    def __init__(self):
-        self.paused=False
+	def __init__(self):
+		self.paused=False
 
-        # Set the width and height of the screen [width, height]
-        self.screen_width = 1400
-        self.screen_height = 910
-        os.environ['SDL_VIDEO_CENTERED'] = '1'
+		# Set the width and height of the screen [width, height]
+		self.screen_width = 1400
+		self.screen_height = 910
+		os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 	def launch(self):
 		print('Launching game ...')
