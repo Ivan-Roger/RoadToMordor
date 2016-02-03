@@ -31,77 +31,6 @@ CONST_FRONT_TOWER_IA_5 = 24
 CONST_FRONT_TOWER_IA_6 = 25
 """
 
-def creer_grille(x,y):
-	grille = list()
-	for i in range(x):
-		ligne = list()
-		grille.append(ligne)
-		for i in range(y):
-			alea = random.randrange(6)
-			if alea == 0:
-				ligne.append({'background':CONST_BACK_FLEUR,'front':CONST_FRONT_VIDE, 'orientation':0})
-			else:
-				ligne.append({'background':CONST_BACK_VIDE,'front':CONST_FRONT_VIDE, 'orientation':0})
-	return grille
-
-def generer_route(grilleTemp):
-	inf = 1
-	sup = len(grilleTemp[0])-1
-	construc = True
-	y = random.randrange(inf,sup)
-	x,choix = 0,0
-	orion = [0]
-	route = []
-	while construc:
-		route.append([x,y])
-		grilleTemp[x][y]['front'] = CONST_FRONT_ROUTE
-		alea = random.randrange(3)
-		if alea == 0: #Tout droit
-			x+=1
-			choix = 0
-			orion.append(0)
-		elif alea == 1: #En bas
-			if y < len(grilleTemp[0])-2 and grilleTemp[x-1][y+1]['front'] != CONST_FRONT_ROUTE and choix != 2:#Si la route peut encore descendre
-				y+=1
-				choix =1
-				orion.append(1)
-			else: #Si l'aleatoire a decider de descendre alors que c'est pas possible, on avance
-				x+=1
-				orion.append(0)
-		elif alea == 2: #En haut
-			if y > 1 and grilleTemp[x-1][y-1]['front'] != CONST_FRONT_ROUTE and choix != 1: #Si la route peut encore monter
-				y-=1
-				choix =2
-				orion.append(2)
-			else: #Si l'aleatoire a decider de monter alors que c'est pas possible, on avance
-				x+=1
-				orion.append(0)
-		if x == len(grilleTemp):
-			construc = False
-
-	for ind,c in enumerate(route):
-		try:
-			if orion[ind+1] ==0:
-				if orion[ind] == 0:
-					grilleTemp[c[0]][c[1]]['orientation'] = 0
-				elif orion[ind] == 1:
-					grilleTemp[c[0]][c[1]]['orientation'] = 4
-				elif orion[ind] == 2:
-					grilleTemp[c[0]][c[1]]['orientation'] = 2
-			elif orion[ind+1] == 1:
-				if orion[ind] == 0:
-					grilleTemp[c[0]][c[1]]['orientation'] = 3
-				elif orion[ind] == 1:
-					grilleTemp[c[0]][c[1]]['orientation'] = 1
-			elif orion[ind+1] == 2:
-				if orion[ind] == 0:
-					grilleTemp[c[0]][c[1]]['orientation'] = 5
-				elif orion[ind] == 2:
-					grilleTemp[c[0]][c[1]]['orientation'] = 1
-		except IndexError:
-			pass
-
-
 class Grille:
 
 	def __init__(self,rows,cols,count,screen):
@@ -113,6 +42,7 @@ class Grille:
 		self.screen = screen
 		self.generer_nb_grille(count)
 		self.turn=0
+		self.routes = []
 
 		self.images = {}
 		self.images['test'] = pygame.image.load("images/test.png")
@@ -157,6 +87,77 @@ class Grille:
 						pygame.draw.rect(self.screen,(45,106,229),pygame.Rect(i*taille,j*taille,taille-1,taille-1),2)
 					else:
 						pygame.draw.rect(self.screen,(45,106,229),pygame.Rect(i*taille,j*taille,taille,taille),1)
+
+	def creer_grille(x,y):
+		grille = list()
+		for i in range(x):
+			ligne = list()
+			grille.append(ligne)
+			for i in range(y):
+				alea = random.randrange(6)
+				if alea == 0:
+					ligne.append({'background':CONST_BACK_FLEUR,'front':CONST_FRONT_VIDE, 'orientation':0})
+				else:
+					ligne.append({'background':CONST_BACK_VIDE,'front':CONST_FRONT_VIDE, 'orientation':0})
+		return grille
+
+	def generer_route(grilleTemp):
+		inf = 1
+		sup = len(grilleTemp[0])-1
+		construc = True
+		y = random.randrange(inf,sup)
+		x,choix = 0,0
+		orion = [0]
+		route = []
+		while construc:
+			route.append([x,y])
+			grilleTemp[x][y]['front'] = CONST_FRONT_ROUTE
+			alea = random.randrange(3)
+			if alea == 0: #Tout droit
+				x+=1
+				choix = 0
+				orion.append(0)
+			elif alea == 1: #En bas
+				if y < len(grilleTemp[0])-2 and grilleTemp[x-1][y+1]['front'] != CONST_FRONT_ROUTE and choix != 2:#Si la route peut encore descendre
+					y+=1
+					choix =1
+					orion.append(1)
+				else: #Si l'aleatoire a decider de descendre alors que c'est pas possible, on avance
+					x+=1
+					orion.append(0)
+			elif alea == 2: #En haut
+				if y > 1 and grilleTemp[x-1][y-1]['front'] != CONST_FRONT_ROUTE and choix != 1: #Si la route peut encore monter
+					y-=1
+					choix =2
+					orion.append(2)
+				else: #Si l'aleatoire a decider de monter alors que c'est pas possible, on avance
+					x+=1
+					orion.append(0)
+			if x == len(grilleTemp):
+				construc = False
+
+		for ind,c in enumerate(route):
+			try:
+				if orion[ind+1] ==0:
+					if orion[ind] == 0:
+						grilleTemp[c[0]][c[1]]['orientation'] = 0
+					elif orion[ind] == 1:
+						grilleTemp[c[0]][c[1]]['orientation'] = 4
+					elif orion[ind] == 2:
+						grilleTemp[c[0]][c[1]]['orientation'] = 2
+				elif orion[ind+1] == 1:
+					if orion[ind] == 0:
+						grilleTemp[c[0]][c[1]]['orientation'] = 3
+					elif orion[ind] == 1:
+						grilleTemp[c[0]][c[1]]['orientation'] = 1
+				elif orion[ind+1] == 2:
+					if orion[ind] == 0:
+						grilleTemp[c[0]][c[1]]['orientation'] = 5
+					elif orion[ind] == 2:
+						grilleTemp[c[0]][c[1]]['orientation'] = 1
+			except IndexError:
+				pass
+		self.routes.append(route)
 
 	def generer_nb_grille(self,nb):
 		x = self.cols
@@ -227,7 +228,7 @@ class Grille:
 		nb = 0
 		for i in range((len(self.grille)/2)+1,len(self.grille)):
 			for j in range(len(self.grille[0])):
-				if (self.grille[i][j] == CONST_FRONT_TOWER_IA_1 or self.grille[i][j] == CONST_FRONT_TOWER_IA_2 or self.grille[i][j] == CONST_FRONT_TOWER_IA_3 or self.grille[i][j] == CONST_FRONT_TOWER_IA_4 or self.grille[i][j] == CONST_FRONT_TOWER_IA_5 or self.grille[i][j] == CONST_FRONT_TOWER_IA_6):
+				if (self.grille[i][j] >= CONST_FRONT_TOWER_IA_1 and self.grille[i][j] <= CONST_FRONT_TOWER_IA_6):
 					nb+=1
 		return nb
 
