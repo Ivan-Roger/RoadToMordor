@@ -176,7 +176,6 @@ class Grille:
 		self.grille = self.creer_grille(x,y)
 		self.generer_route(self.grille,0,x,y)
 		for i in range(1,nb):
-			print('nb=',nb,'i=',i)
 			grilleTemp = self.creer_grille(x,y)
 			self.generer_route(grilleTemp,i,x,y)
 			self.grille = fusion_grille(self.grille,grilleTemp)
@@ -257,29 +256,29 @@ class Grille:
 		else:
 			return self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['unit'] == CONST_UNIT_VIDE
 
-	def canPlace(self,item):
-		if item.__class__.__name__ == 'Batiment':
-			pos = item.getPos()
-			return self.grille[pos['x']][pos['y']]['front'] == CONST_FRONT_VIDE and pos['x']<=self.cols/2
-		else:
-			route = item.getRoute()
-			pos = item.getPos()
-			return self.grille[route[pos]['x']][route[pos]['y']]['unit'] == CONST_UNIT_VIDE
+	def canBuild(self,pos):
+		return self.grille[pos['x']][pos['y']]['front'] == CONST_FRONT_VIDE and pos['x']<self.cols/2
+
+	def canSpawn(self,road):
+		return self.grille[road[0]['x']][road[0]['y']]['unit'] == CONST_UNIT_VIDE
 
 	def place(self,item):
-		if self.canPlace(item):
-			if item.__class__.__name__ == 'Batiment':
+		if item.__class__.__name__ == 'Batiment':
+			if self.canBuild(item.getPos()):
 				self.grille[self.selectX][self.selectY]['front'] = CONST_FRONT_BAT
 				self.grille[self.selectX][self.selectY]['item'] = item
 				self.batiments.append(item)
 				return True
 			else:
+				return False
+		else:
+			if self.canSpawn(item.getRoute()):
 				self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['unit'] = CONST_UNIT_USED
 				self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['item'] = item
 				self.units.append(item)
 				return True
-		else:
-			return False
+			else:
+				return False
 
 	def getSelected(self):
 		return {'x': self.selectX, 'y': self.selectY}

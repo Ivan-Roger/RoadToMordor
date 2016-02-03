@@ -4,7 +4,7 @@ import pygame
 import grille_classe
 
 class Batiment:
-	tours = [
+	stats = [
 		{'attPhy': 10, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 1, 'prix': 5},
 		{'attPhy': 0, 'attMag': 12, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 1, 'prix': 10},
 		{'attPhy': 25, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 3, 'prix': 20},
@@ -19,12 +19,12 @@ class Batiment:
 		self.id_tour = id_tour
 		self.equipe = equipe
 		self.nom = nom
-		self.attPhy = Batiment.tours[id_tour]['attPhy']
-		self.attMag = Batiment.tours[id_tour]['attMag']
-		self.attAbs = Batiment.tours[id_tour]['attAbs']
-		self.distanceAtt = Batiment.tours[id_tour]['distanceAtt']
-		self.nbCibles = Batiment.tours[id_tour]['nbCibles']
-		self.prix = Batiment.tours[id_tour]['prix']
+		self.attPhy = self.stats[id_tour]['attPhy']
+		self.attMag = self.stats[id_tour]['attMag']
+		self.attAbs = self.stats[id_tour]['attAbs']
+		self.distanceAtt = self.stats[id_tour]['distanceAtt']
+		self.nbCibles = self.stats[id_tour]['nbCibles']
+		self.prix = self.stats[id_tour]['prix']
 		self.niveau = 0
 
 		sprites = pygame.image.load("images/sprites.png")
@@ -86,8 +86,11 @@ class Batiment:
 	def getPrix(self):
 		return self.prix
 
+	def getPos(self):
+		return self.pos
+
 	def play(self):
-		print('{} - Joue !'.format(self.nom))
+		#print('{} - Joue !'.format(self.nom))
 		cibleRestantes=self.nbCibles
 		#r_x = range(self.pos['x']-self.distanceAtt,2*self.distanceAtt+1)
 		for i in range(self.pos['x']-self.distanceAtt,self.pos['x']+self.distanceAtt+1):

@@ -70,21 +70,30 @@ class Game:
 					elif event.key == pygame.K_RETURN:
 						if self.hud.canUse():
 							if self.hud.getMode()=='towers':
-								tour = self.joueur.createBuild(self.hud.use(),self.grille.getGrille(),self.grille.getSelected())
-								if self.grille.canPlace(tour):
-									self.grille.place(tour)
+								if self.grille.canBuild(self.grille.getSelected()):
+									tour = self.joueur.createBuild(self.hud.getSelected(),self.grille.getGrille(),self.grille.getSelected())
+									if tour == False:
+										self.hud.showMessage("Argent insufisant ...",70)
+										print('Argent insufisant')
+									else:
+										self.grille.place(tour)
+										self.hud.use()
 								else:
+									self.hud.showMessage("Placement impossible !",70)
 									print('Placement impossible')
 							else:
-								unit = self.joueur.createUnit(self.hud.use(),self.grille.getGrille(),self.grille.getRoute(),0)
-								if unit == False:
-									print('Argent insufisant')
+								if self.grille.canSpawn(self.grille.getRoute()):
+									unit = self.joueur.createUnit(self.hud.getSelected(),self.grille.getGrille(),self.grille.getRoute(),0)
+									if unit == False:
+										self.hud.showMessage("Argent insufisant ...",70)
+										print('Argent insufisant')
+									self.grille.place(unit)
+									self.hud.use()
 								else:
-									if self.grille.canPlace(unit):
-										self.grille.place(unit)
-									else:
-										print('Placement impossible')
+									self.hud.showMessage("Placement impossible !",70)
+									print('Placement impossible')
 						else:
+							self.hud.showMessage("Cooldown en cours.",70)
 							print('Cooldown en cours')
 				elif event.type == pygame.KEYUP:
 					# Create KEYPRESS events

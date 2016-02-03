@@ -11,6 +11,8 @@ class UserInterface:
 		self.mode = 'towers'
 		self.joueur1 = joueur1
 		self.joueur2 = joueur2
+		self.messages = list()
+		self.fontSmall = pygame.font.Font('alagard.ttf', 15)
 		self.font = pygame.font.Font('alagard.ttf', 25)
 		self.fontBig = pygame.font.Font('alagard.ttf', 40)
 		self.fontTitle = pygame.font.Font('alagard.ttf', 50)
@@ -67,6 +69,14 @@ class UserInterface:
 		screenRect = self.screen.get_rect()
 		# Fond de l'interface du haut
 		pygame.draw.rect(self.screen,(200,200,200),(0,0,screenRect[2],50),0)
+
+		ind=0
+		for val in self.messages:
+			self.screen.blit(self.fontSmall.render(val['msg'],True,(0,0,0)),(10,80+ind*15))
+			val['time']-=1
+			if val['time'] == 0:
+				self.messages.remove(val)
+			ind+=1
 
 		# Contour barre de vie
 		pygame.draw.rect(self.screen,(25,59,128),(10,10,200,30),1)
@@ -135,15 +145,21 @@ class UserInterface:
 		else:
 			self.mode='towers'
 
+	def showMessage(self,message,time):
+		self.messages.append({'msg': message, 'time': time})
+
 	def getMode(self):
 		return self.mode
 
 	def canUse(self):
 		return self.selectT[self.mode][self.selected]==0
 
+	def getSelected(self):
+		return self.selected
+
 	def use(self):
 		if self.canUse():
 			self.selectT[self.mode][self.selected] = 100
-			return self.selected
+			return True
 		else:
 			return False

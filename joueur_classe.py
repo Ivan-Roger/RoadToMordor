@@ -266,38 +266,41 @@ class Joueur():
 
 	# Creer et retourne un objet batiment
 	def createBuild(self,id_bat,grille,pos):
-		nom = ''
-		if id_bat == 0:
-			if self.race == 'humain':
-				nom = 'Tour'
-			else:
-				nom = 'Tour Orc'
-		elif id_bat == 1:
-			if self.race == 'humain':
-				nom = 'Tour'
-			else:
-				nom = 'Tour Orc'
-		elif id_bat == 2:
-			if self.race == 'humain':
-				nom = 'Tour'
-			else:
-				nom = 'Tour Orc'
-		elif id_bat == 3:
-			if self.race == 'humain':
-				nom = 'Tour'
-			else:
-				nom = 'Tour Orc'
-		elif id_bat == 4:
-			if self.race == 'humain':
-				nom = 'Tour'
-			else:
-				nom = 'Tour Orc'
-		elif id_bat == 5:
-			if self.race == 'humain':
-				nom = 'Tour'
-			else:
-				nom = 'Tour Orc'
-		return batiment_classe.Batiment(id_bat, self.equipe, nom, grille, pos)
+		if self.payer(batiment_classe.Batiment.stats[id_bat]['prix']):
+			nom = ''
+			if id_bat == 0:
+				if self.race == 'humain':
+					nom = 'Tour'
+				else:
+					nom = 'Tour Orc'
+			elif id_bat == 1:
+				if self.race == 'humain':
+					nom = 'Tour'
+				else:
+					nom = 'Tour Orc'
+			elif id_bat == 2:
+				if self.race == 'humain':
+					nom = 'Tour'
+				else:
+					nom = 'Tour Orc'
+			elif id_bat == 3:
+				if self.race == 'humain':
+					nom = 'Tour'
+				else:
+					nom = 'Tour Orc'
+			elif id_bat == 4:
+				if self.race == 'humain':
+					nom = 'Tour'
+				else:
+					nom = 'Tour Orc'
+			elif id_bat == 5:
+				if self.race == 'humain':
+					nom = 'Tour'
+				else:
+					nom = 'Tour Orc'
+			return batiment_classe.Batiment(id_bat, self.equipe, nom, grille, pos)
+		else:
+			return False
 """
 ############### Amelioration des unites d'un niveau'
 

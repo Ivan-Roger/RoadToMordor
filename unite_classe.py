@@ -156,7 +156,7 @@ class Unite:
 
 
 	def play(self):
-		print('{} - Je joue !'.format(self.nom))
+		#print('{} - Je joue !'.format(self.nom))
 		self.avancer()
 
 	def avancer(self):
