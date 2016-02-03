@@ -93,7 +93,7 @@ class Grille:
 						pygame.draw.rect(self.screen,(45,106,229),pygame.Rect(i*taille,j*taille,taille,taille),1)
 		if self.hud.getMode()=='units':
 			self.screen.blit(self.images['selector'],(0,self.routes[self.selectR][0]['y']*50+15))
-		if self.turn/15%2 == 0:
+		if self.turn%8 == 0:
 			self.avancer_unit()
 
 	def creer_grille(self,x,y):
@@ -346,7 +346,6 @@ class Grille:
 		for route in self.routes:
 			i  = len(route)-1
 			while i >= 0:
-				print("Gentil et nb_route = {3} : i = {0} et route[i] = {2}, alors que la longueur de la route = {1}".format(i,len(route),route[i],nb_route))
 				if not self.debut_route(route[i]["x"],route[i]["y"],nb_route):
 					if self.grille[route[i]["x"]][route[i]["y"]]["unit"] != CONST_UNIT_USED and self.grille[route[i-1]["x"]][route[i-1]["y"]]["unit"] == CONST_UNIT_USED:
 						if self.grille[route[i-1]["x"]][route[i-1]["y"]]["item"].getEquipe() ==0:
@@ -357,6 +356,7 @@ class Grille:
 				i-=1
 			nb_route+=1
 
+		#deplacement mechant
 		nb_route = 0
 		for route in self.routes:
 			i  = 0
@@ -371,13 +371,27 @@ class Grille:
 				i+=1
 			nb_route+=1
 
+
 	def combat_unit(self):
 		nb_route = 0
 		#deplacement gentil
 		for route in self.routes:
 			i  = 0
 			while i <= len(route)-1:
+				if self.grille[route[i]["x"]][route[i]["y"]]["unit"] == CONST_UNIT_USED:			#Si la case est occupe
+					if self.debut_route(route[i]["x"],route[i]["y"],nb_route):							#Si c'est un debut de route
+						if self.grille[route[i]["x"]][route[i]["y"]]["item"].getEquipe() ==1:				#Si c'est un ennemi
+							############ ATTAQUE DE MINAS
+					elif self.fin_route(route[i]["x"],route[i]["y"],nb_route):							#Sinon si c'est en fin de route
+						if self.grille[route[i]["x"]][route[i]["y"]]["item"].getEquipe() ==0:				#Si c'est un allie
+							############ ATTAQUE DE L'OEIL
+					else:																				#Sinon (case ordinaire)
+						if self.grille[route[i+1]["x"]][route[i+1]["y"]]["unit"] == CONST_UNIT_USED:		#Si ya une unite en face
+							if self.grille[route[i+1]["x"]][route[i+1]["y"]]["item"].getEquipe() ==1:			#Si c'est un ennemi
+							############ ATTAQUE ENTRE LES DEUX
 
+
+				i+
 			nb_route+=1
 
 # --- FIN de la classe Grille ---
