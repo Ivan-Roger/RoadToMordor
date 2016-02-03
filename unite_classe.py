@@ -1,10 +1,12 @@
 ############# Classe mere des unites
 class Unite:
 
-	def __init__(self, nom, equipe, vie, attPhy, attMag, distanceAtt, resPhy, resMag, prix):
+	def __init__(self,id_unit, nom, equipe, vie, attPhy, attMag, distanceAtt, resPhy, resMag, prix):
 
 ############# Caracteristiques du personnage
 
+		# Nom de l'unite
+		self.id_unit = id_unit
 		# Nom de l'unite
 		self.nom = nom
 		# Equipe de l'unite
@@ -34,7 +36,19 @@ class Unite:
 		# Sprite associe a l'etat
 		self.sprite = 0
 
+		sprites = pygame.image.load("images/guignol.png")
+		self.image_unit = sprites.subsurface((self.id_unit*60+10,10+self.equipe*60,50,50))
+
+
+	def draw(self,screen):
+		screen.blit(self.image_unit,(0,0))
+
+
 ############# Setter
+
+	# Modifie l'id d'une unite
+	def setEtat (self, id_unit):
+		self.id_unit = id_unit
 
 	# Modifie l'etat d'une unite
 	def setEtat (self, etat):
@@ -77,6 +91,11 @@ class Unite:
 		self.prix = prix
 
 ############# Getter
+
+
+	# Retourne le nom de l'unite
+	def getNom (self):
+		return self.id_unit
 
 	# Retourne le nom de l'unite
 	def getNom (self):
