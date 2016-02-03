@@ -143,15 +143,10 @@ class UserInterface:
 		self.selectT[self.mode][item] = 100
 
 	def canUse(self):
-		return self.selectT[self.mode][self.selected]==0:
+		return self.selectT[self.mode][self.selected]==0
 
 	def use(self):
 		if self.canUse():
 			return self.selected
-		else
+		else:
 			return False
-
-	def removeLife(self,value):
-		self.lifePercent-=value
-		if self.lifePercent < 0:
-			self.lifePercent = 0

@@ -1,6 +1,7 @@
 # coding=utf-8
 
 from unite_classe import *
+import batiment_classe
 
 class Joueur():
 
@@ -275,91 +276,40 @@ class Joueur():
 ############### Creation des batiments
 
 	# Creer et retourne un objet batiment
-	def creation(self,id_bat):
+	def createBuild(self,id_bat):
+		nom = ''
 		if id_bat == 0:
 			if self.race == 'humain':
 				nom = 'Barbare'
 			else:
 				nom = 'Guerrier Orc'
-			stats = {'attPhy':30, 'attMag':10, 'distanceAtt':0, 'prix':5}
-			return Unite(id_bat, nom, self.equipe, stats)
 		elif id_bat == 1:
 			if self.race == 'humain':
 				nom = 'Barbare'
 			else:
 				nom = 'Guerrier Orc'
-			stats = {'attPhy':30, 'attMag':10, 'distanceAtt':0, 'prix':5}
-			return Unite(id_bat, nom, self.equipe, stats)
 		elif id_bat == 2:
 			if self.race == 'humain':
 				nom = 'Barbare'
 			else:
 				nom = 'Guerrier Orc'
-			stats = {'attPhy':30, 'attMag':10, 'distanceAtt':0, 'prix':5}
-			return Unite(id_bat, nom, self.equipe, stats)
 		elif id_bat == 3:
 			if self.race == 'humain':
 				nom = 'Barbare'
 			else:
 				nom = 'Guerrier Orc'
-			stats = {'attPhy':30, 'attMag':10, 'distanceAtt':0, 'prix':5}
-			return Unite(id_bat, nom, self.equipe, stats)
 		elif id_bat == 4:
 			if self.race == 'humain':
 				nom = 'Barbare'
 			else:
 				nom = 'Guerrier Orc'
-			stats = {'attPhy':30, 'attMag':10, 'distanceAtt':0, 'prix':5}
-			return Unite(id_bat, nom, self.equipe, stats)
 		elif id_bat == 5:
 			if self.race == 'humain':
 				nom = 'Barbare'
 			else:
 				nom = 'Guerrier Orc'
-			stats = {'attPhy':30, 'attMag':10, 'distanceAtt':0, 'prix':5}
-			return Unite(id_bat, nom, self.equipe, stats)
-
-	# Creer et retourne un objet archer
-	def creationArcher(self):
-		if self.race == 'humain':
-			nom = 'Archer'
-		else:
-			nom = 'Archer Orc'
-		return Unite(1, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
-
-	# Creer et retourne un objet magicien
-	def creationMagicien(self):
-		if self.race == 'humain':
-			nom = 'Magicien'
-		else:
-			nom = 'Magicien Orc'
-		return Unite(2, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
-
-	# Creer et retourne un objet chevalier
-	def creationChevalier(self):
-		if self.race == 'humain':
-			nom = 'Chevalier'
-		else:
-			nom = 'Cavalier Orc'
-		return Unite(3, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
-
-	# Creer et retourne un objet paladin
-	def creationPaladin(self):
-		if self.race == 'humain':
-			nom = 'Paladin'
-		else:
-			nom = 'Paladin Orc'
-		return Unite(4, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
-
-	# Creer et retourne un objet soigneur
-	def creationPretre(self):
-		if self.race == 'humain':
-			nom = 'Pretre'
-		else:
-			nom = 'Pretre Orc'
-		return Unite(5, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
-
-
+		return batiment_classe.Batiment(id_bat, self.equipe, nom)
+"""
 ############### Amelioration des unites d'un niveau'
 
 	# Ameliore un objet barbare d'un niveau
@@ -495,3 +445,4 @@ class Joueur():
 				unite.setResMag(unite.getResMag() + 0)
 				unite.setPrix(unite.getPrix() + 0)
 				self.niveauUnite['Pretre'] = 3
+"""
