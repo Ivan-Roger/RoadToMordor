@@ -36,6 +36,7 @@ class Grille:
 		self.tile_size = 50
 		self.routes = list()
 		self.batiments = list()
+		self.units = list()
 		self.screen = screen
 		self.generer_nb_grille(count)
 		self.turn=0
@@ -94,8 +95,6 @@ class Grille:
 						pygame.draw.rect(self.screen,(45,106,229),pygame.Rect(i*taille,j*taille,taille,taille),1)
 		if self.hud.getMode()=='units':
 			self.screen.blit(self.images['selector'],(0,self.routes[self.selectR][0]['y']*50+15))
-		if self.turn%8 == 0:
-			self.avancer_unit()
 
 	def creer_grille(self,x,y):
 		grille = list()
@@ -258,9 +257,18 @@ class Grille:
 		else:
 			return self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['unit'] == CONST_UNIT_VIDE
 
-	def use(self,item):
-		if self.canUse():
-			if self.hud.getMode() == 'towers':
+	def canPlace(self,item):
+		if item.__class__.__name__ == 'Batiment':
+			pos = item.getPos()
+			return self.grille[pos['x']][pos['y']]['front'] == CONST_FRONT_VIDE and pos['x']<=self.cols/2
+		else:
+			route = item.getRoute()
+			pos = item.getPos()
+			return self.grille[route[pos]['x']][route[pos]['y']]['unit'] == CONST_UNIT_VIDE
+
+	def place(self,item):
+		if self.canPlace(item):
+			if item.__class__.__name__ == 'Batiment':
 				self.grille[self.selectX][self.selectY]['front'] = CONST_FRONT_BAT
 				self.grille[self.selectX][self.selectY]['item'] = item
 				self.batiments.append(item)
@@ -268,6 +276,7 @@ class Grille:
 			else:
 				self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['unit'] = CONST_UNIT_USED
 				self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['item'] = item
+				self.units.append(item)
 				return True
 		else:
 			return False
@@ -278,8 +287,13 @@ class Grille:
 	def getGrille(self):
 		return self.grille
 
+	def getRoute(self):
+		return self.routes[self.selectR]
+
 	def play(self):
 		for val in self.batiments:
+			val.play()
+		for val in self.units:
 			val.play()
 
 	# IA function ------------
@@ -345,7 +359,7 @@ class Grille:
 			return Fasle
 		else:
 			return True
-
+	""" # Ancienne méthode pour faire avancer les unitées
 	def avancer_unit(self):
 		nb_route = 0
 		#deplacement gentil
@@ -377,7 +391,6 @@ class Grille:
 				i+=1
 			nb_route+=1
 
-
 	def combat_unit(self):
 		nb_route = 0
 		#deplacement gentil
@@ -399,7 +412,7 @@ class Grille:
 
 				i+
 			nb_route+=1
-
+	"""
 # --- FIN de la classe Grille ---
 
 # Autres ------------

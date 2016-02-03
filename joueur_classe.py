@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from unite_classe import *
+import unite_classe
 import batiment_classe
 
 class Joueur():
@@ -89,39 +89,42 @@ class Joueur():
 ############### Creation des unites
 
 	# Creer et retourne un objet barbare
-	def createUnit(self, id_unit):
-		nom = ''
-		if id_unit == 0:
-			if self.race == 'humain':
-				nom = 'Barbare'
-			else:
-				nom = 'Guerrier Orc'
-		elif id_unit == 1:
-			if self.race == 'humain':
-				nom = 'Archer'
-			else:
-				nom = 'Archer Orc'
-		elif id_unit == 2:
-			if self.race == 'humain':
-				nom = 'Magicien'
-			else:
-				nom = 'Shaman Orc'
-		elif id_unit == 3:
-			if self.race == 'humain':
-				nom = 'Chevalier'
-			else:
-				nom = 'Cavalier Orc'
-		elif id_unit == 4:
-			if self.race == 'humain':
-				nom = 'Paladin'
-			else:
-				nom = 'Paladin Orc'
-		elif id_unit == 5:
-			if self.race == 'humain':
-				nom = 'Pretre'
-			else:
-				nom = 'Pretre Orc'
-		return Unite(id_unit, nom, self.equipe)
+	def createUnit(self, id_unit, grille, route, routePos):
+		if self.payer(unite_classe.Unite.stats[id_unit]['prix']):
+			nom = ''
+			if id_unit == 0:
+				if self.race == 'humain':
+					nom = 'Barbare'
+				else:
+					nom = 'Guerrier Orc'
+			elif id_unit == 1:
+				if self.race == 'humain':
+					nom = 'Archer'
+				else:
+					nom = 'Archer Orc'
+			elif id_unit == 2:
+				if self.race == 'humain':
+					nom = 'Magicien'
+				else:
+					nom = 'Shaman Orc'
+			elif id_unit == 3:
+				if self.race == 'humain':
+					nom = 'Chevalier'
+				else:
+					nom = 'Cavalier Orc'
+			elif id_unit == 4:
+				if self.race == 'humain':
+					nom = 'Paladin'
+				else:
+					nom = 'Paladin Orc'
+			elif id_unit == 5:
+				if self.race == 'humain':
+					nom = 'Pretre'
+				else:
+					nom = 'Pretre Orc'
+			return unite_classe.Unite(id_unit, nom, self.equipe, grille, route, routePos)
+		else:
+			return False
 
 ############### Amelioration des unites d'un niveau'
 

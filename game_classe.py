@@ -21,7 +21,7 @@ class Game:
 
 		pygame.init()
 		self.screen = pygame.display.set_mode([self.screen_width, self.screen_height])
-		pygame.display.set_caption("Dagobert - Jeu")
+		pygame.display.set_caption("Road to Mordor")
 		self.clock = pygame.time.Clock()
 
 		self.joueur = joueur_classe.Joueur("Player 1","humain",1)
@@ -53,9 +53,8 @@ class Game:
 						self.hud.selectPrev()
 					elif event.unicode == 'a': # A sur un Azerty
 						self.hud.switchMode()
-					elif event.unicode == 'z':
-						self.grille.getGrille()[5][3]['unit'] = grille_classe.CONST_UNIT_USED
-						self.grille.getGrille()[5][3]['item'] = unite_classe.Unite(0,'test',0)
+					elif event.unicode == '-':
+						print('- HEY !')
 					elif event.key == pygame.K_ESCAPE:
 						done = True
 						# Effet temporaire, a terme cela ouvre
@@ -71,13 +70,20 @@ class Game:
 					elif event.key == pygame.K_RETURN:
 						if self.hud.canUse():
 							if self.hud.getMode()=='towers':
-								if self.grille.canUse():
-									tour = self.joueur.createBuild(self.hud.use(),self.grille.getGrille(),self.grille.getSelected())
-									self.grille.use(tour)
+								tour = self.joueur.createBuild(self.hud.use(),self.grille.getGrille(),self.grille.getSelected())
+								if self.grille.canPlace(tour):
+									self.grille.place(tour)
+								else:
+									print('Placement impossible')
 							else:
-								if self.grille.canUse():
-									unit = self.joueur.createUnit(self.hud.use(),self.grille.getGrille(),self.grille.getSelected())
-									self.grille.use(unit)
+								unit = self.joueur.createUnit(self.hud.use(),self.grille.getGrille(),self.grille.getRoute(),0)
+								if unit == False:
+									print('Argent insufisant')
+								else:
+									if self.grille.canPlace(unit):
+										self.grille.place(unit)
+									else:
+										print('Placement impossible')
 						else:
 							print('Cooldown en cours')
 				elif event.type == pygame.KEYUP:

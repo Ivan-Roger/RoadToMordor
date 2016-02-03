@@ -85,7 +85,7 @@ class UserInterface:
 		self.screen.blit(text, [1270, 15])
 
 		# Nom du Jeu
-		text = self.fontTitle.render("Dagobert",True,(75,75,75))
+		text = self.fontTitle.render("Road to mordor",True,(75,75,75))
 		self.screen.blit(text, [(self.screen.get_rect().width/2)-(text.get_rect().width/2), 0])
 
 		# Image pieces
