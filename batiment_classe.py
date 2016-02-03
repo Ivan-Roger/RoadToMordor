@@ -30,17 +30,7 @@ class Batiment:
 		for i in range(self.niveau):
 			screen.blit(self.image_niveau,(20*i,40))
 
-
-
 	#Getter et Setter de merde
-
-	#Setter id_tour
-	def setId_tour(self,id_tour):
-		self.id_tour = id_tour
-
-	#Setter Equipe
-	def setEquipe(self,equipe):
-		self.equipe = equipe
 
 	#Setter nom
 	def setNom(self,nom):

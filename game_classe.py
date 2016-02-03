@@ -23,7 +23,7 @@ class Game:
         pygame.display.set_caption("Dagobert - Jeu")
         self.clock = pygame.time.Clock()
 
-        self.grille = grille_classe.Grille(16,20,1,self.screen.subsurface((200,50,1000,800)))
+        self.grille = grille_classe.Grille(16,20,2,self.screen.subsurface((200,50,1000,800)))
         self.joueur = joueur_classe.Joueur("Player 1","humain",1)
         self.joueurIA = joueur_classe.Joueur("Computer","orc",0)
         self.hud = HUD.UserInterface(self.screen,self.joueur,self.joueurIA)
@@ -47,9 +47,9 @@ class Game:
                     # Handle KEYDOWN
                     if event.unicode == 'd':
                         self.hud.selectNext()
-                    elif event.unicode == 'q':
+                    elif event.unicode == 'q': # Q sur un Azerty
                         self.hud.selectPrev()
-                    elif event.unicode == 'a':
+                    elif event.unicode == 'a': # A sur un Azerty
                         self.hud.switchMode()
                     elif event.key == pygame.K_ESCAPE:
                         done = True
@@ -64,11 +64,18 @@ class Game:
                     elif event.key == pygame.K_RIGHT:
                         self.grille.selectRight()
                     elif event.key == pygame.K_RETURN:
-                        if self.hud.getMode()=='towers':
-                            if not self.grille.use(self.hud.getSelected(),self.joueur):
-                                print('Construction impossible')
+						if self.hud.canUse():
+							if self.hud.getMode()=='towers':
+								if self.grille.canBuild():
+									tour = joueur.createBat(self.hud.use())
+									self.grille.build(tour)
+							else:
+								if self.grille.use(sel,self.joueur):
+									self.hud.setCooldown(sel)
+								else:
+									print('Construction impossible')
                         else:
-                            print('Pas tout de suite.')
+                            print('Cooldown en cours')
                 elif event.type == pygame.KEYUP:
                         # Create KEYPRESS events
                         keys_pressed.pop(event.key)

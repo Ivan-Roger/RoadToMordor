@@ -44,10 +44,27 @@ class UserInterface:
 		self.images['units'][3] = self.images['test']
 		self.images['units'][4] = self.images['test']
 		self.images['units'][5] = self.images['test']
-		#self.lifePercent = 62
+
+		self.selectT = {}
+		self.selectT['towers'] = {}
+		self.selectT['towers'][0] = 0
+		self.selectT['towers'][1] = 0
+		self.selectT['towers'][2] = 0
+		self.selectT['towers'][3] = 0
+		self.selectT['towers'][4] = 0
+		self.selectT['towers'][5] = 0
+
+		self.selectT['units'] = {}
+		self.selectT['units'][0] = 0
+		self.selectT['units'][1] = 0
+		self.selectT['units'][2] = 0
+		self.selectT['units'][3] = 0
+		self.selectT['units'][4] = 0
+		self.selectT['units'][5] = 0
 
 	def draw(self):
 		self.turn+=1
+		self.tick()
 		screenRect = self.screen.get_rect()
 		# Fond de l'interface du haut
 		pygame.draw.rect(self.screen,(200,200,200),(0,0,screenRect[2],50),0)
@@ -84,7 +101,24 @@ class UserInterface:
 		for i in range(0,6):
 			x_pos = (i*50)+225+(i*50)
 			y_off = 5 if i == self.selected else 0
+			"""
+			if i == self.selected:
+				pygame.draw.rect(self.screen,(25,59,128),(x_pos,screenRect[3]-(50+y_off),50,50),1)
+				if (self.turn/15)%2==0:
+					pygame.draw.rect(self.screen,(25,59,128),pygame.Rect(x_pos,screenRect[3]-(50+y_off),taille-1,taille-1),2)
+				else:
+					pygame.draw.rect(self.screen,(25,59,128),pygame.Rect(i*taille,j*taille,taille,taille),1)
+			"""
 			self.screen.blit(self.images[self.mode][i],(x_pos,screenRect[3]-(50+y_off)))
+			h_val = self.selectT[self.mode][i]/2
+			pygame.draw.rect(self.screen,(45,106,229),(x_pos+55,screenRect[3]-y_off,5,-h_val),0)
+
+	def tick(self):
+		for i in range(6):
+			if (self.selectT['towers'][i]>0):
+				self.selectT['towers'][i]-=1
+			if (self.selectT['units'][i]>0):
+				self.selectT['units'][i]-=1
 
 	def selectNext(self):
 		self.selected+=1
@@ -105,8 +139,17 @@ class UserInterface:
 	def getMode(self):
 		return self.mode
 
-	def getSelected(self):
-		return self.selected
+	def setCooldown(self,item):
+		self.selectT[self.mode][item] = 100
+
+	def canUse(self):
+		return self.selectT[self.mode][self.selected]==0:
+
+	def use(self):
+		if self.canUse():
+			return self.selected
+		else
+			return False
 
 	def removeLife(self,value):
 		self.lifePercent-=value

@@ -136,21 +136,6 @@ class Grille:
 		self.images['routes'][3] = self.images['sprites'].subsurface((10+60*3,250,50,50))
 		self.images['routes'][4] = self.images['sprites'].subsurface((10+60*4,250,50,50))
 		self.images['routes'][5] = self.images['sprites'].subsurface((10+60*5,250,50,50))
-		"""
-		self.images['construc'][CONST_FRONT_TOWER_1] = self.images['sprites'].subsurface((10,70,50,50))
-		self.images['construc'][CONST_FRONT_TOWER_2] = self.images['sprites'].subsurface((70,70,50,50))
-		self.images['construc'][CONST_FRONT_TOWER_3] = self.images['sprites'].subsurface((130,70,50,50))
-		self.images['construc'][CONST_FRONT_TOWER_4] = self.images['sprites'].subsurface((190,70,50,50))
-		self.images['construc'][CONST_FRONT_TOWER_5] = self.images['sprites'].subsurface((250,70,50,50))
-		self.images['construc'][CONST_FRONT_TOWER_6] = self.images['sprites'].subsurface((310,70,50,50))
-
-		self.images['construc'][CONST_FRONT_TOWER_IA_1] = self.images['sprites'].subsurface((10,10,50,50))
-		self.images['construc'][CONST_FRONT_TOWER_IA_2] = self.images['sprites'].subsurface((70,10,50,50))
-		self.images['construc'][CONST_FRONT_TOWER_IA_3] = self.images['sprites'].subsurface((130,10,50,50))
-		self.images['construc'][CONST_FRONT_TOWER_IA_4] = self.images['sprites'].subsurface((190,10,50,50))
-		self.images['construc'][CONST_FRONT_TOWER_IA_5] = self.images['sprites'].subsurface((250,10,50,50))
-		self.images['construc'][CONST_FRONT_TOWER_IA_6] = self.images['sprites'].subsurface((310,10,50,50))
-		"""
 
 	def draw(self):
 		self.turn+=1
@@ -169,9 +154,9 @@ class Grille:
 
 				if i == self.selectX and j == self.selectY:
 					if (self.turn/15)%2==0:
-						pygame.draw.rect(self.screen,(200,25,25),pygame.Rect(i*taille,j*taille,taille-1,taille-1),2)
+						pygame.draw.rect(self.screen,(45,106,229),pygame.Rect(i*taille,j*taille,taille-1,taille-1),2)
 					else:
-						pygame.draw.rect(self.screen,(200,25,25),pygame.Rect(i*taille,j*taille,taille,taille),1)
+						pygame.draw.rect(self.screen,(45,106,229),pygame.Rect(i*taille,j*taille,taille,taille),1)
 
 	def generer_nb_grille(self,nb):
 		x = self.cols
@@ -225,14 +210,13 @@ class Grille:
 		if self.selectY>=self.rows:
 			self.selectY = 0
 
-	def use(self,batiment,joueur):
-		if self.grille[self.selectX][self.selectY]['front'] == CONST_FRONT_VIDE and self.selectX<=self.cols/2:
-			tour = batiment_classe.Batiment(batiment,1,"Tour Joueur")
-			if joueur.payer(tour.getPrix()):
-				self.grille[self.selectX][self.selectY]['front'] = CONST_FRONT_BAT
-				self.grille[self.selectX][self.selectY]['batiment'] = tour
-			else:
-				return False
+	def canBuild(self):
+		return self.grille[self.selectX][self.selectY]['front'] == CONST_FRONT_VIDE and self.selectX<=self.cols/2
+
+	def build(self,tour):
+		if self.canBuild():
+			self.grille[self.selectX][self.selectY]['front'] = CONST_FRONT_BAT
+			self.grille[self.selectX][self.selectY]['batiment'] = tour
 			return True
 		else:
 			return False

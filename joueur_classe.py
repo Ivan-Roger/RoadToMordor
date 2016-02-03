@@ -93,7 +93,7 @@ class Joueur():
 			nom = 'Barbare'
 		else:
 			nom = 'Guerrier Orc'
-		return Unite(nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
+		return Unite(0, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
 
 	# Creer et retourne un objet archer
 	def creationArcher(self):
@@ -101,7 +101,7 @@ class Joueur():
 			nom = 'Archer'
 		else:
 			nom = 'Archer Orc'
-		return Unite(nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
+		return Unite(1, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
 
 	# Creer et retourne un objet magicien
 	def creationMagicien(self):
@@ -109,7 +109,7 @@ class Joueur():
 			nom = 'Magicien'
 		else:
 			nom = 'Magicien Orc'
-		return Unite(nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
+		return Unite(2, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
 
 	# Creer et retourne un objet chevalier
 	def creationChevalier(self):
@@ -117,7 +117,7 @@ class Joueur():
 			nom = 'Chevalier'
 		else:
 			nom = 'Cavalier Orc'
-		return Unite(nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
+		return Unite(3, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
 
 	# Creer et retourne un objet paladin
 	def creationPaladin(self):
@@ -125,7 +125,7 @@ class Joueur():
 			nom = 'Paladin'
 		else:
 			nom = 'Paladin Orc'
-		return Unite(nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
+		return Unite(4, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
 
 	# Creer et retourne un objet soigneur
 	def creationPretre(self):
@@ -133,16 +133,241 @@ class Joueur():
 			nom = 'Pretre'
 		else:
 			nom = 'Pretre Orc'
-		return Unite(nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
+		return Unite(5, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
 
 
 ############### Amelioration des unites d'un niveau'
 
 	# Ameliore un objet barbare d'un niveau
 	def ameliorationBarbare(self, unite):
-		if unite.getNom() == 'Barbare' or unite.getNom() == 'Guerrier Orc':
+		if unite.getId() == 1:
 			if self.niveauUnite['Barbare'] == 1:
 				payer(self.prixAmeliorationUnite['bar1a2'])
+				# unite.upgrade(<LISTE_DES_PARAMETERES>)
+				unite.setVie(unite.getVie() + 15)
+				unite.setAttPhy(unite.getAttPhy() + 0)
+				unite.setAttMag(unite.getAttMag() + 0)
+				unite.setResPhy(unite.getResPhy() + 0)
+				unite.setResMag(unite.getResMag() + 0)
+				unite.setPrix(unite.getPrix() + 0)
+				self.niveauUnite['Barbare'] = 2
+			if self.niveauUnite['Barbare'] == 2:
+				payer(self.prixAmeliorationUnite['bar2a3'])
+				unite.setVie(unite.getVie() + 15)
+				unite.setAttPhy(unite.getAttPhy() + 0)
+				unite.setAttMag(unite.getAttMag() + 0)
+				unite.setResPhy(unite.getResPhy() + 0)
+				unite.setResMag(unite.getResMag() + 0)
+				unite.setPrix(unite.getPrix() + 0)
+				self.niveauUnite['Barbare'] = 3
+
+
+	# Ameliore un objet archer d'un niveau
+	def ameliorationArcher(self, unite):
+		if unite.getNom() == 'Archer' or unite.getNom() == 'Archer Orc':
+			if self.niveauUnite['Archer'] == 1:
+				payer(self.prixAmeliorationUnite['arc1a2'])
+				unite.setVie(unite.getVie() + 15)
+				unite.setAttPhy(unite.getAttPhy() + 0)
+				unite.setAttMag(unite.getAttMag() + 0)
+				unite.setResPhy(unite.getResPhy() + 0)
+				unite.setResMag(unite.getResMag() + 0)
+				unite.setPrix(unite.getPrix() + 0)
+				self.niveauUnite['Archer'] = 2
+			if self.niveauUnite['Archer'] == 2:
+				payer(self.prixAmeliorationUnite['arc2a3'])
+				unite.setVie(unite.getVie() + 15)
+				unite.setAttPhy(unite.getAttPhy() + 0)
+				unite.setAttMag(unite.getAttMag() + 0)
+				unite.setResPhy(unite.getResPhy() + 0)
+				unite.setResMag(unite.getResMag() + 0)
+				unite.setPrix(unite.getPrix() + 0)
+				self.niveauUnite['Archer'] = 3
+
+	# Ameliore un objet magicien d'un niveau
+	def ameliorationMagicien(self, unite):
+		if unite.getNom() == 'Magicien' or unite.getNom() == 'Magicien Orc':
+			if self.niveauUnite['Magicien'] == 1:
+				payer(self.prixAmeliorationUnite['mag1a2'])
+				unite.setVie(unite.getVie() + 15)
+				unite.setAttPhy(unite.getAttPhy() + 0)
+				unite.setAttMag(unite.getAttMag() + 0)
+				unite.setResPhy(unite.getResPhy() + 0)
+				unite.setResMag(unite.getResMag() + 0)
+				unite.setPrix(unite.getPrix() + 0)
+				self.niveauUnite['Magicien'] = 2
+			if self.niveauUnite['Magicien'] == 2:
+				payer(self.prixAmeliorationUnite['mag2a3'])
+				unite.setVie(unite.getVie() + 15)
+				unite.setAttPhy(unite.getAttPhy() + 0)
+				unite.setAttMag(unite.getAttMag() + 0)
+				unite.setResPhy(unite.getResPhy() + 0)
+				unite.setResMag(unite.getResMag() + 0)
+				unite.setPrix(unite.getPrix() + 0)
+				self.niveauUnite['Magicien'] = 3
+
+	# Ameliore un objet chevalier d'un niveau
+	def ameliorationChevalier(self, unite):
+		if unite.getNom() == 'Chevalier' or unite.getNom() == 'Cavalier Orc':
+			if self.niveauUnite['Chevalier'] == 1:
+				payer(self.prixAmeliorationUnite['che1a2'])
+				unite.setVie(unite.getVie() + 15)
+				unite.setAttPhy(unite.getAttPhy() + 0)
+				unite.setAttMag(unite.getAttMag() + 0)
+				unite.setResPhy(unite.getResPhy() + 0)
+				unite.setResMag(unite.getResMag() + 0)
+				unite.setPrix(unite.getPrix() + 0)
+				self.niveauUnite['Chevalier'] = 2
+			if self.niveauUnite['Chevalier'] == 2:
+				payer(self.prixAmeliorationUnite['che2a3'])
+				unite.setVie(unite.getVie() + 15)
+				unite.setAttPhy(unite.getAttPhy() + 0)
+				unite.setAttMag(unite.getAttMag() + 0)
+				unite.setResPhy(unite.getResPhy() + 0)
+				unite.setResMag(unite.getResMag() + 0)
+				unite.setPrix(unite.getPrix() + 0)
+				self.niveauUnite['Chevalier'] = 3
+
+	# Ameliore un objet paladin d'un niveau
+	def ameliorationPaladin(self, unite):
+		if unite.getNom() == 'Paladin' or unite.getNom() == 'Paladin Orc':
+			if self.niveauUnite['Paladin'] == 1:
+				payer(self.prixAmeliorationUnite['pal1a2'])
+				unite.setVie(unite.getVie() + 15)
+				unite.setAttPhy(unite.getAttPhy() + 0)
+				unite.setAttMag(unite.getAttMag() + 0)
+				unite.setResPhy(unite.getResPhy() + 0)
+				unite.setResMag(unite.getResMag() + 0)
+				unite.setPrix(unite.getPrix() + 0)
+				self.niveauUnite['Paladin'] = 2
+			if self.niveauUnite['Paladin'] == 2:
+				payer(self.prixAmeliorationUnite['pal2a3'])
+				unite.setVie(unite.getVie() + 15)
+				unite.setAttPhy(unite.getAttPhy() + 0)
+				unite.setAttMag(unite.getAttMag() + 0)
+				unite.setResPhy(unite.getResPhy() + 0)
+				unite.setResMag(unite.getResMag() + 0)
+				unite.setPrix(unite.getPrix() + 0)
+				self.niveauUnite['Paladin'] = 3
+
+	# Ameliore un objet pretre d'un niveau
+	def ameliorationPretre(self, unite):
+		if unite.getNom() == 'Pretre' or unite.getNom() == 'Pretre Orc':
+			if self.niveauUnite['Pretre'] == 1:
+				payer(self.prixAmeliorationUnite['pre1a2'])
+				unite.setVie(unite.getVie() + 15)
+				unite.setAttPhy(unite.getAttPhy() + 0)
+				unite.setAttMag(unite.getAttMag() + 0)
+				unite.setResPhy(unite.getResPhy() + 0)
+				unite.setResMag(unite.getResMag() + 0)
+				unite.setPrix(unite.getPrix() + 0)
+				self.niveauUnite['Pretre'] = 2
+			if self.niveauUnite['Pretre'] == 2:
+				payer(self.prixAmeliorationUnite['pre2a3'])
+				unite.setVie(unite.getVie() + 15)
+				unite.setAttPhy(unite.getAttPhy() + 0)
+				unite.setAttMag(unite.getAttMag() + 0)
+				unite.setResPhy(unite.getResPhy() + 0)
+				unite.setResMag(unite.getResMag() + 0)
+				unite.setPrix(unite.getPrix() + 0)
+				self.niveauUnite['Pretre'] = 3
+
+############### Creation des batiments
+
+	# Creer et retourne un objet batiment
+	def creation(self,id_bat):
+		if id_bat == 0:
+			if self.race == 'humain':
+				nom = 'Barbare'
+			else:
+				nom = 'Guerrier Orc'
+			stats = {'attPhy':30, 'attMag':10, 'distanceAtt':0, 'prix':5}
+			return Unite(id_bat, nom, self.equipe, stats)
+		elif id_bat == 1:
+			if self.race == 'humain':
+				nom = 'Barbare'
+			else:
+				nom = 'Guerrier Orc'
+			stats = {'attPhy':30, 'attMag':10, 'distanceAtt':0, 'prix':5}
+			return Unite(id_bat, nom, self.equipe, stats)
+		elif id_bat == 2:
+			if self.race == 'humain':
+				nom = 'Barbare'
+			else:
+				nom = 'Guerrier Orc'
+			stats = {'attPhy':30, 'attMag':10, 'distanceAtt':0, 'prix':5}
+			return Unite(id_bat, nom, self.equipe, stats)
+		elif id_bat == 3:
+			if self.race == 'humain':
+				nom = 'Barbare'
+			else:
+				nom = 'Guerrier Orc'
+			stats = {'attPhy':30, 'attMag':10, 'distanceAtt':0, 'prix':5}
+			return Unite(id_bat, nom, self.equipe, stats)
+		elif id_bat == 4:
+			if self.race == 'humain':
+				nom = 'Barbare'
+			else:
+				nom = 'Guerrier Orc'
+			stats = {'attPhy':30, 'attMag':10, 'distanceAtt':0, 'prix':5}
+			return Unite(id_bat, nom, self.equipe, stats)
+		elif id_bat == 5:
+			if self.race == 'humain':
+				nom = 'Barbare'
+			else:
+				nom = 'Guerrier Orc'
+			stats = {'attPhy':30, 'attMag':10, 'distanceAtt':0, 'prix':5}
+			return Unite(id_bat, nom, self.equipe, stats)
+
+	# Creer et retourne un objet archer
+	def creationArcher(self):
+		if self.race == 'humain':
+			nom = 'Archer'
+		else:
+			nom = 'Archer Orc'
+		return Unite(1, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
+
+	# Creer et retourne un objet magicien
+	def creationMagicien(self):
+		if self.race == 'humain':
+			nom = 'Magicien'
+		else:
+			nom = 'Magicien Orc'
+		return Unite(2, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
+
+	# Creer et retourne un objet chevalier
+	def creationChevalier(self):
+		if self.race == 'humain':
+			nom = 'Chevalier'
+		else:
+			nom = 'Cavalier Orc'
+		return Unite(3, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
+
+	# Creer et retourne un objet paladin
+	def creationPaladin(self):
+		if self.race == 'humain':
+			nom = 'Paladin'
+		else:
+			nom = 'Paladin Orc'
+		return Unite(4, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
+
+	# Creer et retourne un objet soigneur
+	def creationPretre(self):
+		if self.race == 'humain':
+			nom = 'Pretre'
+		else:
+			nom = 'Pretre Orc'
+		return Unite(5, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
+
+
+############### Amelioration des unites d'un niveau'
+
+	# Ameliore un objet barbare d'un niveau
+	def ameliorationBarbare(self, unite):
+		if unite.getId() == 1:
+			if self.niveauUnite['Barbare'] == 1:
+				payer(self.prixAmeliorationUnite['bar1a2'])
+				# unite.upgrade(<LISTE_DES_PARAMETERES>)
 				unite.setVie(unite.getVie() + 15)
 				unite.setAttPhy(unite.getAttPhy() + 0)
 				unite.setAttMag(unite.getAttMag() + 0)
