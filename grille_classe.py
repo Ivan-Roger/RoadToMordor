@@ -181,7 +181,7 @@ class Grille:
 					self.grille[i][j]['front'] = CONST_FRONT_FORET
 
 	def generer_obstacles(self):
-		for i in range(len(self.grille)):
+		for i in range(len(self.grille)/2):
 			for j in range(len(self.grille[0])):
 				alea = random.randrange(17)
 				if alea == 1 and self.grille[i][j]['front'] == CONST_FRONT_VIDE:
@@ -205,7 +205,11 @@ class Grille:
 				else :
 					alea = 0
 				if alea == 0 and self.grille[i][j]['front'] != CONST_FRONT_ROUTE:
-					self.grille[i][j]['background'] = CONST_BACK_OBS_VIDE
+					alea = random.randrange(4)
+					if alea == 0:
+						self.grille[i][j]['background'] = CONST_BACK_OBS_LAVA
+					else:
+						self.grille[i][j]['background'] = CONST_BACK_OBS_VIDE
 
 	def selectLeft(self):
 		if self.hud.getMode() == 'towers':
