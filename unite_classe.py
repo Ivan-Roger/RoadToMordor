@@ -48,7 +48,6 @@ class Unite:
 		self.sprite = 0
 
 		sprites = pygame.image.load("images/sprites.png")
-		print('UNIT',self.id_unit,'equipe',self.equipe,'coord',self.id_unit*60+10,370+self.equipe*60)
 		self.image_unit = sprites.subsurface((self.id_unit*60+10,370+self.equipe*60,50,50))
 
 
@@ -143,16 +142,13 @@ class Unite:
 ############# Attaque et Dégats
 
 	def subirDegats(self,degats,type_d):
+		print('{} - Vie après dégats : {}'.format(self.nom,self.vie))
 		if type_d=='Mag':
 			self.vie-=(degats-self.resMag)
-			if self.vie<0:
-				self.vie=0
 		elif type_d=='Phy':
 			self.vie-=(degats-self.resPhy)
-			if self.vie<0:
-				self.vie=0
 		elif type_d=='Abs':
 			self.vie-=degats
-			if self.vie<0:
-				self.vie=0
-		print('{} - Vie après dégats : {}'.format(self.nom,self.vie))
+		if self.vie<0:
+			self.vie=0
+			self = None

@@ -1,12 +1,14 @@
-import pygame
+# coding=utf-8
 
+import pygame
+import grille_classe
 
 class Batiment:
 	tours = [
-		{'attPhy': 5, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 1, 'prix': 5},
-		{'attPhy': 0, 'attMag': 5, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 1, 'prix': 10},
-		{'attPhy': 5, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 3, 'prix': 20},
-		{'attPhy': 0, 'attMag': 5, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 3, 'prix': 50},
+		{'attPhy': 10, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 1, 'prix': 5},
+		{'attPhy': 0, 'attMag': 12, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 1, 'prix': 10},
+		{'attPhy': 25, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 3, 'prix': 20},
+		{'attPhy': 20, 'attMag': 30, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 3, 'prix': 50},
 		{'attPhy': 0, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 5, 'prix': 75},
 		{'attPhy': 0, 'attMag': 0, 'attAbs': 1, 'distanceAtt': 1, 'nbCibles': 5, 'prix': 100}
 	]
@@ -84,10 +86,12 @@ class Batiment:
 	def getPrix(self):
 		return self.prix
 
-	def play(self,grille):
+	def play(self):
+		print('{} - Joue !'.format(self.nom))
 		cibleRestantes=self.nbCibles
-		for i in range(self.pos['x']-self.distanceAtt,2*distanceAtt+1):
-			for j in range(self.pos['j']-self.distanceAtt,2*distanceAtt+1):
+		#r_x = range(self.pos['x']-self.distanceAtt,2*self.distanceAtt+1)
+		for i in range(self.pos['x']-self.distanceAtt,self.pos['x']+self.distanceAtt+1):
+			for j in range(self.pos['y']-self.distanceAtt,self.pos['y']+self.distanceAtt+1):
 				if cibleRestantes>0 and self.grille[i][j]['front']==grille_classe.CONST_FRONT_ROUTE and self.grille[i][j]['unit']!=grille_classe.CONST_UNIT_VIDE and self.grille[i][j]['item'].getEquipe()!=self.equipe:
 					cibleRestantes-=1
 					self.grille[i][j]['item'].subirDegats(self.attAbs,'Abs')
