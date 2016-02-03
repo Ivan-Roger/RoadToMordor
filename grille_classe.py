@@ -164,10 +164,10 @@ class Grille:
 		y = self.rows
 		y/=nb
 		self.grille = creer_grille(x,y)
-		generer_route(self.grille)
+		self.generer_route(self.grille)
 		for i in range(nb-1):
-			grilleTemp = creer_grille(x,y)
-			generer_route(grilleTemp)
+			grilleTemp = self.creer_grille(x,y)
+			self.generer_route(grilleTemp)
 			self.grille = fusion_grille(grilleTemp,self.grille)
 		self.generer_foret()
 		self.generer_obstacles()
