@@ -8,6 +8,8 @@ import batiment_classe
 
 CONST_BACK_VIDE = 0
 CONST_BACK_FLEUR = 1
+CONST_BACK_OBS_VIDE = 2
+CONST_BACK_OBS_LAVA = 3
 
 CONST_FRONT_VIDE = 0
 CONST_FRONT_ROUTE = 1
@@ -168,7 +170,7 @@ class Grille:
 		self.generer_obstacles()
 
 	def generer_foret(self):
-		for i in range(len(self.grille)):
+		for i in range(len(self.grille)/2):
 			for j in range(len(self.grille[0])):
 				alea = random.randrange(10)
 				if alea == 1 and self.grille[i][j]['front'] == CONST_FRONT_VIDE:
@@ -186,6 +188,20 @@ class Grille:
 						self.grille[i][j]['front'] = CONST_FRONT_BUCHES
 					elif alea >= 11 and alea <=13:
 						self.grille[i][j]['front'] = CONST_FRONT_TRONC
+
+	def generer_mal(self):
+		for i in range(len(self.grille)/2,len(self.grille)):
+			for j in range(len(self.grille[0])):
+				if i < self.cols-7:
+					alea = random.randrange(7)
+				elif i < self.cols-5:
+					alea = random.randrange(4)
+				elif i < self.cols-3:
+					alea = random.randrange(2)
+				else :
+					alea = 0
+				if alea == 0 and self.grille[i][j]['front'] != CONST_FRONT_ROUTE:
+					self.grille[i][j]['background'] = CONST_BACK_OBS_VIDE
 
 	def selectLeft(self):
 		self.selectX-=1
