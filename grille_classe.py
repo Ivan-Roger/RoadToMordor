@@ -5,6 +5,7 @@ import os
 import pygame
 import HUD
 import batiment_classe
+import unite_classe
 
 CONST_BACK_VIDE = 0
 CONST_BACK_FLEUR = 1
@@ -37,7 +38,6 @@ class Grille:
 		self.screen = screen
 		self.generer_nb_grille(count)
 		self.turn=0
-
 		self.images = {}
 		self.images['test'] = pygame.image.load("images/test.png")
 		self.images['sprites'] = pygame.image.load("images/sprites.png")
@@ -85,6 +85,8 @@ class Grille:
 						pygame.draw.rect(self.screen,(45,106,229),pygame.Rect(i*taille,j*taille,taille,taille),1)
 		if self.hud.getMode()=='units':
 			self.screen.blit(self.images['selector'],(0,self.routes[self.selectR][0]['y']*50+15))
+		if self.turn/15%2 == 0:
+			self.avancer_unit()
 
 	def creer_grille(self,x,y):
 		grille = list()
@@ -309,6 +311,62 @@ class Grille:
 		self.grille[temp_i][temp_j]['item'] = batiment_classe.Batiment(0,0,"Tour IA")
 		# Faire payer l'IA
 		#joueur.payer(self.grille[temp_i][temp_j]['batiment'].getPrix())
+
+
+	def fin_route(self,x,y,nb):
+		route = self.routes[nb]
+		if route[len(route)-1]["x"] == x and route[len(route)-1]["y"] == y:
+			return True
+		else:
+			return False
+
+	def debut_route(self,x,y,nb):
+		route = self.routes[nb]
+		if route[0]["x"] == x and route[0]["y"] == y:
+			return True
+		else:
+			return False
+
+	def route_vide(self,x,y,nb):
+		if self.grille[coor["x"]][coor["y"]]["unit"] == CONST_UNIT_USED:
+			return Fasle
+		else:
+			return True
+
+	def avancer_unit(self):
+		unit_temp = []
+		nb_route = 0
+		#deplacement gentil
+		for route in self.routes:
+			i  = len(route)-1
+			while i >= 0:
+				print("Gentil et nb_route = {3} : i = {0} et route[i] = {2}, alors que la longueur de la route = {1}".format(i,len(route),route[i],nb_route))
+				if not self.debut_route(route[i]["x"],route[i]["y"],nb_route):
+					if self.grille[route[i]["x"]][route[i]["y"]]["unit"] != CONST_UNIT_USED and self.grille[route[i-1]["x"]][route[i-1]["y"]]["unit"] == CONST_UNIT_USED:
+						if self.grille[route[i-1]["x"]][route[i-1]["y"]]["item"].getEquipe() ==0:
+							self.grille[route[i]["x"]][route[i]["y"]]["unit"] = CONST_UNIT_USED
+							self.grille[route[i-1]["x"]][route[i-1]["y"]]["unit"] = CONST_UNIT_VIDE
+							self.grille[route[i]["x"]][route[i]["y"]]["item"] = self.grille[route[i-1]["x"]][route[i-1]["y"]]["item"]
+							self.grille[route[i-1]["x"]][route[i-1]["y"]]["item"] = None
+				i-=1
+			nb_route+=1
+
+		"""nb_route = 0
+		for route in self.routes:
+			i  = 0
+			while i <= len(route):
+				if not self.fin_route(route[i]["x"],route[i]["y"],nb_route):
+					if self.grille[route[i]["x"]][route[i]["y"]]["unit"] != CONST_UNIT_USED and self.grille[route[i+1]["x"]][route[i+1]["y"]]["unit"] == CONST_UNIT_USED:
+						if self.grille[route[i+1]["x"]][route[i+1]["y"]]["item"].getEquipe() ==1:
+							self.grille[route[i]["x"]][route[i]["y"]]["unit"] = CONST_UNIT_USED
+							self.grille[route[i+1]["x"]][route[i+1]["y"]]["unit"] = CONST_UNIT_VIDE
+							self.grille[route[i]["x"]][route[i]["y"]]["item"] = self.grille[route[i-1]["x"]][route[i-1]["y"]]["item"]
+							self.grille[route[i+1]["x"]][route[i+1]["y"]]["item"] = None
+				i+=1
+			nb_route+=1"""
+
+	#def combat_unit(self):
+
 # --- FIN de la classe Grille ---
 
 # Autres ------------
