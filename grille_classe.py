@@ -383,8 +383,7 @@ class Grille:
 		for route in self.routes:
 			i  = 0
 			while i <= len(route)-1:
-
-			nb_route+=1
+				nb_route+=1
 
 # --- FIN de la classe Grille ---
 

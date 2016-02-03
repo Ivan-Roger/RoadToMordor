@@ -76,7 +76,7 @@ class Game:
 									self.grille.use(tour)
 							else:
 								if self.grille.canUse():
-									unit = self.joueur.createUnit(self.hud.use())
+									unit = self.joueur.createUnit(self.hud.use(),self.grille.getGrille(),self.grille.getSelected())
 									self.grille.use(unit)
 						else:
 							print('Cooldown en cours')

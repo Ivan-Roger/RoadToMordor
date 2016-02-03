@@ -12,7 +12,7 @@ class Unite:
 		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 100}
 	]
 
-	def __init__(self,id_unit, nom, equipe):
+	def __init__(self,id_unit, nom, equipe, grille, pos):
 
 		############# Caracteristiques du personnage
 
@@ -140,6 +140,13 @@ class Unite:
 		return self.prix
 
 ############# Attaque et Dégats
+
+
+	def play(self):
+		self.avancer()
+
+	def avancer(self):
+		
 
 	def subirDegats(self,degats,type_d):
 		print('{} - Vie après dégats : {}'.format(self.nom,self.vie))
