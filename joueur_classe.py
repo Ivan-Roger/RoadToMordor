@@ -89,59 +89,45 @@ class Joueur():
 ############### Creation des unites
 
 	# Creer et retourne un objet barbare
-	def creationBarbare(self):
-		if self.race == 'humain':
-			nom = 'Barbare'
-		else:
-			nom = 'Guerrier Orc'
-		return Unite(0, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
-
-	# Creer et retourne un objet archer
-	def creationArcher(self):
-		if self.race == 'humain':
-			nom = 'Archer'
-		else:
-			nom = 'Archer Orc'
-		return Unite(1, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
-
-	# Creer et retourne un objet magicien
-	def creationMagicien(self):
-		if self.race == 'humain':
-			nom = 'Magicien'
-		else:
-			nom = 'Magicien Orc'
-		return Unite(2, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
-
-	# Creer et retourne un objet chevalier
-	def creationChevalier(self):
-		if self.race == 'humain':
-			nom = 'Chevalier'
-		else:
-			nom = 'Cavalier Orc'
-		return Unite(3, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
-
-	# Creer et retourne un objet paladin
-	def creationPaladin(self):
-		if self.race == 'humain':
-			nom = 'Paladin'
-		else:
-			nom = 'Paladin Orc'
-		return Unite(4, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
-
-	# Creer et retourne un objet soigneur
-	def creationPretre(self):
-		if self.race == 'humain':
-			nom = 'Pretre'
-		else:
-			nom = 'Pretre Orc'
-		return Unite(5, nom, self.equipe, 30, 10, 0, 0, 2, 0, 5)
-
+	def createUnit(self, id_unit):
+		nom = ''
+		if id_unit == 0:
+			if self.race == 'humain':
+				nom = 'Barbare'
+			else:
+				nom = 'Guerrier Orc'
+		elif id_unit == 1:
+			if self.race == 'humain':
+				nom = 'Archer'
+			else:
+				nom = 'Archer Orc'
+		elif id_unit == 2:
+			if self.race == 'humain':
+				nom = 'Magicien'
+			else:
+				nom = 'Shaman Orc'
+		elif id_unit == 3:
+			if self.race == 'humain':
+				nom = 'Chevalier'
+			else:
+				nom = 'Cavalier Orc'
+		elif id_unit == 4:
+			if self.race == 'humain':
+				nom = 'Paladin'
+			else:
+				nom = 'Paladin Orc'
+		elif id_unit == 5:
+			if self.race == 'humain':
+				nom = 'Pretre'
+			else:
+				nom = 'Pretre Orc'
+		return Unite(id_unit, nom, self.equipe)
 
 ############### Amelioration des unites d'un niveau'
 
 	# Ameliore un objet barbare d'un niveau
 	def ameliorationBarbare(self, unite):
-		if unite.getId() == 1:
+		if unite.getId() == 0:
 			if self.niveauUnite['Barbare'] == 1:
 				payer(self.prixAmeliorationUnite['bar1a2'])
 				# unite.upgrade(<LISTE_DES_PARAMETERES>)
@@ -165,7 +151,7 @@ class Joueur():
 
 	# Ameliore un objet archer d'un niveau
 	def ameliorationArcher(self, unite):
-		if unite.getNom() == 'Archer' or unite.getNom() == 'Archer Orc':
+		if unite.getId() == 1:
 			if self.niveauUnite['Archer'] == 1:
 				payer(self.prixAmeliorationUnite['arc1a2'])
 				unite.setVie(unite.getVie() + 15)
@@ -187,7 +173,7 @@ class Joueur():
 
 	# Ameliore un objet magicien d'un niveau
 	def ameliorationMagicien(self, unite):
-		if unite.getNom() == 'Magicien' or unite.getNom() == 'Magicien Orc':
+		if unite.getId() == 2:
 			if self.niveauUnite['Magicien'] == 1:
 				payer(self.prixAmeliorationUnite['mag1a2'])
 				unite.setVie(unite.getVie() + 15)
@@ -209,7 +195,7 @@ class Joueur():
 
 	# Ameliore un objet chevalier d'un niveau
 	def ameliorationChevalier(self, unite):
-		if unite.getNom() == 'Chevalier' or unite.getNom() == 'Cavalier Orc':
+		if unite.getId() == 3:
 			if self.niveauUnite['Chevalier'] == 1:
 				payer(self.prixAmeliorationUnite['che1a2'])
 				unite.setVie(unite.getVie() + 15)
@@ -231,7 +217,7 @@ class Joueur():
 
 	# Ameliore un objet paladin d'un niveau
 	def ameliorationPaladin(self, unite):
-		if unite.getNom() == 'Paladin' or unite.getNom() == 'Paladin Orc':
+		if unite.getId() == 4:
 			if self.niveauUnite['Paladin'] == 1:
 				payer(self.prixAmeliorationUnite['pal1a2'])
 				unite.setVie(unite.getVie() + 15)
@@ -253,7 +239,7 @@ class Joueur():
 
 	# Ameliore un objet pretre d'un niveau
 	def ameliorationPretre(self, unite):
-		if unite.getNom() == 'Pretre' or unite.getNom() == 'Pretre Orc':
+		if unite.getId() == 5:
 			if self.niveauUnite['Pretre'] == 1:
 				payer(self.prixAmeliorationUnite['pre1a2'])
 				unite.setVie(unite.getVie() + 15)
@@ -280,34 +266,34 @@ class Joueur():
 		nom = ''
 		if id_bat == 0:
 			if self.race == 'humain':
-				nom = 'Barbare'
+				nom = 'Tour'
 			else:
-				nom = 'Guerrier Orc'
+				nom = 'Tour Orc'
 		elif id_bat == 1:
 			if self.race == 'humain':
-				nom = 'Barbare'
+				nom = 'Tour'
 			else:
-				nom = 'Guerrier Orc'
+				nom = 'Tour Orc'
 		elif id_bat == 2:
 			if self.race == 'humain':
-				nom = 'Barbare'
+				nom = 'Tour'
 			else:
-				nom = 'Guerrier Orc'
+				nom = 'Tour Orc'
 		elif id_bat == 3:
 			if self.race == 'humain':
-				nom = 'Barbare'
+				nom = 'Tour'
 			else:
-				nom = 'Guerrier Orc'
+				nom = 'Tour Orc'
 		elif id_bat == 4:
 			if self.race == 'humain':
-				nom = 'Barbare'
+				nom = 'Tour'
 			else:
-				nom = 'Guerrier Orc'
+				nom = 'Tour Orc'
 		elif id_bat == 5:
 			if self.race == 'humain':
-				nom = 'Barbare'
+				nom = 'Tour'
 			else:
-				nom = 'Guerrier Orc'
+				nom = 'Tour Orc'
 		return batiment_classe.Batiment(id_bat, self.equipe, nom)
 """
 ############### Amelioration des unites d'un niveau'

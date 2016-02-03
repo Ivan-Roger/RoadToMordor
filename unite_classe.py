@@ -1,9 +1,20 @@
+# coding=utf-8
+import pygame
+
 ############# Classe mere des unites
 class Unite:
+	stats = [
+		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 5},
+		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 10},
+		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 20},
+		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 50},
+		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 75},
+		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 100}
+	]
 
-	def __init__(self,id_unit, nom, equipe, vie, attPhy, attMag, distanceAtt, resPhy, resMag, prix):
+	def __init__(self,id_unit, nom, equipe):
 
-############# Caracteristiques du personnage
+		############# Caracteristiques du personnage
 
 		# Nom de l'unite
 		self.id_unit = id_unit
@@ -12,21 +23,21 @@ class Unite:
 		# Equipe de l'unite
 		self.equipe = equipe
 		# Points de vie de l'unite
-		self.vie = vie
+		self.vie = self.stats[id_unit]['vie']
 		# Degats physique
-		self.attPhy = attPhy
+		self.attPhy = self.stats[id_unit]['attPhy']
 		# Degats magique
-		self.attMag = attMag
+		self.attMag = self.stats[id_unit]['attMag']
 		# Distance d'attaque (0 = corps a corps)
-		self.distanceAtt = distanceAtt
+		self.distanceAtt = self.stats[id_unit]['distanceAtt']
 		# Resistance au degats physique
-		self.resPhy = resPhy
+		self.resPhy = self.stats[id_unit]['resPhy']
 		# Resistance au degats magique
-		self.resMag = resMag
+		self.resMag = self.stats[id_unit]['resMag']
 		# Vitesse de mouvement (1 = vitesse de base)
 		self.vitesse = 1
 		# Prix de l'unite
-		self.prix = prix
+		self.prix = self.stats[id_unit]['prix']
 
 		# Joueur auquel il appartient (0 pour l'IA)
 		self.equipe = 0
@@ -36,8 +47,9 @@ class Unite:
 		# Sprite associe a l'etat
 		self.sprite = 0
 
-		sprites = pygame.image.load("images/guignol.png")
-		self.image_unit = sprites.subsurface((self.id_unit*60+10,10+self.equipe*60,50,50))
+		sprites = pygame.image.load("images/sprites.png")
+		print('UNIT',self.id_unit,'equipe',self.equipe,'coord',self.id_unit*60+10,370+self.equipe*60)
+		self.image_unit = sprites.subsurface((self.id_unit*60+10,370+self.equipe*60,50,50))
 
 
 	def draw(self,screen):

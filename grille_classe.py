@@ -8,8 +8,6 @@ import batiment_classe
 
 CONST_BACK_VIDE = 0
 CONST_BACK_FLEUR = 1
-CONST_BACK_OBS_VIDE = 2
-CONST_BACK_OBS_LAVA = 3
 
 CONST_FRONT_VIDE = 0
 CONST_FRONT_ROUTE = 1
@@ -66,11 +64,12 @@ class Grille:
 	def draw(self):
 		self.turn+=1
 		taille = self.tile_size
-		# Ajoute notre images a la file des affichages prevus
 		for i in range(len(self.grille)):
 			for j in range(len(self.grille[0])):
+				# Dessin de l'arrière plan
 				self.screen.blit(self.images['herbe'][self.grille[i][j]['background']],[i*taille,j*taille])
 
+				# Dessin de l'avant plan
 				if self.grille[i][j]['front'] == CONST_FRONT_BAT:
 					self.grille[i][j]['item'].draw(self.screen.subsurface((i*taille,j*taille,taille,taille)))
 				elif self.grille[i][j]['front'] == CONST_FRONT_ROUTE:
@@ -78,6 +77,11 @@ class Grille:
 				elif self.grille[i][j]['front'] != CONST_FRONT_VIDE:
 					self.screen.blit(self.images['construc'][self.grille[i][j]['front']],[i*taille,j*taille])
 
+				# Dessin des unités
+				if self.grille[i][j]['unit'] != CONST_UNIT_VIDE:
+					self.grille[i][j]['item'].draw(self.screen.subsurface((i*taille,j*taille,taille,taille)))
+
+				# Dessin de la séléction
 				if self.hud.getMode() == 'towers' and i == self.selectX and j == self.selectY:
 					if (self.turn/15)%2==0:
 						pygame.draw.rect(self.screen,(45,106,229),pygame.Rect(i*taille,j*taille,taille-1,taille-1),2)
@@ -94,9 +98,9 @@ class Grille:
 			for i in range(y):
 				alea = random.randrange(6)
 				if alea == 0:
-					ligne.append({'background':CONST_BACK_FLEUR, 'front':CONST_FRONT_VIDE, 'orientation':0, 'unit': None})
+					ligne.append({'background':CONST_BACK_FLEUR, 'front':CONST_FRONT_VIDE, 'orientation':0, 'unit': CONST_UNIT_VIDE, 'item': None})
 				else:
-					ligne.append({'background':CONST_BACK_VIDE, 'front':CONST_FRONT_VIDE, 'orientation':0, 'unit': None})
+					ligne.append({'background':CONST_BACK_VIDE, 'front':CONST_FRONT_VIDE, 'orientation':0, 'unit': CONST_UNIT_VIDE, 'item': None})
 		return grille
 
 	def generer_route(self,grilleTemp,id_route,cols,rows):
@@ -174,7 +178,7 @@ class Grille:
 		self.generer_obstacles()
 
 	def generer_foret(self):
-		for i in range(len(self.grille)/2):
+		for i in range(len(self.grille)):
 			for j in range(len(self.grille[0])):
 				alea = random.randrange(10)
 				if alea == 1 and self.grille[i][j]['front'] == CONST_FRONT_VIDE:
@@ -192,20 +196,6 @@ class Grille:
 						self.grille[i][j]['front'] = CONST_FRONT_BUCHES
 					elif alea >= 11 and alea <=13:
 						self.grille[i][j]['front'] = CONST_FRONT_TRONC
-
-	def generer_mal(self):
-		for i in range(len(self.grille)/2,len(self.grille)):
-			for j in range(len(self.grille[0])):
-				if i < self.cols-7:
-					alea = random.randrange(7)
-				elif i < self.cols-5:
-					alea = random.randrange(4)
-				elif i < self.cols-3:
-					alea = random.randrange(2)
-				else :
-					alea = 0
-				if alea == 0 and self.grille[i][j]['front'] != CONST_FRONT_ROUTE:
-					self.grille[i][j]['background'] = CONST_BACK_OBS_VIDE
 
 	def selectLeft(self):
 		if self.hud.getMode() == 'towers':
@@ -258,7 +248,7 @@ class Grille:
 				return True
 			else:
 				self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['unit'] = CONST_UNIT_USED
-				self.grille[self.selectX][self.selectY]['item'] = item
+				self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['item'] = item
 				return True
 		else:
 			return False
