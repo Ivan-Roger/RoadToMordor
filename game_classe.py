@@ -23,10 +23,10 @@ class Game:
         pygame.display.set_caption("Dagobert - Jeu")
         self.clock = pygame.time.Clock()
 
-        self.grille = grille_classe.Grille(16,20,2,self.screen.subsurface((200,50,1000,800)))
         self.joueur = joueur_classe.Joueur("Player 1","humain",1)
         self.joueurIA = joueur_classe.Joueur("Computer","orc",0)
         self.hud = HUD.UserInterface(self.screen,self.joueur,self.joueurIA)
+        self.grille = grille_classe.Grille(16,20,2,self.screen.subsurface((200,50,1000,800)),self.hud)
 
         done = False
         # -------- Main Program Loop -----------
@@ -66,16 +66,15 @@ class Game:
                     elif event.key == pygame.K_RETURN:
 						if self.hud.canUse():
 							if self.hud.getMode()=='towers':
-								if self.grille.canBuild():
-									tour = joueur.createBat(self.hud.use())
-									self.grille.build(tour)
+								if self.grille.canUse():
+									tour = self.joueur.createBuild(self.hud.use())
+									self.grille.use(tour)
 							else:
-								if self.grille.use(sel,self.joueur):
-									self.hud.setCooldown(sel)
-								else:
-									print('Construction impossible')
-                        else:
-                            print('Cooldown en cours')
+								if self.grille.canUse():
+									unit = self.joueur.createUnit(self.hud.use())
+									self.grille.use(unit)
+						else:
+							print('Cooldown en cours')
                 elif event.type == pygame.KEYUP:
                         # Create KEYPRESS events
                         keys_pressed.pop(event.key)

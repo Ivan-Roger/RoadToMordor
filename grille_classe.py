@@ -1,6 +1,9 @@
+# coding=utf-8
+
 import random
 import os
 import pygame
+import HUD
 import batiment_classe
 
 CONST_BACK_VIDE = 0
@@ -15,21 +18,8 @@ CONST_FRONT_TRONC = 5
 
 CONST_FRONT_BAT = 9
 
-"""
-CONST_FRONT_TOWER_1 = 10
-CONST_FRONT_TOWER_2 = 11
-CONST_FRONT_TOWER_3 = 12
-CONST_FRONT_TOWER_4 = 13
-CONST_FRONT_TOWER_5 = 14
-CONST_FRONT_TOWER_6 = 15
-
-CONST_FRONT_TOWER_IA_1 = 20
-CONST_FRONT_TOWER_IA_2 = 21
-CONST_FRONT_TOWER_IA_3 = 22
-CONST_FRONT_TOWER_IA_4 = 23
-CONST_FRONT_TOWER_IA_5 = 24
-CONST_FRONT_TOWER_IA_6 = 25
-"""
+CONST_UNIT_VIDE = 0
+CONST_UNIT_USED = 1
 
 def creer_grille(x,y):
 	grille = list()
@@ -39,9 +29,9 @@ def creer_grille(x,y):
 		for i in range(y):
 			alea = random.randrange(6)
 			if alea == 0:
-				ligne.append({'background':CONST_BACK_FLEUR,'front':CONST_FRONT_VIDE, 'orientation':0})
+				ligne.append({'background':CONST_BACK_FLEUR, 'front':CONST_FRONT_VIDE, 'unit': CONST_UNIT_VIDE, 'orientation':0})
 			else:
-				ligne.append({'background':CONST_BACK_VIDE,'front':CONST_FRONT_VIDE, 'orientation':0})
+				ligne.append({'background':CONST_BACK_VIDE, 'front':CONST_FRONT_VIDE, 'unit': CONST_UNIT_VIDE, 'orientation':0})
 	return grille
 
 def generer_route(grilleTemp):
@@ -104,9 +94,10 @@ def generer_route(grilleTemp):
 
 class Grille:
 
-	def __init__(self,rows,cols,count,screen):
+	def __init__(self,rows,cols,count,screen,hud):
 		self.selectX = 5
 		self.selectY = 3
+		self.hud = hud
 		self.rows = rows
 		self.cols = cols
 		self.tile_size = 50
@@ -117,6 +108,8 @@ class Grille:
 		self.images = {}
 		self.images['test'] = pygame.image.load("images/test.png")
 		self.images['sprites'] = pygame.image.load("images/sprites.png")
+
+		self.images['selector'] = self.images['test']#self.images['sprites'].subsurface((70,130,50,50))
 
 		self.images['herbe'] = {}
 		self.images['herbe'][CONST_BACK_VIDE] = self.images['sprites'].subsurface((70,130,50,50))
@@ -141,22 +134,25 @@ class Grille:
 		self.turn+=1
 		taille = self.tile_size
 		# Ajoute notre images a la file des affichages prevus
+		if self.hud.getMode()=='units':
+			self.screen.blit(self.images['selector'],(180,self.routes[self.selectR][0]['y']*50+50))
 		for i in range(len(self.grille)):
 			for j in range(len(self.grille[0])):
 				self.screen.blit(self.images['herbe'][self.grille[i][j]['background']],[i*taille,j*taille])
 
 				if self.grille[i][j]['front'] == CONST_FRONT_BAT:
-					self.grille[i][j]['batiment'].draw(self.screen.subsurface((i*taille,j*taille,taille,taille)))
+					self.grille[i][j]['item'].draw(self.screen.subsurface((i*taille,j*taille,taille,taille)))
 				elif self.grille[i][j]['front'] == CONST_FRONT_ROUTE:
 					self.screen.blit(self.images['routes'][self.grille[i][j]['orientation']],[i*taille,j*taille])
 				elif self.grille[i][j]['front'] != CONST_FRONT_VIDE:
 					self.screen.blit(self.images['construc'][self.grille[i][j]['front']],[i*taille,j*taille])
 
-				if i == self.selectX and j == self.selectY:
+				if self.hud.getMode() == 'towers' and i == self.selectX and j == self.selectY:
 					if (self.turn/15)%2==0:
 						pygame.draw.rect(self.screen,(45,106,229),pygame.Rect(i*taille,j*taille,taille-1,taille-1),2)
 					else:
 						pygame.draw.rect(self.screen,(45,106,229),pygame.Rect(i*taille,j*taille,taille,taille),1)
+
 
 	def generer_nb_grille(self,nb):
 		x = self.cols
@@ -170,8 +166,6 @@ class Grille:
 			self.grille = fusion_grille(grilleTemp,self.grille)
 		self.generer_foret()
 		self.generer_obstacles()
-		for i in range(10):
-			self.generer_tour()
 
 	def generer_foret(self):
 		for i in range(len(self.grille)):
@@ -210,14 +204,22 @@ class Grille:
 		if self.selectY>=self.rows:
 			self.selectY = 0
 
-	def canBuild(self):
-		return self.grille[self.selectX][self.selectY]['front'] == CONST_FRONT_VIDE and self.selectX<=self.cols/2
+	def canUse(self):
+		if self.hud.getMode() == 'towers':
+			return self.grille[self.selectX][self.selectY]['front'] == CONST_FRONT_VIDE and self.selectX<=self.cols/2
+		else:
+			return self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['unit'] == CONST_UNIT_VIDE
 
-	def build(self,tour):
-		if self.canBuild():
-			self.grille[self.selectX][self.selectY]['front'] = CONST_FRONT_BAT
-			self.grille[self.selectX][self.selectY]['batiment'] = tour
-			return True
+	def use(self,item):
+		if self.canUse():
+			if self.hud.getMode() == 'towers':
+				self.grille[self.selectX][self.selectY]['front'] = CONST_FRONT_BAT
+				self.grille[self.selectX][self.selectY]['item'] = item
+				return True
+			else:
+				self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['unit'] = CONST_UNIT_USED
+				self.grille[self.selectX][self.selectY]['item'] = item
+				return True
 		else:
 			return False
 
@@ -260,7 +262,7 @@ class Grille:
 						temp_j = j
 				#print("i: {0} j:{1} nb {2} max {3}".format(i,j,nbcase,max1))
 		self.grille[temp_i][temp_j]['front'] = CONST_FRONT_BAT
-		self.grille[temp_i][temp_j]['batiment'] = batiment_classe.Batiment(0,0,"Tour IA")
+		self.grille[temp_i][temp_j]['item'] = batiment_classe.Batiment(0,0,"Tour IA")
 		# Faire payer l'IA
 		#joueur.payer(self.grille[temp_i][temp_j]['batiment'].getPrix())
 # --- FIN de la classe Grille ---
