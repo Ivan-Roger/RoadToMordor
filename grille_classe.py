@@ -199,8 +199,7 @@ class Grille:
 					elif alea >= 11 and alea <=13:
 						self.grille[i][j]['front'] = CONST_FRONT_TRONC
 
-<<<<<<< HEAD
-=======
+
 	def generer_mal(self):
 		for i in range(len(self.grille)/2,len(self.grille)):
 			for j in range(len(self.grille[0])):
@@ -219,7 +218,7 @@ class Grille:
 					else:
 						self.grille[i][j]['background'] = CONST_BACK_OBS_VIDE
 
->>>>>>> 1052d0a14f922f6f1f98e6660d55bbbe57f36001
+
 	def selectLeft(self):
 		if self.hud.getMode() == 'towers':
 			self.selectX-=1
@@ -341,7 +340,6 @@ class Grille:
 			return True
 
 	def avancer_unit(self):
-		unit_temp = []
 		nb_route = 0
 		#deplacement gentil
 		for route in self.routes:
@@ -358,10 +356,10 @@ class Grille:
 				i-=1
 			nb_route+=1
 
-		"""nb_route = 0
+		nb_route = 0
 		for route in self.routes:
 			i  = 0
-			while i <= len(route):
+			while i <= len(route)-1:
 				if not self.fin_route(route[i]["x"],route[i]["y"],nb_route):
 					if self.grille[route[i]["x"]][route[i]["y"]]["unit"] != CONST_UNIT_USED and self.grille[route[i+1]["x"]][route[i+1]["y"]]["unit"] == CONST_UNIT_USED:
 						if self.grille[route[i+1]["x"]][route[i+1]["y"]]["item"].getEquipe() ==1:
@@ -370,9 +368,16 @@ class Grille:
 							self.grille[route[i]["x"]][route[i]["y"]]["item"] = self.grille[route[i-1]["x"]][route[i-1]["y"]]["item"]
 							self.grille[route[i+1]["x"]][route[i+1]["y"]]["item"] = None
 				i+=1
-			nb_route+=1"""
+			nb_route+=1
 
-	#def combat_unit(self):
+	def combat_unit(self):
+		nb_route = 0
+		#deplacement gentil
+		for route in self.routes:
+			i  = 0
+			while i <= len(route)-1:
+				
+			nb_route+=1
 
 # --- FIN de la classe Grille ---
 
