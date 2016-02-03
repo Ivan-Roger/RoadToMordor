@@ -26,20 +26,21 @@ class Grille:
 	def __init__(self,rows,cols,count,screen,hud):
 		self.selectX = 5
 		self.selectY = 3
+		self.selectR = 0
 		self.hud = hud
 		self.rows = rows
 		self.cols = cols
 		self.tile_size = 50
+		self.routes = list()
 		self.screen = screen
 		self.generer_nb_grille(count)
 		self.turn=0
-		self.routes = []
 
 		self.images = {}
 		self.images['test'] = pygame.image.load("images/test.png")
 		self.images['sprites'] = pygame.image.load("images/sprites.png")
 
-		self.images['selector'] = self.images['test']#self.images['sprites'].subsurface((70,130,50,50))
+		self.images['selector'] = self.images['sprites'].subsurface((370,250,20,20))
 
 		self.images['herbe'] = {}
 		self.images['herbe'][CONST_BACK_VIDE] = self.images['sprites'].subsurface((70,130,50,50))
@@ -64,8 +65,6 @@ class Grille:
 		self.turn+=1
 		taille = self.tile_size
 		# Ajoute notre images a la file des affichages prevus
-		if self.hud.getMode()=='units':
-			self.screen.blit(self.images['selector'],(180,self.routes[self.selectR][0]['y']*50+50))
 		for i in range(len(self.grille)):
 			for j in range(len(self.grille[0])):
 				self.screen.blit(self.images['herbe'][self.grille[i][j]['background']],[i*taille,j*taille])
@@ -82,8 +81,10 @@ class Grille:
 						pygame.draw.rect(self.screen,(45,106,229),pygame.Rect(i*taille,j*taille,taille-1,taille-1),2)
 					else:
 						pygame.draw.rect(self.screen,(45,106,229),pygame.Rect(i*taille,j*taille,taille,taille),1)
+		if self.hud.getMode()=='units':
+			self.screen.blit(self.images['selector'],(0,self.routes[self.selectR][0]['y']*50+15))
 
-	def creer_grille(x,y):
+	def creer_grille(self,x,y):
 		grille = list()
 		for i in range(x):
 			ligne = list()
@@ -91,12 +92,12 @@ class Grille:
 			for i in range(y):
 				alea = random.randrange(6)
 				if alea == 0:
-					ligne.append({'background':CONST_BACK_FLEUR,'front':CONST_FRONT_VIDE, 'orientation':0})
+					ligne.append({'background':CONST_BACK_FLEUR, 'front':CONST_FRONT_VIDE, 'orientation':0, 'unit': None})
 				else:
-					ligne.append({'background':CONST_BACK_VIDE,'front':CONST_FRONT_VIDE, 'orientation':0})
+					ligne.append({'background':CONST_BACK_VIDE, 'front':CONST_FRONT_VIDE, 'orientation':0, 'unit': None})
 		return grille
 
-	def generer_route(grilleTemp):
+	def generer_route(self,grilleTemp,id_route,cols,rows):
 		inf = 1
 		sup = len(grilleTemp[0])-1
 		construc = True
@@ -105,7 +106,7 @@ class Grille:
 		orion = [0]
 		route = []
 		while construc:
-			route.append([x,y])
+			route.append({'x':x,'y':y})
 			grilleTemp[x][y]['front'] = CONST_FRONT_ROUTE
 			alea = random.randrange(3)
 			if alea == 0: #Tout droit
@@ -135,35 +136,38 @@ class Grille:
 			try:
 				if orion[ind+1] ==0:
 					if orion[ind] == 0:
-						grilleTemp[c[0]][c[1]]['orientation'] = 0
+						grilleTemp[c['x']][c['y']]['orientation'] = 0
 					elif orion[ind] == 1:
-						grilleTemp[c[0]][c[1]]['orientation'] = 4
+						grilleTemp[c['x']][c['y']]['orientation'] = 4
 					elif orion[ind] == 2:
-						grilleTemp[c[0]][c[1]]['orientation'] = 2
+						grilleTemp[c['x']][c['y']]['orientation'] = 2
 				elif orion[ind+1] == 1:
 					if orion[ind] == 0:
-						grilleTemp[c[0]][c[1]]['orientation'] = 3
+						grilleTemp[c['x']][c['y']]['orientation'] = 3
 					elif orion[ind] == 1:
-						grilleTemp[c[0]][c[1]]['orientation'] = 1
+						grilleTemp[c['x']][c['y']]['orientation'] = 1
 				elif orion[ind+1] == 2:
 					if orion[ind] == 0:
-						grilleTemp[c[0]][c[1]]['orientation'] = 5
+						grilleTemp[c['x']][c['y']]['orientation'] = 5
 					elif orion[ind] == 2:
-						grilleTemp[c[0]][c[1]]['orientation'] = 1
+						grilleTemp[c['x']][c['y']]['orientation'] = 1
 			except IndexError:
 				pass
 		self.routes.append(route)
+		for ind in range(len(self.routes[id_route])):
+			self.routes[id_route][ind]['y'] += id_route*rows
 
 	def generer_nb_grille(self,nb):
 		x = self.cols
 		y = self.rows
 		y/=nb
-		self.grille = creer_grille(x,y)
-		self.generer_route(self.grille)
-		for i in range(nb-1):
+		self.grille = self.creer_grille(x,y)
+		self.generer_route(self.grille,0,x,y)
+		for i in range(1,nb):
+			print('nb=',nb,'i=',i)
 			grilleTemp = self.creer_grille(x,y)
-			self.generer_route(grilleTemp)
-			self.grille = fusion_grille(grilleTemp,self.grille)
+			self.generer_route(grilleTemp,i,x,y)
+			self.grille = fusion_grille(self.grille,grilleTemp)
 		self.generer_foret()
 		self.generer_obstacles()
 
@@ -188,21 +192,41 @@ class Grille:
 						self.grille[i][j]['front'] = CONST_FRONT_TRONC
 
 	def selectLeft(self):
-		self.selectX-=1
-		if self.selectX<0:
-			self.selectX = self.cols-1
+		if self.hud.getMode() == 'towers':
+			self.selectX-=1
+			if self.selectX<0:
+				self.selectX = self.cols-1
+		else:
+			self.selectR-=1
+			if self.selectR<0:
+				self.selectR = len(self.routes)-1
 	def selectRight(self):
-		self.selectX+=1
-		if self.selectX>=self.cols:
-			self.selectX = 0
+		if self.hud.getMode() == 'towers':
+			self.selectX+=1
+			if self.selectX>=self.cols:
+				self.selectX = 0
+		else:
+			self.selectR+=1
+			if self.selectR>=len(self.routes):
+				self.selectR = 0
 	def selectUp(self):
-		self.selectY-=1
-		if self.selectY<0:
-			self.selectY = self.rows-1
+		if self.hud.getMode() == 'towers':
+			self.selectY-=1
+			if self.selectY<0:
+				self.selectY = self.rows-1
+		else:
+			self.selectR-=1
+			if self.selectR<0:
+				self.selectR = len(self.routes)-1
 	def selectDown(self):
-		self.selectY+=1
-		if self.selectY>=self.rows:
-			self.selectY = 0
+		if self.hud.getMode() == 'towers':
+			self.selectY+=1
+			if self.selectY>=self.rows:
+				self.selectY = 0
+		else:
+			self.selectR+=1
+			if self.selectR>=len(self.routes):
+				self.selectR = 0
 
 	def canUse(self):
 		if self.hud.getMode() == 'towers':
