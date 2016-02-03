@@ -62,10 +62,6 @@ class Unite:
 	def setEtat (self, id_unit):
 		self.id_unit = id_unit
 
-	# Modifie l'etat d'une unite
-	def setEtat (self, etat):
-		self.etat = etat
-
 	# Modifie le sprite courant d'une unite
 	def setSprite (self, sprite):
 		self.sprite = sprite
@@ -103,11 +99,6 @@ class Unite:
 		self.prix = prix
 
 ############# Getter
-
-
-	# Retourne le nom de l'unite
-	def getNom (self):
-		return self.id_unit
 
 	# Retourne le nom de l'unite
 	def getNom (self):
@@ -148,3 +139,20 @@ class Unite:
 	# Retourne le prix d'une unite
 	def getPrix (self):
 		return self.prix
+
+############# Attaque et Dégats
+
+	def subirDegats(self,degats,type_d):
+		if type_d=='Mag':
+			self.vie-=(degats-self.resMag)
+			if self.vie<0:
+				self.vie=0
+		elif type_d=='Phy':
+			self.vie-=(degats-self.resPhy)
+			if self.vie<0:
+				self.vie=0
+		elif type_d=='Abs':
+			self.vie-=degats
+			if self.vie<0:
+				self.vie=0
+		print('{} - Vie après dégats : {}'.format(self.nom,self.vie))

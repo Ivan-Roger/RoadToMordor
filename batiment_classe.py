@@ -3,21 +3,25 @@ import pygame
 
 class Batiment:
 	tours = [
-		{'attPhy': 5, 'attMag': 0, 'distanceAtt': 1, 'prix': 5},
-		{'attPhy': 5, 'attMag': 0, 'distanceAtt': 1, 'prix': 10},
-		{'attPhy': 5, 'attMag': 0, 'distanceAtt': 1, 'prix': 20},
-		{'attPhy': 5, 'attMag': 0, 'distanceAtt': 1, 'prix': 50},
-		{'attPhy': 5, 'attMag': 0, 'distanceAtt': 1, 'prix': 75},
-		{'attPhy': 5, 'attMag': 0, 'distanceAtt': 1, 'prix': 100}
+		{'attPhy': 5, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 1, 'prix': 5},
+		{'attPhy': 0, 'attMag': 5, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 1, 'prix': 10},
+		{'attPhy': 5, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 3, 'prix': 20},
+		{'attPhy': 0, 'attMag': 5, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 3, 'prix': 50},
+		{'attPhy': 0, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 5, 'prix': 75},
+		{'attPhy': 0, 'attMag': 0, 'attAbs': 1, 'distanceAtt': 1, 'nbCibles': 5, 'prix': 100}
 	]
 
-	def __init__(self, id_tour, equipe, nom):
+	def __init__(self, id_tour, equipe, nom, grille, pos):
+		self.pos = pos
+		self.grille = grille
 		self.id_tour = id_tour
 		self.equipe = equipe
 		self.nom = nom
 		self.attPhy = Batiment.tours[id_tour]['attPhy']
 		self.attMag = Batiment.tours[id_tour]['attMag']
+		self.attAbs = Batiment.tours[id_tour]['attAbs']
 		self.distanceAtt = Batiment.tours[id_tour]['distanceAtt']
+		self.nbCibles = Batiment.tours[id_tour]['nbCibles']
 		self.prix = Batiment.tours[id_tour]['prix']
 		self.niveau = 0
 
@@ -79,3 +83,13 @@ class Batiment:
 	#Getter prix
 	def getPrix(self):
 		return self.prix
+
+	def play(self,grille):
+		cibleRestantes=self.nbCibles
+		for i in range(self.pos['x']-self.distanceAtt,2*distanceAtt+1):
+			for j in range(self.pos['j']-self.distanceAtt,2*distanceAtt+1):
+				if cibleRestantes>0 and self.grille[i][j]['front']==grille_classe.CONST_FRONT_ROUTE and self.grille[i][j]['unit']!=grille_classe.CONST_UNIT_VIDE and self.grille[i][j]['item'].getEquipe()!=self.equipe:
+					cibleRestantes-=1
+					self.grille[i][j]['item'].subirDegats(self.attAbs,'Abs')
+					self.grille[i][j]['item'].subirDegats(self.attPhy,'Phy')
+					self.grille[i][j]['item'].subirDegats(self.attMag,'Mag')

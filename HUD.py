@@ -17,7 +17,6 @@ class UserInterface:
 		self.images = {}
 		self.images['test'] = pygame.image.load("images/test.png")
 		self.images['sprites'] = pygame.image.load("images/sprites.png")
-		self.images['coinsSprites'] = pygame.image.load("images/coin.png")
 
 		self.images['coins'] = {}
 		self.images['coins'][0] = self.images['sprites'].subsurface((10,310,50,50))
@@ -138,7 +137,7 @@ class UserInterface:
 
 	def getMode(self):
 		return self.mode
-		
+
 	def canUse(self):
 		return self.selectT[self.mode][self.selected]==0
 
