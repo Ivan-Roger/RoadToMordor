@@ -28,11 +28,13 @@ class Game:
 		self.joueurIA = joueur_classe.Joueur("Computer","orc",0)
 		self.hud = HUD.UserInterface(self.screen,self.joueur,self.joueurIA)
 		self.grille = grille_classe.Grille(16,20,2,self.screen.subsurface((200,50,1000,800)),self.hud)
+		turn=0
 		done = False
 		# -------- Main Program Loop -----------
 		keys_pressed = dict()
 		pygame.event.Event(pygame.USEREVENT,{'key':0,'unicode':''})
 		while not done:
+			turn+=1
         	# --- Main event loop
 			for event in pygame.event.get():
                 #print('EVENT ', pygame.event.event_name(event.type))
@@ -72,7 +74,6 @@ class Game:
 								if self.grille.canUse():
 									tour = self.joueur.createBuild(self.hud.use(),self.grille.getGrille(),self.grille.getSelected())
 									self.grille.use(tour)
-									tour.play()
 							else:
 								if self.grille.canUse():
 									unit = self.joueur.createUnit(self.hud.use())
@@ -99,6 +100,8 @@ class Game:
 			self.screen.fill((75,75,75))
 			self.grille.draw()
 			self.hud.draw()
+			if turn%10==0:
+				self.grille.play()
 
 			# --- Go ahead and update the screen with what we've drawn.
 			pygame.display.flip()

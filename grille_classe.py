@@ -35,6 +35,7 @@ class Grille:
 		self.cols = cols
 		self.tile_size = 50
 		self.routes = list()
+		self.batiments = list()
 		self.screen = screen
 		self.generer_nb_grille(count)
 		self.turn=0
@@ -262,6 +263,7 @@ class Grille:
 			if self.hud.getMode() == 'towers':
 				self.grille[self.selectX][self.selectY]['front'] = CONST_FRONT_BAT
 				self.grille[self.selectX][self.selectY]['item'] = item
+				self.batiments.append(item)
 				return True
 			else:
 				self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['unit'] = CONST_UNIT_USED
@@ -275,6 +277,10 @@ class Grille:
 
 	def getGrille(self):
 		return self.grille
+
+	def play(self):
+		for val in self.batiments:
+			val.play()
 
 	# IA function ------------
 
