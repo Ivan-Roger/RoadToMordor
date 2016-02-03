@@ -262,7 +262,7 @@ class Joueur():
 ############### Creation des batiments
 
 	# Creer et retourne un objet batiment
-	def createBuild(self,id_bat):
+	def createBuild(self,id_bat,grille,pos):
 		nom = ''
 		if id_bat == 0:
 			if self.race == 'humain':
@@ -294,7 +294,7 @@ class Joueur():
 				nom = 'Tour'
 			else:
 				nom = 'Tour Orc'
-		return batiment_classe.Batiment(id_bat, self.equipe, nom)
+		return batiment_classe.Batiment(id_bat, self.equipe, nom, grille, pos)
 """
 ############### Amelioration des unites d'un niveau'
 

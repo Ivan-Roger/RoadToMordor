@@ -9,6 +9,8 @@ import unite_classe
 
 CONST_BACK_VIDE = 0
 CONST_BACK_FLEUR = 1
+CONST_BACK_OBS_VIDE = 2
+CONST_BACK_OBS_LAVA = 3
 
 CONST_FRONT_VIDE = 0
 CONST_FRONT_ROUTE = 1
@@ -42,16 +44,18 @@ class Grille:
 
 		self.images['selector'] = self.images['sprites'].subsurface((370,250,20,20))
 
-		self.images['herbe'] = {}
-		self.images['herbe'][CONST_BACK_VIDE] = self.images['sprites'].subsurface((70,130,50,50))
-		self.images['herbe'][CONST_BACK_FLEUR] = self.images['sprites'].subsurface((10,130,50,50))
+		self.images['back'] = {}
+		self.images['back'][CONST_BACK_VIDE] = self.images['sprites'].subsurface((70,130,50,50))
+		self.images['back'][CONST_BACK_FLEUR] = self.images['sprites'].subsurface((10,130,50,50))
+		self.images['back'][CONST_BACK_OBS_VIDE] = self.images['sprites'].subsurface((190,130,50,50))
+		self.images['back'][CONST_BACK_OBS_LAVA] = self.images['sprites'].subsurface((130,130,50,50))
 
-		self.images['construc'] = {}
-		self.images['construc'][CONST_FRONT_ROUTE] = self.images['test']
-		self.images['construc'][CONST_FRONT_ROCHER] = self.images['sprites'].subsurface((190,190,50,50))
-		self.images['construc'][CONST_FRONT_BUCHES] = self.images['sprites'].subsurface((10,190,50,50))
-		self.images['construc'][CONST_FRONT_TRONC] = self.images['sprites'].subsurface((70,190,50,50))
-		self.images['construc'][CONST_FRONT_FORET] = self.images['sprites'].subsurface((130,190,50,50))
+		self.images['front'] = {}
+		self.images['front'][CONST_FRONT_ROUTE] = self.images['test']
+		self.images['front'][CONST_FRONT_ROCHER] = self.images['sprites'].subsurface((190,190,50,50))
+		self.images['front'][CONST_FRONT_BUCHES] = self.images['sprites'].subsurface((10,190,50,50))
+		self.images['front'][CONST_FRONT_TRONC] = self.images['sprites'].subsurface((70,190,50,50))
+		self.images['front'][CONST_FRONT_FORET] = self.images['sprites'].subsurface((130,190,50,50))
 
 		self.images['routes'] = {}
 		self.images['routes'][0] = self.images['sprites'].subsurface((10+60*0,250,50,50))
@@ -67,7 +71,7 @@ class Grille:
 		for i in range(len(self.grille)):
 			for j in range(len(self.grille[0])):
 				# Dessin de l'arrière plan
-				self.screen.blit(self.images['herbe'][self.grille[i][j]['background']],[i*taille,j*taille])
+				self.screen.blit(self.images['back'][self.grille[i][j]['background']],[i*taille,j*taille])
 
 				# Dessin de l'avant plan
 				if self.grille[i][j]['front'] == CONST_FRONT_BAT:
@@ -75,7 +79,7 @@ class Grille:
 				elif self.grille[i][j]['front'] == CONST_FRONT_ROUTE:
 					self.screen.blit(self.images['routes'][self.grille[i][j]['orientation']],[i*taille,j*taille])
 				elif self.grille[i][j]['front'] != CONST_FRONT_VIDE:
-					self.screen.blit(self.images['construc'][self.grille[i][j]['front']],[i*taille,j*taille])
+					self.screen.blit(self.images['front'][self.grille[i][j]['front']],[i*taille,j*taille])
 
 				# Dessin des unités
 				if self.grille[i][j]['unit'] != CONST_UNIT_VIDE:
@@ -176,47 +180,38 @@ class Grille:
 			grilleTemp = self.creer_grille(x,y)
 			self.generer_route(grilleTemp,i,x,y)
 			self.grille = fusion_grille(self.grille,grilleTemp)
-		self.generer_foret()
 		self.generer_obstacles()
-
-	def generer_foret(self):
-		for i in range(len(self.grille)):
-			for j in range(len(self.grille[0])):
-				alea = random.randrange(10)
-				if alea == 1 and self.grille[i][j]['front'] == CONST_FRONT_VIDE:
-					self.grille[i][j]['front'] = CONST_FRONT_FORET
+		self.generer_mal()
 
 	def generer_obstacles(self):
 		for i in range(len(self.grille)/2):
 			for j in range(len(self.grille[0])):
-				alea = random.randrange(17)
+				alea = random.randrange(7)
 				if alea == 1 and self.grille[i][j]['front'] == CONST_FRONT_VIDE:
-					alea = random.randrange(20)
-					if alea >= 0 and alea <=5:
-						self.grille[i][j]['front'] = CONST_FRONT_ROCHER
-					elif alea >= 6 and alea <=10:
+					alea = random.randrange(30)
+					if alea >= 0 and alea <=10:
 						self.grille[i][j]['front'] = CONST_FRONT_BUCHES
 					elif alea >= 11 and alea <=13:
 						self.grille[i][j]['front'] = CONST_FRONT_TRONC
+					elif alea >= 14 and alea <=29:
+						self.grille[i][j]['front'] = CONST_FRONT_FORET
+		for i in range(len(self.grille)):
+			for j in range(len(self.grille[0])):
+				alea = random.randrange(12)
+				if alea == 1 and self.grille[i][j]['front'] == CONST_FRONT_VIDE:
+					alea = random.randrange(10)
+					if alea >= 0 and alea <=5:
+						self.grille[i][j]['front'] = CONST_FRONT_ROCHER
 
 
 	def generer_mal(self):
 		for i in range(len(self.grille)/2,len(self.grille)):
 			for j in range(len(self.grille[0])):
-				if i < self.cols-7:
-					alea = random.randrange(7)
-				elif i < self.cols-5:
-					alea = random.randrange(4)
-				elif i < self.cols-3:
-					alea = random.randrange(2)
-				else :
-					alea = 0
-				if alea == 0 and self.grille[i][j]['front'] != CONST_FRONT_ROUTE:
-					alea = random.randrange(4)
-					if alea == 0:
-						self.grille[i][j]['background'] = CONST_BACK_OBS_LAVA
-					else:
-						self.grille[i][j]['background'] = CONST_BACK_OBS_VIDE
+				alea = random.randrange(4)
+				if alea == 0 and self.grille[i][j]['front'] == CONST_FRONT_VIDE:
+					self.grille[i][j]['background'] = CONST_BACK_OBS_LAVA
+				else:
+					self.grille[i][j]['background'] = CONST_BACK_OBS_VIDE
 
 
 	def selectLeft(self):
@@ -274,6 +269,12 @@ class Grille:
 				return True
 		else:
 			return False
+
+	def getSelected(self):
+		return {'x': self.selectX, 'y': self.selectY}
+
+	def getGrille(self):
+		return self.grille
 
 	# IA function ------------
 
@@ -376,7 +377,7 @@ class Grille:
 		for route in self.routes:
 			i  = 0
 			while i <= len(route)-1:
-				
+
 			nb_route+=1
 
 # --- FIN de la classe Grille ---
