@@ -138,15 +138,13 @@ class UserInterface:
 
 	def getMode(self):
 		return self.mode
-
-	def setCooldown(self,item):
-		self.selectT[self.mode][item] = 100
-
+		
 	def canUse(self):
 		return self.selectT[self.mode][self.selected]==0
 
 	def use(self):
 		if self.canUse():
+			self.selectT[self.mode][self.selected] = 100
 			return self.selected
 		else:
 			return False
