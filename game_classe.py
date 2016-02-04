@@ -6,6 +6,7 @@ import unite_classe
 import joueur_classe
 import os
 import HUD
+import IA
 
 class Game:
 	def __init__(self):
@@ -28,6 +29,7 @@ class Game:
 		self.joueurIA = joueur_classe.Joueur("Computer","orc",0)
 		self.hud = HUD.UserInterface(self.screen,self.joueur,self.joueurIA)
 		self.grille = grille_classe.Grille(16,20,2,self.screen.subsurface((200,50,1000,800)),self.hud)
+		self.IA = IA.IA(self.grille,self.joueurIA)
 		turn=0
 		done = False
 		# -------- Main Program Loop -----------
@@ -115,6 +117,7 @@ class Game:
 			self.screen.fill((75,75,75))
 			self.grille.draw()
 			self.hud.draw()
+			self.IA.play()
 			if turn%10==0:
 				self.grille.play()
 
