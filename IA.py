@@ -255,6 +255,9 @@ class IA:
 			for i in range(nb_routes):
 				calcul_tours.append(self.stats_tour_route(i))
 
+			#L'IA essaye de supprimer les menaces immediate
+			for route in self.routes:
+				if self.grille[route[len(route)-1]["x"]][route[len(route)-1]["y"]][""]
 
 			#L'IA essaye de contrer d'abord les attaques
 			for i in range(nb_routes):
