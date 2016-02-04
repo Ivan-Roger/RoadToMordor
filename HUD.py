@@ -2,6 +2,8 @@
 
 import pygame
 import grille_classe
+import batiment_classe
+import unite_classe
 
 class UserInterface:
 	""" Classe pour l'interface utilisateur """
@@ -136,17 +138,53 @@ class UserInterface:
 		for i in range(0,6):
 			x_pos = (i*50)+225+(i*50)
 			y_off = 5 if i == self.selected else 0
-			"""
 			if i == self.selected:
-				pygame.draw.rect(self.screen,(25,59,128),(x_pos,screenRect[3]-(50+y_off),50,50),1)
 				if (self.turn/15)%2==0:
-					pygame.draw.rect(self.screen,(25,59,128),pygame.Rect(x_pos,screenRect[3]-(50+y_off),taille-1,taille-1),2)
+					pygame.draw.rect(self.screen,(25,59,128),(x_pos,screenRect[3]-(y_off),60,5),0)
 				else:
-					pygame.draw.rect(self.screen,(25,59,128),pygame.Rect(i*taille,j*taille,taille,taille),1)
-			"""
+					pygame.draw.rect(self.screen,(45,106,229),(x_pos,screenRect[3]-(y_off),60,5),0)
 			self.screen.blit(self.images[self.mode][i],(x_pos,screenRect[3]-(50+y_off)))
 			h_val = self.selectT[self.mode][i]/2
 			pygame.draw.rect(self.screen,(45,106,229),(x_pos+55,screenRect[3]-y_off,5,-h_val),0)
+
+		# Infos sur la séléction
+		if self.mode=='towers':
+			name = batiment_classe.Batiment.stats[self.selected]['name']
+			prix = batiment_classe.Batiment.stats[self.selected]['prix']
+			attPhy = batiment_classe.Batiment.stats[self.selected]['attPhy']
+			attMag = batiment_classe.Batiment.stats[self.selected]['attMag']
+			attAbs = batiment_classe.Batiment.stats[self.selected]['attAbs']
+			nbCibles = batiment_classe.Batiment.stats[self.selected]['nbCibles']
+			distanceAtt = batiment_classe.Batiment.stats[self.selected]['distanceAtt']
+			details=''
+			if attPhy>0:
+				details += ( " / " if len(details)>0 else "" )
+				details += "Phy "+str(attPhy)
+			if attMag>0:
+				details += ( " / " if len(details)>0 else "" )
+				details += "Mag "+str(attMag)
+			if attAbs>0:
+				details += ( " / " if len(details)>0 else "" )
+				details += "Abs "+str(attAbs)
+			details+= " / Rad "+str(distanceAtt)
+			details+= " / Nb "+str(nbCibles)
+		else:
+			name = unite_classe.Unite.stats[self.selected]['name']
+			prix = unite_classe.Unite.stats[self.selected]['prix']
+			attPhy = unite_classe.Unite.stats[self.selected]['attPhy']
+			attMag = unite_classe.Unite.stats[self.selected]['attMag']
+			distanceAtt = unite_classe.Unite.stats[self.selected]['distanceAtt']
+			details=''
+			if attPhy>0:
+				details += ( " / " if len(details)>0 else "" )
+				details += "Phy "+str(attPhy)
+			if attMag>0:
+				details += ( " / " if len(details)>0 else "" )
+				details += "Mag "+str(attMag)
+			details+= " / Rad "+str(distanceAtt)
+		self.screen.blit(self.font.render(name,True,(25,25,25)),(875,855))
+		self.screen.blit(self.fontSmall.render("Cout : "+str(prix),True,(50,50,50)),(875,880))
+		self.screen.blit(self.fontSmall.render(details,True,(50,50,50)),(875,895))
 
 	def tick(self):
 		for i in range(6):

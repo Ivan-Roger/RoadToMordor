@@ -14,17 +14,15 @@ import IA
 class Game:
 	def __init__(self):
 		self.paused=False
-		self.show_gameOver=False
 
 		# Set the width and height of the screen [width, height]
 		self.screen_width = 1410
 		self.screen_height = 910
 		os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-	def launch(self):
+	def launch(self,diff):
 		print('Launching game ...')
 
-		pygame.init()
 		self.screen = pygame.display.set_mode([self.screen_width, self.screen_height])
 		pygame.display.set_caption("Road to Mordor")
 		self.clock = pygame.time.Clock()
@@ -32,18 +30,19 @@ class Game:
 		self.joueur = joueur_classe.Joueur("Player 1","humain",1)
 		self.joueurIA = joueur_classe.Joueur("Computer","orc",0)
 		self.hud = HUD.UserInterface(self.screen,self.joueur,self.joueurIA)
-		self.grille = grille_classe.Grille(16,20,3,self.screen.subsurface((205,50,1000,800)),self.hud,self.joueurIA,self.joueur)
+		self.grille = grille_classe.Grille(16,20,diff,self.screen.subsurface((205,50,1000,800)),self.hud,self.joueurIA,self.joueur)
 		self.IA = IA.IA(self.grille,self.joueurIA)
 		self.ig_menu = ig_menu_classe.InGameMenu(self.screen)
 		self.rules = regles_classe.Regles(self.screen)
 		self.game_over = fin_jeu.Fin(self.screen)
 
 		pygame.mixer.music.load('Musique/Musiquedefond.mp3')
-		pygame.mixer.music.play()
+		pygame.mixer.music.play(-1)
 
 		turn=0
 		done = False
 		show_regles = False
+		show_gameOver=False
 		# -------- Main Program Loop -----------
 		keys_pressed = dict()
 		pygame.event.Event(pygame.USEREVENT,{'key':0,'unicode':''})
@@ -56,39 +55,37 @@ class Game:
 					print('Ending game ... and QUIT !')
 					return False
 				elif event.type == pygame.KEYDOWN:
-                    # Create KEYPRESS events
-					keys_pressed[event.key] = {'key': event.key, 'unicode': event.unicode}
+                    #keys_pressed[event.key] = {'key': event.key, 'unicode': event.unicode} # Create KEYPRESS events
 					if len(keys_pressed)>0:
 						pygame.time.set_timer(pygame.USEREVENT,150)
 					if self.paused:
-						if event.key == pygame.K_RETURN:
-							res_m = self.ig_menu.getSelected()
-							if res_m == 0:
-								pygame.mixer.music.unpause()
-								self.paused=False
-							elif res_m == 1:
-								show_regles=True
-							elif res_m == 2:
-								self.paused=False
-								print('Ending game ...')
-								return True
-						elif event.key == pygame.K_ESCAPE:
-							if show_regles:
-								show_regles=False
-							else:
-								self.paused=False
-								pygame.mixer.music.unpause()
+						if show_regles:
+							show_regles=False
 						else:
-							self.ig_menu.switchSelected()
-					elif self.show_gameOver:
-						if event.key == pygame.K_ESCAPE:
-							print('Ending game ...')
-							self.rules.stop()
-							self.game_over.stop()
-							return True
+							if event.key == pygame.K_RETURN:
+								res_m = self.ig_menu.getSelected()
+								if res_m == 0:
+									pygame.mixer.music.unpause()
+									self.paused=False
+								elif res_m == 1:
+									show_regles=True
+								elif res_m == 2:
+									self.paused=False
+									print('Ending game ...')
+									return True
+							elif event.key == pygame.K_ESCAPE:
+								self.paused=False
+								pygame.mixer.music.unpause()
+							elif event.key == pygame.K_LEFT:
+								self.ig_menu.selectPrev()
+							else:
+								self.ig_menu.switchSelected()
+					elif show_gameOver:
+						print('Ending game ...')
+						self.game_over.stop()
+						return True
 					else:
 	                    # Handle KEYDOWN
-						#print('keydown',event.unicode)
 						if event.unicode == 'd':
 							self.hud.selectNext()
 						elif event.unicode == 'q': # Q sur un Azerty
@@ -97,11 +94,11 @@ class Game:
 							self.hud.switchMode()
 						elif event.unicode == '-':
 							print('- HEY !')
+						elif event.unicode == '.':
+							self.joueurIA.setVieChateau(0)
 						elif event.key == pygame.K_ESCAPE:
 							self.paused = True
 							pygame.mixer.music.pause()
-							# Effet temporaire, a terme cela ouvre
-							#   le menu ingame qui permet ensuite de quitter
 						elif event.key == pygame.K_UP:
 							self.grille.selectUp()
 						elif event.key == pygame.K_DOWN:
@@ -139,11 +136,11 @@ class Game:
 							else:
 								self.hud.showMessage("Cooldown en cours.",70)
 								print('Cooldown en cours')
+				"""
 				elif event.type == pygame.KEYUP:
-					# Create KEYPRESS events
-					keys_pressed.pop(event.key)
+					keys_pressed.pop(event.key) # Create KEYPRESS events
 					if len(keys_pressed)<=0:
-						pygame.time.set_timer(pygame.USEREVENT,0)
+						pygame.time.set_timer(pygame.USEREVENT,0) # Remove timer
 				elif event.type == pygame.USEREVENT:
 					for key,item in keys_pressed.iteritems():
 						if key == pygame.K_UP:
@@ -154,6 +151,7 @@ class Game:
 							self.grille.selectLeft()
 						elif key == pygame.K_RIGHT:
 							self.grille.selectRight()
+				"""
 			# --- Game logic should go here
 			#pygame.display.update()
 			self.screen.fill((75,75,75))
@@ -162,7 +160,7 @@ class Game:
 					self.rules.draw()
 				else:
 					self.ig_menu.draw()
-			elif self.show_gameOver:
+			elif show_gameOver:
 				self.game_over.draw()
 			else:
 				self.grille.draw()
@@ -175,14 +173,14 @@ class Game:
 				if turn%10==0:
 					self.grille.play()
 			# --- Check if the game is over
-			if self.joueur.getVieChateau()==0 and not self.show_gameOver:
+			if self.joueur.getVieChateau()==0 and not show_gameOver:
+				show_gameOver = True
+				pygame.mixer.music.stop()
 				self.game_over.start(False)
-				self.show_gameOver = True
+			elif self.joueurIA.getVieChateau()==0 and not show_gameOver:
+				show_gameOver = True
 				pygame.mixer.music.stop()
-			elif self.joueurIA.getVieChateau()==0 and not self.show_gameOver:
 				self.game_over.start(True)
-				self.show_gameOver = True
-				pygame.mixer.music.stop()
 
 			# --- Go ahead and update the screen with what we've drawn.
 			pygame.display.flip()
@@ -191,7 +189,6 @@ class Game:
 			self.clock.tick(60)
 
 		# Close the window and quit.
-		pygame.quit()
 
 		print('Ending game ...')
 

@@ -43,6 +43,7 @@ class Grille:
 		self.screen = screen
 		self.generer_nb_grille(count)
 		self.turn=0
+		self.buildSound = pygame.mixer.Sound('Musique/build.ogg')
 		self.images = {}
 		self.images['test'] = pygame.image.load("images/test.png")
 		self.images['sprites'] = pygame.image.load("images/sprites.png")
@@ -279,6 +280,7 @@ class Grille:
 				self.grille[item.getPos()['x']][item.getPos()['y']]['front'] = CONST_FRONT_BAT
 				self.grille[item.getPos()['x']][item.getPos()['y']]['item'] = item
 				self.batiments.append(item)
+				self.buildSound.play()
 				return True
 			else:
 				return False

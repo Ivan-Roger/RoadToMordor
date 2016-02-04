@@ -13,7 +13,7 @@ class InGameMenu:
 		#Creation des texte
 		j = self.font.render("Reprendre",True,(255,255,255))
 		r = self.font.render("Regles",True,(255,255,255))
-		q = self.font.render("Quitter",True,(255,255,255))
+		q = self.font.render("Abandonner",True,(255,255,255))
 
 		#Position de hauteur
 		j_y_off=0
@@ -33,9 +33,9 @@ class InGameMenu:
 		text = self.font.render("Road to Mordor",True,(75,75,75))
 		self.screen.blit(text, [(self.screen.get_rect().width/2)-(text.get_rect().width/2), 0])
 
-		self.screen.blit(j,(self.screen.get_rect().centerx-(j.get_rect().centerx)-250,500-j_y_off))
+		self.screen.blit(j,(self.screen.get_rect().centerx-(j.get_rect().centerx)-300,500-j_y_off))
 		self.screen.blit(r,(self.screen.get_rect().centerx-(r.get_rect().centerx),500-r_y_off))
-		self.screen.blit(q,(self.screen.get_rect().centerx-(q.get_rect().centerx)+250,500-q_y_off))
+		self.screen.blit(q,(self.screen.get_rect().centerx-(q.get_rect().centerx)+300,500-q_y_off))
 
 	def getSelected(self):
 		return self.selected
@@ -44,3 +44,8 @@ class InGameMenu:
 		self.selected+=1
 		if self.selected>=3:
 			self.selected=0
+
+	def selectPrev(self):
+		self.selected-=1
+		if self.selected<0:
+			self.selected=2
