@@ -315,19 +315,19 @@ class IA:
  							elif self.generer_tour_pos(x,y-1,0) :
  								actRestant -= 1
 						elif self.grille[x-1][y+1]["front"] == CONST_FRONT_VIDE:
-							if self.generer_tour_pos(x+1,y+1,1) :
+							if self.generer_tour_pos(x-1,y+1,1) :
 								 actRestant -= 1
- 							elif self.generer_tour_pos(x+1,y+1,0) :
+ 							elif self.generer_tour_pos(x-1,y+1,0) :
  								actRestant -= 1
 						elif self.grille[x-1][y-1]["front"] == CONST_FRONT_VIDE:
-							if self.generer_tour_pos(x+1,y-1,1) :
+							if self.generer_tour_pos(x-1,y-1,1) :
 								 actRestant -= 1
- 							elif self.generer_tour_pos(x+1,y-1,0) :
+ 							elif self.generer_tour_pos(x-1,y-1,0) :
  								actRestant -= 1
 						elif self.grille[x-1][y]["front"] == CONST_FRONT_VIDE:
-							if self.generer_tour_pos(x+1,y,1) :
+							if self.generer_tour_pos(x-1,y,1) :
 								 actRestant -= 1
- 							elif self.generer_tour_pos(x+1,y,0) :
+ 							elif self.generer_tour_pos(x-1,y,0) :
  								actRestant -= 1
 
 			#L'IA essaye de contrer d'abord les attaques

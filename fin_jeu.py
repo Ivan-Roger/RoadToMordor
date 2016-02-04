@@ -12,13 +12,16 @@ class Fin:
 		self.text_fonction = pygame.font.Font("alagard.ttf",200, bold=True)
 		self.victoire = self.text_fonction.render("VICTOIRE",True,(255,255,255))
 		self.defaite = self.text_fonction.render("DEFAITE",True,(255,255,255))
-		self.victoire = False
+		self.vict = False
 
 	def start(self,victoire):
+		self.vict = victoire
 		pygame.mixer.music.play()
+		pygame.mixer.music.set_volume(1.0)
 
 	def stop(self):
 		pygame.mixer.music.stop()
+		pygame.mixer.music.set_volume(1.0)
 
 	def draw(self):
 		# Fond de l'interface du haut
@@ -29,7 +32,7 @@ class Fin:
 		text = self.fontTitle.render("Road to Mordor",True,(75,75,75))
 		self.screen.blit(text, [(self.screen.get_rect().width/2)-(text.get_rect().width/2), 0])
 
-		if self.victoire:
+		if self.vict:
 			textpos = self.victoire.get_rect()
 			textpos.centerx = self.screen.get_rect().centerx
 			textpos[1] = 450
