@@ -4,7 +4,7 @@ import pygame
 import credits_classe
 import os
 
-VERSION = '1.0.5'
+VERSION = '1.0.6'
 
 class Menu:
 	def __init__(self):
@@ -83,7 +83,7 @@ class Menu:
 
 		print('Ending menu ...')
 
-		return ['PLAY','ERROR','ERROR','QUIT'][self.selected]
+		return ['PLAY','ERROR','QUIT','ERROR'][self.selected]
 
 	def draw(self):
 		#Creation des texte
