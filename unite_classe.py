@@ -160,7 +160,7 @@ class Unite:
 		self.avancer()
 
 	def avancer(self):
-		if self.equipe==0:
+		if self.equipe==0: # Si on est l'IA
 			if self.posRoute>0:
 				if self.grille[self.route[self.posRoute-1]["x"]][self.route[self.posRoute-1]["y"]]["unit"] != grille_classe.CONST_UNIT_USED:
 					self.grille[self.route[self.posRoute-1]["x"]][self.route[self.posRoute-1]["y"]]["unit"] = grille_classe.CONST_UNIT_USED
@@ -176,6 +176,37 @@ class Unite:
 					self.grille[self.route[self.posRoute+1]["x"]][self.route[self.posRoute+1]["y"]]["item"] = self
 					self.grille[self.route[self.posRoute]["x"]][self.route[self.posRoute]["y"]]["item"] = None
 					self.posRoute+=1
+
+	def attaquer(self):
+		if self.equipe==0: # Si on est l'IA
+			if self.posRoute>0:
+				if self.grille[self.route[self.posRoute-1]['x']][self.route[self.posRoute-1]['y']]['unit'] != grille_classe.CONST_UNIT_VIDE:
+					item =self.grille[self.route[self.posRoute-1]['x']][self.route[self.posRoute-1]['y']]['item']
+					if item.getEquipe()!=self.equipe:
+						item.subirDegats()
+
+			else: # On attaque le chateau
+
+		else:
+			if self.posRoute<len(self.route)-1:
+
+			else:  # On attaque le chateau
+			while i <= len(route)-1:
+				if self.grille[route[i]["x"]][route[i]["y"]]["unit"] == CONST_UNIT_USED:			#Si la case est occupe
+					if self.debut_route(route[i]["x"],route[i]["y"],nb_route):							#Si c'est un debut de route
+						if self.grille[route[i]["x"]][route[i]["y"]]["item"].getEquipe() ==1:				#Si c'est un ennemi
+							############ ATTAQUE DE MINAS
+					elif self.fin_route(route[i]["x"],route[i]["y"],nb_route):							#Sinon si c'est en fin de route
+						if self.grille[route[i]["x"]][route[i]["y"]]["item"].getEquipe() ==0:				#Si c'est un allie
+							############ ATTAQUE DE L'OEIL
+					else:																				#Sinon (case ordinaire)
+						if self.grille[route[i+1]["x"]][route[i+1]["y"]]["unit"] == CONST_UNIT_USED:		#Si ya une unite en face
+							if self.grille[route[i+1]["x"]][route[i+1]["y"]]["item"].getEquipe() ==1:			#Si c'est un ennemi
+							############ ATTAQUE ENTRE LES DEUX
+
+
+				i+
+			nb_route+=1
 
 	def subirDegats(self,degats,type_d):
 		print('{} - Vie après dégats : {}'.format(self.nom,self.vie))
