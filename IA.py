@@ -288,7 +288,8 @@ class IA:
 
 			#L'IA essaye de supprimer les menaces immediate
 			for route in self.routes:
-				if self.grille[route[len(route)-1]["x"]][route[len(route)-1]["y"]][""]
+				if self.grille[route[len(route)-1]["x"]][route[len(route)-1]["y"]]["unit"] == grille_classe.CONST_UNIT_USED:
+					if self.grille[route[len(route)-1]["x"]][route[len(route)-1]["y"]]["item"].getEquipe() = 1:
 
 			#L'IA essaye de contrer d'abord les attaques
 			for i in range(nb_routes):
