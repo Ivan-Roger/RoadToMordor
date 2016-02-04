@@ -5,6 +5,7 @@ import grille_classe
 import unite_classe
 import joueur_classe
 import ig_menu_classe
+import regles_classe
 import os
 import HUD
 
@@ -28,10 +29,12 @@ class Game:
 		self.joueur = joueur_classe.Joueur("Player 1","humain",1)
 		self.joueurIA = joueur_classe.Joueur("Computer","orc",0)
 		self.hud = HUD.UserInterface(self.screen,self.joueur,self.joueurIA)
-		self.grille = grille_classe.Grille(16,20,2,self.screen.subsurface((200,50,1000,800)),self.hud)
+		self.grille = grille_classe.Grille(16,20,3,self.screen.subsurface((200,50,1000,800)),self.hud)
 		self.ig_menu = ig_menu_classe.InGameMenu(self.screen)
+		self.rules = regles_classe.Regles(self.screen)
 		turn=0
 		done = False
+		show_regles = False
 		# -------- Main Program Loop -----------
 		keys_pressed = dict()
 		pygame.event.Event(pygame.USEREVENT,{'key':0,'unicode':''})
@@ -52,18 +55,23 @@ class Game:
 						if event.key == pygame.K_RETURN:
 							res_m = self.ig_menu.getSelected()
 							if res_m == 1:
-								self.show_regles=True
+								show_regles=True
 							elif res_m == 2:
-								done=True
 								self.paused=False
+								print('Ending game ...')
+								return True
 							else:
 								self.paused=False
 						elif event.key == pygame.K_ESCAPE:
-							self.paused=False
+							if show_regles:
+								show_regles=False
+							else:
+								self.paused=False
 						else:
 							self.ig_menu.switchSelected()
 					else:
 	                    # Handle KEYDOWN
+						#print('keydown',event.unicode)
 						if event.unicode == 'd':
 							self.hud.selectNext()
 						elif event.unicode == 'q': # Q sur un Azerty
@@ -104,8 +112,9 @@ class Game:
 										if unit == False:
 											self.hud.showMessage("Argent insufisant ...",70)
 											print('Argent insufisant')
-										self.grille.place(unit)
-										self.hud.use()
+										else:
+											self.grille.place(unit)
+											self.hud.use()
 									else:
 										self.hud.showMessage("Placement impossible !",70)
 										print('Placement impossible')
@@ -136,10 +145,8 @@ class Game:
 				if turn%10==0:
 					self.grille.play()
 			else:
-				if self.show_regles:
+				if show_regles:
 					self.rules.draw()
-					if self.rules.over():
-						self.show_regles=False
 				else:
 					self.ig_menu.draw()
 

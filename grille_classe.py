@@ -44,7 +44,7 @@ class Grille:
 		self.images['test'] = pygame.image.load("images/test.png")
 		self.images['sprites'] = pygame.image.load("images/sprites.png")
 
-		self.images['selector'] = self.images['sprites'].subsurface((370,250,20,20))
+		self.images['selector'] = self.images['sprites'].subsurface((490,310,20,20))
 
 		self.images['back'] = {}
 		self.images['back'][CONST_BACK_VIDE] = self.images['sprites'].subsurface((70,130,50,50))
@@ -174,10 +174,13 @@ class Grille:
 		y = self.rows
 		test = y%3
 		y/=nb
-		self.grille = self.creer_grille(x,y+test)
+		self.grille = self.creer_grille(x,y)
 		self.generer_route(self.grille,0,x,y)
 		for i in range(1,nb):
-			grilleTemp = self.creer_grille(x,y)
+			if i==nb-1:
+				grilleTemp = self.creer_grille(x,y+test)
+			else:
+				grilleTemp = self.creer_grille(x,y)
 			self.generer_route(grilleTemp,i,x,y)
 			self.grille = fusion_grille(self.grille,grilleTemp)
 		self.generer_obstacles()

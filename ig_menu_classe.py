@@ -26,10 +26,16 @@ class InGameMenu:
 		elif self.selected==2:
 			q_y_off=20
 
-		#blit
-		self.screen.blit(j,(self.screen.get_rect().centerx-(j.get_rect().width/2)-250,500-j_y_off))
-		self.screen.blit(r,(self.screen.get_rect().centerx-(r.get_rect().width/2),500-r_y_off))
-		self.screen.blit(q,(self.screen.get_rect().centerx-(q.get_rect().width/2)+250,500-q_y_off))
+		# Fond de l'interface du haut
+		pygame.draw.rect(self.screen,(200,200,200),(0,0,self.screen.get_rect().width,50),0)
+
+		# Nom du Jeu
+		text = self.font.render("Road to Mordor",True,(75,75,75))
+		self.screen.blit(text, [(self.screen.get_rect().width/2)-(text.get_rect().width/2), 0])
+
+		self.screen.blit(j,(self.screen.get_rect().centerx-(j.get_rect().centerx)-250,500-j_y_off))
+		self.screen.blit(r,(self.screen.get_rect().centerx-(r.get_rect().centerx),500-r_y_off))
+		self.screen.blit(q,(self.screen.get_rect().centerx-(q.get_rect().centerx)+250,500-q_y_off))
 
 	def getSelected(self):
 		return self.selected
