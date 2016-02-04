@@ -6,12 +6,11 @@ import grille_classe
 ############# Classe mere des unites
 class Unite:
 	stats = [
-		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 5},
-		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 10},
-		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 20},
-		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 50},
-		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 75},
-		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 100}
+		{'vie': 50, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 100},
+		{'vie': 35, 'attPhy': 15, 'attMag': 0, 'distanceAtt': 2, 'resPhy': 0, 'resMag': 0, 'prix': 150},
+		{'vie': 30, 'attPhy': 0, 'attMag': 20, 'distanceAtt': 2, 'resPhy': 0, 'resMag': 0, 'prix': 150},
+		{'vie': 60, 'attPhy': 20, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 200},
+		{'vie': 80, 'attPhy': 5, 'attMag': 5, 'distanceAtt': 1, 'resPhy': 3, 'resMag': 3, 'prix': 250},
 	]
 
 	def __init__(self,id_unit, nom, equipe, grille, route, posRoute):
