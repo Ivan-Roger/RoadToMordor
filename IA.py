@@ -273,6 +273,18 @@ class IA:
 		stats[1].append(attaqueMag)
 		return stats
 
+	def generer_tour_pos(self,x,y,choix_tour):
+		if self.grille_obj.canBuild({'x':x,'y':y},self.joueur.getEquipe()) and self.selectT['towers'][choix_tour]==0:
+			tour = self.joueur.createBuild(choix_tour,self.grille_obj,{'x':x,'y':y})
+			if not tour == False:
+				self.grille_obj.place(tour)
+				self.selectT['towers'][choix_tour] = 100
+				print("==================================== TOUR Génerée")
+				return True
+			else:
+				return False
+		else:
+			return False
 
 	def tour_IA(self):
 		actRestant = 2
@@ -288,8 +300,20 @@ class IA:
 
 			#L'IA essaye de supprimer les menaces immediate
 			for route in self.routes:
-				if self.grille[route[len(route)-1]["x"]][route[len(route)-1]["y"]]["unit"] == grille_classe.CONST_UNIT_USED:
-					if self.grille[route[len(route)-1]["x"]][route[len(route)-1]["y"]]["item"].getEquipe() = 1:
+				x = route[len(route)-1]["x"]
+				y = route[len(route)-1]["y"]
+				if self.grille[x][y]["unit"] == CONST_UNIT_USED and actRestant>0:
+					if self.grille[x][y]["item"].getEquipe() == 1:
+						if self.grille[x][y+1]["front"]== CONST_FRONT_VIDE:
+							if self.generer_tour_pos(x,y+1,1) : actRestant -= 1
+						elif self.grille[x][y-1]["front"] == CONST_FRONT_VIDE:
+							if self.generer_tour_pos(x,y-1,1) : actRestant -= 1
+						elif self.grille[x-1][y+1]["front"] == CONST_FRONT_VIDE:
+							if self.generer_tour_pos(x+1,y+1,1) : actRestant -= 1
+						elif self.grille[x-1][y-1]["front"] == CONST_FRONT_VIDE:
+							if self.generer_tour_pos(x+1,y-1,1) : actRestant -= 1
+						elif self.grille[x-1][y]["front"] == CONST_FRONT_VIDE:
+							if self.generer_tour_pos(x+1,y,1) : actRestant -= 1
 
 			#L'IA essaye de contrer d'abord les attaques
 			for i in range(nb_routes):
