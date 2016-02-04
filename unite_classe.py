@@ -152,8 +152,6 @@ class Unite:
 		return self.posRoute
 
 ############# Attaque et Dégats
-
-
 	def play(self):
 		#print('{} - Je joue !'.format(self.nom))
 		self.avancer()
@@ -210,8 +208,11 @@ class Unite:
 				self.vie-=(degats-self.resPhy)
 			elif type_d=='Abs':
 				self.vie-=degats
+		print('DEGATS : {}, vie : {}'.format(degats_list,self.vie))
 		if self.vie<0:
+			print('JE SUIS MORT !!!!!!!')
 			self.vie=0
 			self.grille.getGrille()[self.route[self.posRoute]['x']][self.route[self.posRoute]['y']]['unit'] = grille_classe.CONST_UNIT_VIDE
 			self.grille.getGrille()[self.route[self.posRoute]['x']][self.route[self.posRoute]['y']]['item'] = None
+			self.grille.removeUnit(self)
 			self = None

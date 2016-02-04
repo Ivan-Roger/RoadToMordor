@@ -5,12 +5,12 @@ import grille_classe
 
 class Batiment:
 	stats = [
-		{'attPhy': 10, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 1, 'prix': 5},
-		{'attPhy': 0, 'attMag': 12, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 1, 'prix': 10},
-		{'attPhy': 25, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 3, 'prix': 20},
-		{'attPhy': 20, 'attMag': 30, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 3, 'prix': 50},
-		{'attPhy': 0, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 5, 'prix': 75},
-		{'attPhy': 0, 'attMag': 0, 'attAbs': 1, 'distanceAtt': 1, 'nbCibles': 5, 'prix': 100}
+		{'attPhy': 5, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 1, 'prix': 5},
+		{'attPhy': 0, 'attMag': 7, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 1, 'prix': 10},
+		{'attPhy': 10, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 3, 'prix': 20},
+		{'attPhy': 0, 'attMag': 15, 'attAbs': 0, 'distanceAtt': 1, 'nbCibles': 3, 'prix': 50},
+		{'attPhy': 3, 'attMag': 0, 'attAbs': 0, 'distanceAtt': 2, 'nbCibles': 5, 'prix': 75},
+		{'attPhy': 0, 'attMag': 2, 'attAbs': 1, 'distanceAtt': 2, 'nbCibles': 5, 'prix': 100}
 	]
 
 	def __init__(self, id_tour, equipe, nom, grille, pos):

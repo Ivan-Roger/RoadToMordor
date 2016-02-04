@@ -146,9 +146,10 @@ class Game:
 				self.grille.draw()
 				self.hud.draw()
 				if turn%300==0:
-					self.joueur.recevoirArgent(10)
-					self.joueurIA.recevoirArgent(10)
-				self.IA.play()
+					self.joueur.recevoirArgent(100)
+					self.joueurIA.recevoirArgent(100)
+				if turn%5==0:
+					self.IA.play()
 				if turn%10==0:
 					self.grille.play()
 			else:
