@@ -49,12 +49,12 @@ class UserInterface:
 		self.images['towers'][5] = self.images['sprites'].subsurface((310,70,50,50))
 
 		self.images['units'] = {}
-		self.images['units'][0] = self.images['test']
-		self.images['units'][1] = self.images['test']
-		self.images['units'][2] = self.images['test']
-		self.images['units'][3] = self.images['test']
-		self.images['units'][4] = self.images['test']
-		self.images['units'][5] = self.images['test']
+		self.images['units'][0] = self.images['sprites'].subsurface((10,430,50,50))
+		self.images['units'][1] = self.images['sprites'].subsurface((70,430,50,50))
+		self.images['units'][2] = self.images['sprites'].subsurface((130,430,50,50))
+		self.images['units'][3] = self.images['sprites'].subsurface((190,430,50,50))
+		self.images['units'][4] = self.images['sprites'].subsurface((250,430,50,50))
+		self.images['units'][5] = self.images['sprites'].subsurface((310,430,50,50))
 
 		self.selectT = {}
 		self.selectT['towers'] = {}
@@ -89,9 +89,9 @@ class UserInterface:
 		self.screen.blit(text, [95, 15])
 
 		# Contour barre de vie
-		pygame.draw.rect(self.screen,(149,0,0),(1390,10,-200,30),1)
+		pygame.draw.rect(self.screen,(149,0,0),(1400,10,-200,30),1)
 		# Barre de vie
-		pygame.draw.rect(self.screen,(193,46,26),(1390,10,-2*self.joueur2.getVieChateauPourcent(),30),0)
+		pygame.draw.rect(self.screen,(193,46,26),(1400,10,-2*self.joueur2.getVieChateauPourcent(),30),0)
 		# Texte du % de vie
 		text = self.font.render(str(self.joueur2.getVieChateauPourcent())+"%",True,(25,25,25))
 		self.screen.blit(text, [1280, 15])
