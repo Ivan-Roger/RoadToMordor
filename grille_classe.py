@@ -270,7 +270,7 @@ class Grille:
 		return self.grille[pos['x']][pos['y']]['front'] == CONST_FRONT_VIDE and self.grille[pos['x']][pos['y']]['unit'] == CONST_UNIT_VIDE and ((equipe==1 and pos['x']<self.cols/2) or (equipe==0 and pos['x']>self.cols/2))
 
 	def canSpawn(self,road,equipe):
-		pos = 0 if equipe==1 else len(road)-1
+		pos = ( 0 if equipe==1 else len(road)-1 )
 		return self.grille[road[pos]['x']][road[pos]['y']]['unit'] == CONST_UNIT_VIDE
 
 	def place(self,item):
