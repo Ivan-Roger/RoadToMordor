@@ -94,7 +94,11 @@ class Joueur():
 ############### Creation des unites
 
 	# Creer et retourne un objet barbare
-	def createUnit(self, id_unit, grille, route, routePos):
+	def createUnit(self, id_unit, grille, route):
+		if self.equipe==0:
+			routePos = len(route)-1
+		else:
+			routePos = 0
 		if self.payerArgent(unite_classe.Unite.stats[id_unit]['prix']):
 			nom = ''
 			if id_unit == 0:

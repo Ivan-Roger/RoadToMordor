@@ -30,7 +30,7 @@ class Game:
 		self.joueur = joueur_classe.Joueur("Player 1","humain",1)
 		self.joueurIA = joueur_classe.Joueur("Computer","orc",0)
 		self.hud = HUD.UserInterface(self.screen,self.joueur,self.joueurIA)
-		self.grille = grille_classe.Grille(16,20,3,self.screen.subsurface((200,50,1000,800)),self.hud,self.joueurIA,self.joueur)
+		self.grille = grille_classe.Grille(16,20,3,self.screen.subsurface((205,50,1000,800)),self.hud,self.joueurIA,self.joueur)
 		self.IA = IA.IA(self.grille,self.joueurIA)
 		self.ig_menu = ig_menu_classe.InGameMenu(self.screen)
 		self.rules = regles_classe.Regles(self.screen)

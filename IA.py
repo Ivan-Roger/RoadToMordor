@@ -1,7 +1,7 @@
 import random
 import os
 import pygame
-import Grille
+import grille_classe
 import joueur_classe
 import unite_classe
 import batiment_classe
@@ -33,9 +33,9 @@ class IA:
 		self.routes = self.grille_obj.routes
 
 	def play(self):
-		print("===================================\nArgent IA ava,t tour = {}".format(self.joueur.getArgent()))
+		#print("===================================\nArgent IA ava,t tour = {}".format(self.joueur.getArgent()))
 		self.tour_IA()
-		print("Argent IA apres tour = {}\n===================================".format(self.joueur.getArgent()))
+		#print("Argent IA apres tour = {}\n===================================".format(self.joueur.getArgent()))
 
 	def get_IA_soldat_route(self,nb_route):
 		IA = []
@@ -152,18 +152,29 @@ class IA:
 						max1 = nbcase
 						temp_i = i
 						temp_j = j
-		bat = batiment_classe.Batiment(choix_tour,0,"Tour IA",self.grille,[temp_i,temp_j])
+		"""
+		bat = batiment_classe.Batiment(choix_tour,0,"Tour IA",self.grille_obj,{'x':temp_i,'y':temp_j})
 		self.grille_obj.place(bat)
 		self.joueur.payerArgent(bat.getPrix())
-		print("==================================== TOUR Genere")
+		"""
+		tour = self.joueur.createBuild(choix_tour,self.grille_obj,{'x':temp_i,'y':temp_j})
+		print('TOUR ',tour)
+		if not tour == False:
+			self.grille_obj.place(tour)
+			print("==================================== TOUR Genere")
 		# Faire payer l'IA
 		#joueur.payer(self.grille[temp_i][temp_j]['batiment'].getPrix())
 
 	def generer_homme(self,choix_route,choix_unit):
+		"""
 		unit = unite_classe.Unite(choix_unit,"guignol IA",0,self.grille_obj,self.routes[choix_route],choix_route)
 		self.grille_obj.place(unit)
 		self.joueur.payerArgent(unit.getPrix())
+		"""
 		print("==================================== SOLDAT Genere")
+		homme = self.joueur.createUnit(choix_unit,self.grille_obj,self.routes[choix_route])
+		if not homme == False:
+			self.grille_obj.place(homme)
 
 	def stats_joueurs_route(self,nb_route):
 		allies = self.get_humain_soldat_route(nb_route)
@@ -255,7 +266,7 @@ class IA:
 							print("== While 1, ArgentJoueur = {},(argent/4)*3 = {}".format(self.joueur.getArgent(),(argent/4)*3))
 							temp1 =self.stats_tour_route(i)
 							temp2 =self.stats_joueurs_route(i)
-							while self.stats_joueurs_route(i)[1][0] >= self.stats_tour_route(i)[0][0]*2+self.stats_tour_route(i)[0][1]+self.stats_joueurs_route(i)[0][1]+self.stats_joueurs_route(i)[0][2]:
+							while self.joueur.getArgent() > (argent/4)*3 and self.stats_joueurs_route(i)[1][0] >= self.stats_tour_route(i)[0][0]*2+self.stats_tour_route(i)[0][1]+self.stats_joueurs_route(i)[0][1]+self.stats_joueurs_route(i)[0][2]:
 								alea2 = random.randrange(20)
 								if alea2 >=9 :
 									self.generer_tour(i,0)
@@ -265,9 +276,10 @@ class IA:
 									self.generer_tour(i,2)
 					else:
 						print("SOL PREMIERE PHASE")
-						while self.joueur.getArgent() > (argent/4)*3:
+						while self.joueur.getArgent() > (argent/4)*2:
 							print("== While 2")
-							while self.stats_joueurs_route(i)[1][0] >= self.stats_tour_route(i)[0][0]*2+self.stats_tour_route(i)[0][1]+self.stats_joueurs_route(i)[0][1]+self.stats_joueurs_route(i)[0][2]:
+							while self.joueur.getArgent() > (argent/4)*2 and self.stats_joueurs_route(i)[1][0] >= self.stats_tour_route(i)[0][0]*2+self.stats_tour_route(i)[0][1]+self.stats_joueurs_route(i)[0][1]+self.stats_joueurs_route(i)[0][2]:
+								print('TEST {}')
 								alea2 = random.randrange(20)
 								if alea2 >=9 :
 									print("SOLDAT GENERE PAR PREMIERE PHASE")

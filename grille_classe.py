@@ -272,6 +272,7 @@ class Grille:
 	def place(self,item):
 		if item.__class__.__name__ == 'Batiment':
 			if self.canBuild(item.getPos()):
+				print('JE construit !!!!!')
 				self.grille[self.selectX][self.selectY]['front'] = CONST_FRONT_BAT
 				self.grille[self.selectX][self.selectY]['item'] = item
 				self.batiments.append(item)
