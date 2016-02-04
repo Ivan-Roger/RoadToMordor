@@ -172,8 +172,9 @@ class Grille:
 	def generer_nb_grille(self,nb):
 		x = self.cols
 		y = self.rows
+		test = y%3
 		y/=nb
-		self.grille = self.creer_grille(x,y)
+		self.grille = self.creer_grille(x,y+test)
 		self.generer_route(self.grille,0,x,y)
 		for i in range(1,nb):
 			grilleTemp = self.creer_grille(x,y)

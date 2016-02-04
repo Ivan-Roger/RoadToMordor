@@ -14,7 +14,7 @@ class IA:
 		self.tour_IA()
 
 	def generer_homme(self):
-
+		
 
 	def nb_tour(self):
 		nb = 0
