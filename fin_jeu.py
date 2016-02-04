@@ -5,8 +5,6 @@ class Fin:
 		self.screen = screen
 		self.font = pygame.font.Font("alagard.ttf",20)
 		self.fontTitle = pygame.font.Font("alagard.ttf",50)
-		self.music_victoire = pygame.mixer.music.load('Musique/theme_principal.mp3')
-		self.music_defaite = pygame.mixer.music.load('Musique/defaite.mp3')
 		self.background_image = pygame.image.load("images/back2.jpg")
 
 		self.text_fonction = pygame.font.Font("alagard.ttf",200, bold=True)
@@ -15,9 +13,18 @@ class Fin:
 		self.vict = False
 
 	def start(self,victoire):
+		print('................')
 		self.vict = victoire
+		if victoire:
+			print('victoire')
+			self.music_victoire = pygame.mixer.music.load('Musique/theme_principal.mp3')
+		else:
+			print('defaite')
+			self.music_defaite = pygame.mixer.music.load('Musique/defaite.mp3')
+		print('!!!!!!!!!!!')
 		pygame.mixer.music.play()
 		pygame.mixer.music.set_volume(1.0)
+		print('................')
 
 	def stop(self):
 		pygame.mixer.music.stop()
