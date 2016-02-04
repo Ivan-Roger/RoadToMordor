@@ -1,11 +1,14 @@
+# coding=utf-8
+
 import pygame
 
 class Credits:
-
 	def __init__(self,screenP):
+		print('B-1')
 		self.screen = screenP
 		self.background_image = pygame.image.load("images/back.jpg")
 		self.reset()
+		print('B-2')
 		self.text_nom = pygame.font.Font("alagard.ttf",50, bold=True)
 		self.text_fonction = pygame.font.Font("alagard.ttf",70, bold=True)
 		self.text_ressource = pygame.font.Font("alagard.ttf",30, bold=True)
@@ -17,19 +20,19 @@ class Credits:
 		self.hugo = self.text_nom.render("Hugo VERONESE",True,(255,255,255))
 		self.son = self.text_fonction.render("Bruitages et Musiques",True,(255,255,255))
 
+		print('B-3')
 		self.son_1 = self.text_ressource.render("Theme en jeu : \"Evenstar\" de boopbeepbeepboop ",True,(255,255,255))
 		self.sprite_1 = self.text_ressource.render("Certains sprites de Heroes of Might and Magic 2",True,(255,255,255))
 		self.trailer_1 = self.text_ressource.render("Utilisation des images de la trilogie",True,(255,255,255))
 		self.image_1 = self.text_ressource.render("Image de fond : Wallhaven",True,(255,255,255))
 
+		print('B-4')
 		self.graphique = self.text_fonction.render("Graphique",True,(255,255,255))
 		self.code = self.text_fonction.render("Code",True,(255,255,255))
 		self.ressources = self.text_fonction.render("Ressources",True,(255,255,255))
+		print('B-5')
 
 	def draw(self):
-		#Creation des texte
-
-
 		#Position de centre
 		florianpos = self.florian.get_rect()
 		florianpos.centerx = self.screen.get_rect().centerx
@@ -105,5 +108,7 @@ class Credits:
 		return self.fini
 
 	def reset(self):
+		print('B-1.5')
 		self.pos = 500
 		self.fini = False
+		print('B-1.6')

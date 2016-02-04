@@ -27,11 +27,15 @@ class Menu:
 		DagobertIcon.convert()
 		DagobertIcon.blit(text.render("D",True,(0,255,255)),(12,4))
 		pygame.display.set_icon(DagobertIcon)
+		print('1')
 		self.clock = pygame.time.Clock()
 		#pygame.display.update()
 
+		print('2')
 		self.credits = credits_classe.Credits(self.screen)
+		print('2.5')
 		self.background_image = pygame.image.load("images/back.jpg")
+		print('3')
 
 		# -------- Main Program Loop -----------
 		showCredits = False

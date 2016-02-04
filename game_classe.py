@@ -38,6 +38,9 @@ class Game:
 		self.rules = regles_classe.Regles(self.screen)
 		self.game_over = fin_jeu.Fin(self.screen)
 
+		pygame.mixer.music.load('Musique/Musiquedefond.mp3')
+		pygame.mixer.music.play()
+
 		turn=0
 		done = False
 		show_regles = False
@@ -60,19 +63,21 @@ class Game:
 					if self.paused:
 						if event.key == pygame.K_RETURN:
 							res_m = self.ig_menu.getSelected()
-							if res_m == 1:
+							if res_m == 0:
+								pygame.mixer.music.unpause()
+								self.paused=False
+							elif res_m == 1:
 								show_regles=True
 							elif res_m == 2:
 								self.paused=False
 								print('Ending game ...')
 								return True
-							else:
-								self.paused=False
 						elif event.key == pygame.K_ESCAPE:
 							if show_regles:
 								show_regles=False
 							else:
 								self.paused=False
+								pygame.mixer.music.unpause()
 						else:
 							self.ig_menu.switchSelected()
 					elif self.show_gameOver:
@@ -94,6 +99,7 @@ class Game:
 							print('- HEY !')
 						elif event.key == pygame.K_ESCAPE:
 							self.paused = True
+							pygame.mixer.music.pause()
 							# Effet temporaire, a terme cela ouvre
 							#   le menu ingame qui permet ensuite de quitter
 						elif event.key == pygame.K_UP:
@@ -172,9 +178,11 @@ class Game:
 			if self.joueur.getVieChateau()==0 and not self.show_gameOver:
 				self.game_over.start(False)
 				self.show_gameOver = True
+				pygame.mixer.music.stop()
 			elif self.joueurIA.getVieChateau()==0 and not self.show_gameOver:
 				self.game_over.start(True)
 				self.show_gameOver = True
+				pygame.mixer.music.stop()
 
 			# --- Go ahead and update the screen with what we've drawn.
 			pygame.display.flip()
