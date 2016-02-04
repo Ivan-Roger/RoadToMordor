@@ -305,15 +305,30 @@ class IA:
 				if self.grille[x][y]["unit"] == CONST_UNIT_USED and actRestant>0:
 					if self.grille[x][y]["item"].getEquipe() == 1:
 						if self.grille[x][y+1]["front"]== CONST_FRONT_VIDE:
-							if self.generer_tour_pos(x,y+1,1) : actRestant -= 1
+							if self.generer_tour_pos(x,y+1,1) :
+								actRestant -= 1
+							elif self.generer_tour_pos(x,y+1,0) :
+								actRestant -= 1
 						elif self.grille[x][y-1]["front"] == CONST_FRONT_VIDE:
-							if self.generer_tour_pos(x,y-1,1) : actRestant -= 1
+							if self.generer_tour_pos(x,y-1,1) :
+								 actRestant -= 1
+ 							elif self.generer_tour_pos(x,y-1,0) :
+ 								actRestant -= 1
 						elif self.grille[x-1][y+1]["front"] == CONST_FRONT_VIDE:
-							if self.generer_tour_pos(x+1,y+1,1) : actRestant -= 1
+							if self.generer_tour_pos(x+1,y+1,1) :
+								 actRestant -= 1
+ 							elif self.generer_tour_pos(x+1,y+1,0) :
+ 								actRestant -= 1
 						elif self.grille[x-1][y-1]["front"] == CONST_FRONT_VIDE:
-							if self.generer_tour_pos(x+1,y-1,1) : actRestant -= 1
+							if self.generer_tour_pos(x+1,y-1,1) :
+								 actRestant -= 1
+ 							elif self.generer_tour_pos(x+1,y-1,0) :
+ 								actRestant -= 1
 						elif self.grille[x-1][y]["front"] == CONST_FRONT_VIDE:
-							if self.generer_tour_pos(x+1,y,1) : actRestant -= 1
+							if self.generer_tour_pos(x+1,y,1) :
+								 actRestant -= 1
+ 							elif self.generer_tour_pos(x+1,y,0) :
+ 								actRestant -= 1
 
 			#L'IA essaye de contrer d'abord les attaques
 			for i in range(nb_routes):
