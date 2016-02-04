@@ -78,6 +78,8 @@ class Game:
 					elif self.show_gameOver:
 						if event.key == pygame.K_ESCAPE:
 							print('Ending game ...')
+							self.rules.stop()
+							self.game_over.stop()
 							return True
 					else:
 	                    # Handle KEYDOWN
@@ -167,10 +169,10 @@ class Game:
 				if turn%10==0:
 					self.grille.play()
 			# --- Check if the game is over
-			if self.joueur.getVieChateau()==0:
+			if self.joueur.getVieChateau()==0 and not self.show_gameOver:
 				self.game_over.start(False)
 				self.show_gameOver = True
-			elif self.joueurIA.getVieChateau()==0:
+			elif self.joueurIA.getVieChateau()==0 and not self.show_gameOver:
 				self.game_over.start(True)
 				self.show_gameOver = True
 

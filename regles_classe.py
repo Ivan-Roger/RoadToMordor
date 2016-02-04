@@ -12,6 +12,9 @@ class Regles:
 		for line in self.rules:
 			line = line.replace('\n','')
 			self.textes.append(self.font.render(line,True,(200,200,200)))
+			
+	def stop(self):
+		self.rules.close()
 
 	def draw(self):
 		# Fond de l'interface du haut

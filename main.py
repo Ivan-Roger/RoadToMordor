@@ -1,7 +1,6 @@
 """
 	Dagobert Main file
 """
-
 import pygame
 import game_classe
 import menu_classe
@@ -20,3 +19,4 @@ while not done:
 		done = True
 	elif res_m == 'PLAY':
 		done = not game.launch()
+		print(done)
