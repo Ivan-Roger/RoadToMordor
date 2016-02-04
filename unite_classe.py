@@ -1,5 +1,7 @@
 # coding=utf-8
+
 import pygame
+import grille_classe
 
 ############# Classe mere des unites
 class Unite:
@@ -12,7 +14,7 @@ class Unite:
 		{'vie': 30, 'attPhy': 10, 'attMag': 0, 'distanceAtt': 1, 'resPhy': 2, 'resMag': 0, 'prix': 100}
 	]
 
-	def __init__(self,id_unit, nom, equipe, grille, pos):
+	def __init__(self,id_unit, nom, equipe, grille, route, posRoute):
 
 		############# Caracteristiques du personnage
 
@@ -22,6 +24,11 @@ class Unite:
 		self.nom = nom
 		# Equipe de l'unite
 		self.equipe = equipe
+
+		self.grille = grille
+		self.route = route
+		self.posRoute = posRoute
+
 		# Points de vie de l'unite
 		self.vie = self.stats[id_unit]['vie']
 		# Degats physique
@@ -40,7 +47,7 @@ class Unite:
 		self.prix = self.stats[id_unit]['prix']
 
 		# Joueur auquel il appartient (0 pour l'IA)
-		self.equipe = 0
+		self.equipe = equipe
 
 		# Etat du personnage : Attaque, Marche ou Mort
 		self.etat = 0
@@ -139,14 +146,36 @@ class Unite:
 	def getPrix (self):
 		return self.prix
 
+	def getRoute(self):
+		return self.route
+
+	def getPos(self):
+		return self.posRoute
+
 ############# Attaque et Dégats
 
 
 	def play(self):
+		#print('{} - Je joue !'.format(self.nom))
 		self.avancer()
 
 	def avancer(self):
-		
+		if self.equipe==0:
+			if self.posRoute>0:
+				if self.grille[self.route[self.posRoute-1]["x"]][self.route[self.posRoute-1]["y"]]["unit"] != grille_classe.CONST_UNIT_USED:
+					self.grille[self.route[self.posRoute-1]["x"]][self.route[self.posRoute-1]["y"]]["unit"] = grille_classe.CONST_UNIT_USED
+					self.grille[self.route[self.posRoute]["x"]][self.route[self.posRoute]["y"]]["unit"] = grille_classe.CONST_UNIT_VIDE
+					self.grille[self.route[self.posRoute-1]["x"]][self.route[self.posRoute-1]["y"]]["item"] = self
+					self.grille[self.route[self.posRoute]["x"]][self.route[self.posRoute]["y"]]["item"] = None
+					self.posRoute-=1
+		else:
+			if self.posRoute<len(self.route)-1:
+				if self.grille[self.route[self.posRoute+1]["x"]][self.route[self.posRoute+1]["y"]]["unit"] != grille_classe.CONST_UNIT_USED:
+					self.grille[self.route[self.posRoute+1]["x"]][self.route[self.posRoute+1]["y"]]["unit"] = grille_classe.CONST_UNIT_USED
+					self.grille[self.route[self.posRoute]["x"]][self.route[self.posRoute]["y"]]["unit"] = grille_classe.CONST_UNIT_VIDE
+					self.grille[self.route[self.posRoute+1]["x"]][self.route[self.posRoute+1]["y"]]["item"] = self
+					self.grille[self.route[self.posRoute]["x"]][self.route[self.posRoute]["y"]]["item"] = None
+					self.posRoute+=1
 
 	def subirDegats(self,degats,type_d):
 		print('{} - Vie après dégats : {}'.format(self.nom,self.vie))
