@@ -13,6 +13,12 @@ class Fin:
 		self.victoire = self.text_fonction.render("VICTOIRE",True,(255,255,255))
 		self.defaite = self.text_fonction.render("DEFAITE",True,(255,255,255))
 
+	def start(self,victoire):
+		if victoire:
+			self.music_victoire.play()
+		else:
+			self.music_defaite.play()
+
 	def draw(self,victoire):
 		# Fond de l'interface du haut
 		pygame.draw.rect(self.screen,(200,200,200),(0,0,self.screen.get_rect().width,50),0)

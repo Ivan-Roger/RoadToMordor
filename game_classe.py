@@ -6,6 +6,7 @@ import unite_classe
 import joueur_classe
 import ig_menu_classe
 import regles_classe
+import fin_jeu
 import os
 import HUD
 import IA
@@ -13,6 +14,7 @@ import IA
 class Game:
 	def __init__(self):
 		self.paused=False
+		self.show_gameOver=False
 
 		# Set the width and height of the screen [width, height]
 		self.screen_width = 1410
@@ -34,6 +36,7 @@ class Game:
 		self.IA = IA.IA(self.grille,self.joueurIA)
 		self.ig_menu = ig_menu_classe.InGameMenu(self.screen)
 		self.rules = regles_classe.Regles(self.screen)
+		self.game_over = fin_jeu.Fin(self.screen)
 
 		turn=0
 		done = False
@@ -72,6 +75,10 @@ class Game:
 								self.paused=False
 						else:
 							self.ig_menu.switchSelected()
+					elif self.show_gameOver:
+						if event.key == pygame.K_ESCAPE:
+							print('Ending game ...')
+							return True
 					else:
 	                    # Handle KEYDOWN
 						#print('keydown',event.unicode)
@@ -142,7 +149,14 @@ class Game:
 			# --- Game logic should go here
 			#pygame.display.update()
 			self.screen.fill((75,75,75))
-			if not self.paused:
+			if self.paused:
+				if show_regles:
+					self.rules.draw()
+				else:
+					self.ig_menu.draw()
+			elif self.show_gameOver:
+				self.game_over.draw()
+			else:
 				self.grille.draw()
 				self.hud.draw()
 				if turn%300==0:
@@ -152,11 +166,13 @@ class Game:
 					self.IA.play()
 				if turn%10==0:
 					self.grille.play()
-			else:
-				if show_regles:
-					self.rules.draw()
-				else:
-					self.ig_menu.draw()
+			# --- Check if the game is over
+			if self.joueur.getVieChateau()==0:
+				self.game_over.start(False)
+				self.show_gameOver = True
+			elif self.joueurIA.getVieChateau()==0:
+				self.game_over.start(True)
+				self.show_gameOver = True
 
 			# --- Go ahead and update the screen with what we've drawn.
 			pygame.display.flip()
