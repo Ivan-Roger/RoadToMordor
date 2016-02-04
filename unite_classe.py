@@ -182,7 +182,7 @@ class Unite:
 		if self.equipe==0: # Si on est l'IA
 			for j in range(self.distanceAtt):
 				i=j+1
-				print("Equipe #{} - Pos : {} - attaque a {} : {}".format(self.equipe,self.posRoute,i,self.posRoute-i))
+				#print("Equipe #{} - Pos : {} - attaque a {} : {}".format(self.equipe,self.posRoute,i,self.posRoute-i))
 				if self.posRoute-i>0:
 					if self.grille.getGrille()[self.route[self.posRoute-i]['x']][self.route[self.posRoute-i]['y']]['unit'] != grille_classe.CONST_UNIT_VIDE:
 						item =self.grille.getGrille()[self.route[self.posRoute-i]['x']][self.route[self.posRoute-i]['y']]['item']
@@ -195,7 +195,7 @@ class Unite:
 		else:
 			for j in range(self.distanceAtt):
 				i=j+1
-				print("Equipe #{} - Pos : {} - attaque a {} : {}".format(self.equipe,self.posRoute,i,self.posRoute+i))
+				#print("Equipe #{} - Pos : {} - attaque a {} : {}".format(self.equipe,self.posRoute,i,self.posRoute+i))
 				if self.posRoute+i<len(self.route)-1:
 					if self.grille.getGrille()[self.route[self.posRoute+i]['x']][self.route[self.posRoute+i]['y']]['unit'] != grille_classe.CONST_UNIT_VIDE:
 						item =self.grille.getGrille()[self.route[self.posRoute+i]['x']][self.route[self.posRoute+i]['y']]['item']

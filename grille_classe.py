@@ -266,8 +266,8 @@ class Grille:
 	def canBuild(self,pos):
 		return self.grille[pos['x']][pos['y']]['front'] == CONST_FRONT_VIDE and pos['x']<self.cols/2
 
-	def canSpawn(self,road):
-		return self.grille[road[0]['x']][road[0]['y']]['unit'] == CONST_UNIT_VIDE
+	def canSpawn(self,road,pos):
+		return self.grille[road[pos]['x']][road[pos]['y']]['unit'] == CONST_UNIT_VIDE
 
 	def place(self,item):
 		if item.__class__.__name__ == 'Batiment':
@@ -279,9 +279,9 @@ class Grille:
 			else:
 				return False
 		else:
-			if self.canSpawn(item.getRoute()):
-				self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['unit'] = CONST_UNIT_USED
-				self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['item'] = item
+			if self.canSpawn(item.getRoute(),item.getPos()):
+				self.grille[item.getRoute()[item.getPos()]['x']][item.getRoute()[item.getPos()]['y']]['unit'] = CONST_UNIT_USED
+				self.grille[item.getRoute()[item.getPos()]['x']][item.getRoute()[item.getPos()]['y']]['item'] = item
 				self.units.append(item)
 				return True
 			else:

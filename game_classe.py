@@ -14,7 +14,7 @@ class Game:
 		self.paused=False
 
 		# Set the width and height of the screen [width, height]
-		self.screen_width = 1400
+		self.screen_width = 1410
 		self.screen_height = 910
 		os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -29,7 +29,7 @@ class Game:
 		self.joueur = joueur_classe.Joueur("Player 1","humain",1)
 		self.joueurIA = joueur_classe.Joueur("Computer","orc",0)
 		self.hud = HUD.UserInterface(self.screen,self.joueur,self.joueurIA)
-		self.grille = grille_classe.Grille(16,20,3,self.screen.subsurface((200,50,1000,800)),self.hud,self.joueurIA,self.joueur)
+		self.grille = grille_classe.Grille(16,20,3,self.screen.subsurface((205,50,1000,800)),self.hud,self.joueurIA,self.joueur)
 		self.ig_menu = ig_menu_classe.InGameMenu(self.screen)
 		self.rules = regles_classe.Regles(self.screen)
 		turn=0
@@ -107,7 +107,7 @@ class Game:
 										self.hud.showMessage("Placement impossible !",70)
 										print('Placement impossible')
 								else:
-									if self.grille.canSpawn(self.grille.getRoute()):
+									if self.grille.canSpawn(self.grille.getRoute(),0):
 										unit = self.joueur.createUnit(self.hud.getSelected(),self.grille,self.grille.getRoute(),0)
 										if unit == False:
 											self.hud.showMessage("Argent insufisant ...",70)
