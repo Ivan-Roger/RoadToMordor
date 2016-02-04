@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import pygame
 import grille_classe
 
@@ -19,6 +21,13 @@ class UserInterface:
 		self.images = {}
 		self.images['test'] = pygame.image.load("images/test.png")
 		self.images['sprites'] = pygame.image.load("images/sprites.png")
+
+		self.images['herbe'] = self.images['sprites'].subsurface((70,130,50,50))
+		self.images['terre'] = self.images['sprites'].subsurface((190,130,50,50))
+
+		self.images['chateau'] = {}
+		self.images['chateau'][0] = self.images['sprites'].subsurface((600,10,200,290))
+		self.images['chateau'][1] = self.images['sprites'].subsurface((390,10,200,290))
 
 		self.images['coins'] = {}
 		self.images['coins'][0] = self.images['sprites'].subsurface((10,310,50,50))
@@ -70,14 +79,6 @@ class UserInterface:
 		# Fond de l'interface du haut
 		pygame.draw.rect(self.screen,(200,200,200),(0,0,screenRect[2],50),0)
 
-		ind=0
-		for val in self.messages:
-			self.screen.blit(self.fontSmall.render(val['msg'],True,(0,0,0)),(10,80+ind*15))
-			val['time']-=1
-			if val['time'] == 0:
-				self.messages.remove(val)
-			ind+=1
-
 		# Contour barre de vie
 		pygame.draw.rect(self.screen,(25,59,128),(10,10,200,30),1)
 		# Barre de vie
@@ -95,7 +96,7 @@ class UserInterface:
 		self.screen.blit(text, [1270, 15])
 
 		# Nom du Jeu
-		text = self.fontTitle.render("Road to mordor",True,(75,75,75))
+		text = self.fontTitle.render("Road to Mordor",True,(75,75,75))
 		self.screen.blit(text, [(self.screen.get_rect().width/2)-(text.get_rect().width/2), 0])
 
 		# Image pieces
@@ -104,6 +105,26 @@ class UserInterface:
 		# Nombre de pieces
 		text = self.fontBig.render(str(self.joueur1.getArgent()),True,(25,25,25))
 		self.screen.blit(text, [260, 10])
+
+		# Chateau gauche
+		for i in range(4):
+			for j in range(16):
+				self.screen.blit(self.images['herbe'],(50*i,50+50*j))
+		self.screen.blit(self.images['chateau'][0],(0,50+400-self.images['chateau'][0].get_rect().centery))
+		# Chateau droit
+		for i in range(4):
+			for j in range(16):
+				self.screen.blit(self.images['terre'],(1200+50*i,50+50*j))
+		self.screen.blit(self.images['chateau'][1],(1200,50+400-self.images['chateau'][1].get_rect().centery))
+
+		# Affichage des messages
+		ind=0
+		for val in self.messages:
+			self.screen.blit(self.fontSmall.render(val['msg'],True,(0,0,0)),(10,80+ind*15))
+			val['time']-=1
+			if val['time'] == 0:
+				self.messages.remove(val)
+			ind+=1
 
 		# Barre de selection
 		pygame.draw.rect(self.screen,(200,200,200),(0,screenRect[3]-60,screenRect[2],60),0)

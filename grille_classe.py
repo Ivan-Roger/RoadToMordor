@@ -26,10 +26,13 @@ CONST_UNIT_USED = 1
 
 class Grille:
 
-	def __init__(self,rows,cols,count,screen,hud):
+	def __init__(self,rows,cols,count,screen,hud,joueur1,joueur2):
 		self.selectX = 5
 		self.selectY = 3
 		self.selectR = 0
+		self.chateau = []
+		self.chateau.append(joueur1)
+		self.chateau.append(joueur2)
 		self.hud = hud
 		self.rows = rows
 		self.cols = cols
@@ -44,7 +47,7 @@ class Grille:
 		self.images['test'] = pygame.image.load("images/test.png")
 		self.images['sprites'] = pygame.image.load("images/sprites.png")
 
-		self.images['selector'] = self.images['sprites'].subsurface((370,250,20,20))
+		self.images['selector'] = self.images['sprites'].subsurface((490,310,20,20))
 
 		self.images['back'] = {}
 		self.images['back'][CONST_BACK_VIDE] = self.images['sprites'].subsurface((70,130,50,50))
@@ -174,10 +177,13 @@ class Grille:
 		y = self.rows
 		test = y%3
 		y/=nb
-		self.grille = self.creer_grille(x,y+test)
+		self.grille = self.creer_grille(x,y)
 		self.generer_route(self.grille,0,x,y)
 		for i in range(1,nb):
-			grilleTemp = self.creer_grille(x,y)
+			if i==nb-1:
+				grilleTemp = self.creer_grille(x,y+test)
+			else:
+				grilleTemp = self.creer_grille(x,y)
 			self.generer_route(grilleTemp,i,x,y)
 			self.grille = fusion_grille(self.grille,grilleTemp)
 		self.generer_obstacles()
@@ -290,13 +296,14 @@ class Grille:
 	def getRoute(self):
 		return self.routes[self.selectR]
 
+	def getChateau(self,equipe):
+		return self.chateau[equipe]
+
 	def play(self):
 		for val in self.batiments:
 			val.play()
 		for val in self.units:
 			val.play()
-
-
 
 	def fin_route(self,x,y,nb):
 		route = self.routes[nb]

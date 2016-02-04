@@ -158,24 +158,53 @@ class Unite:
 	def play(self):
 		#print('{} - Je joue !'.format(self.nom))
 		self.avancer()
+		self.attaquer()
 
 	def avancer(self):
-		if self.equipe==0:
+		if self.equipe==0: # Si on est l'IA
 			if self.posRoute>0:
-				if self.grille[self.route[self.posRoute-1]["x"]][self.route[self.posRoute-1]["y"]]["unit"] != grille_classe.CONST_UNIT_USED:
-					self.grille[self.route[self.posRoute-1]["x"]][self.route[self.posRoute-1]["y"]]["unit"] = grille_classe.CONST_UNIT_USED
-					self.grille[self.route[self.posRoute]["x"]][self.route[self.posRoute]["y"]]["unit"] = grille_classe.CONST_UNIT_VIDE
-					self.grille[self.route[self.posRoute-1]["x"]][self.route[self.posRoute-1]["y"]]["item"] = self
-					self.grille[self.route[self.posRoute]["x"]][self.route[self.posRoute]["y"]]["item"] = None
+				if self.grille.getGrille()[self.route[self.posRoute-1]["x"]][self.route[self.posRoute-1]["y"]]["unit"] != grille_classe.CONST_UNIT_USED:
+					self.grille.getGrille()[self.route[self.posRoute-1]["x"]][self.route[self.posRoute-1]["y"]]["unit"] = grille_classe.CONST_UNIT_USED
+					self.grille.getGrille()[self.route[self.posRoute]["x"]][self.route[self.posRoute]["y"]]["unit"] = grille_classe.CONST_UNIT_VIDE
+					self.grille.getGrille()[self.route[self.posRoute-1]["x"]][self.route[self.posRoute-1]["y"]]["item"] = self
+					self.grille.getGrille()[self.route[self.posRoute]["x"]][self.route[self.posRoute]["y"]]["item"] = None
 					self.posRoute-=1
 		else:
 			if self.posRoute<len(self.route)-1:
-				if self.grille[self.route[self.posRoute+1]["x"]][self.route[self.posRoute+1]["y"]]["unit"] != grille_classe.CONST_UNIT_USED:
-					self.grille[self.route[self.posRoute+1]["x"]][self.route[self.posRoute+1]["y"]]["unit"] = grille_classe.CONST_UNIT_USED
-					self.grille[self.route[self.posRoute]["x"]][self.route[self.posRoute]["y"]]["unit"] = grille_classe.CONST_UNIT_VIDE
-					self.grille[self.route[self.posRoute+1]["x"]][self.route[self.posRoute+1]["y"]]["item"] = self
-					self.grille[self.route[self.posRoute]["x"]][self.route[self.posRoute]["y"]]["item"] = None
+				if self.grille.getGrille()[self.route[self.posRoute+1]["x"]][self.route[self.posRoute+1]["y"]]["unit"] != grille_classe.CONST_UNIT_USED:
+					self.grille.getGrille()[self.route[self.posRoute+1]["x"]][self.route[self.posRoute+1]["y"]]["unit"] = grille_classe.CONST_UNIT_USED
+					self.grille.getGrille()[self.route[self.posRoute]["x"]][self.route[self.posRoute]["y"]]["unit"] = grille_classe.CONST_UNIT_VIDE
+					self.grille.getGrille()[self.route[self.posRoute+1]["x"]][self.route[self.posRoute+1]["y"]]["item"] = self
+					self.grille.getGrille()[self.route[self.posRoute]["x"]][self.route[self.posRoute]["y"]]["item"] = None
 					self.posRoute+=1
+
+	def attaquer(self):
+		if self.equipe==0: # Si on est l'IA
+			for j in range(self.distanceAtt):
+				i=j+1
+				print("Equipe #{} - Pos : {} - attaque a {} : {}".format(self.equipe,self.posRoute,i,self.posRoute-i))
+				if self.posRoute-i>0:
+					if self.grille.getGrille()[self.route[self.posRoute-i]['x']][self.route[self.posRoute-i]['y']]['unit'] != grille_classe.CONST_UNIT_VIDE:
+						item =self.grille.getGrille()[self.route[self.posRoute-i]['x']][self.route[self.posRoute-i]['y']]['item']
+						if item.getEquipe()!=self.equipe:
+							item.subirDegats(self.attPhy,'Phy')
+							item.subirDegats(self.attMag,'Mag')
+							item.subirDegats(self.attAbs,'Abs')
+				else: # On attaque le chateau
+					self.grille.getChateau(1-self.equipe).subirDegats(self.attPhy+self.attMag)
+		else:
+			for j in range(self.distanceAtt):
+				i=j+1
+				print("Equipe #{} - Pos : {} - attaque a {} : {}".format(self.equipe,self.posRoute,i,self.posRoute+i))
+				if self.posRoute+i<len(self.route)-1:
+					if self.grille.getGrille()[self.route[self.posRoute+i]['x']][self.route[self.posRoute+i]['y']]['unit'] != grille_classe.CONST_UNIT_VIDE:
+						item =self.grille.getGrille()[self.route[self.posRoute+i]['x']][self.route[self.posRoute+i]['y']]['item']
+						if item.getEquipe()!=self.equipe:
+							item.subirDegats(self.attPhy,'Phy')
+							item.subirDegats(self.attMag,'Mag')
+							item.subirDegats(self.attAbs,'Abs')
+				else: # On attaque le chateau
+					self.grille.getChateau(1-self.equipe).subirDegats(self.attPhy+self.attMag)
 
 	def subirDegats(self,degats,type_d):
 		print('{} - Vie après dégats : {}'.format(self.nom,self.vie))

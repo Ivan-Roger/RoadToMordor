@@ -75,22 +75,27 @@ class Joueur():
 	def setSprite (self, sprite):
 		self.sprite = sprite
 
-	def payer (self, montant):
+	def payerArgent(self, montant):
 		# Verifier que le joueur a assez d'argent
 		if (self.getArgent()-montant)<0:
 			return False
 		self.setArgent(self.getArgent() - montant)
 		return True
 
-	def recevoir (self, montant):
+	def recevoirArgent (self, montant):
 		# Verifier que le joueur a assez d'argent
 		self.setArgent(self.getArgent() + montant)
+
+	def subirDegats(self,value):
+		self.vieChateau-=value
+		if self.vieChateau<0:
+			self.vieChateau = 0
 
 ############### Creation des unites
 
 	# Creer et retourne un objet barbare
 	def createUnit(self, id_unit, grille, route, routePos):
-		if self.payer(unite_classe.Unite.stats[id_unit]['prix']):
+		if self.payerArgent(unite_classe.Unite.stats[id_unit]['prix']):
 			nom = ''
 			if id_unit == 0:
 				if self.race == 'humain':
@@ -266,7 +271,7 @@ class Joueur():
 
 	# Creer et retourne un objet batiment
 	def createBuild(self,id_bat,grille,pos):
-		if self.payer(batiment_classe.Batiment.stats[id_bat]['prix']):
+		if self.payerArgent(batiment_classe.Batiment.stats[id_bat]['prix']):
 			nom = ''
 			if id_bat == 0:
 				if self.race == 'humain':

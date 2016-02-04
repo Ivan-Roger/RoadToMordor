@@ -20,7 +20,7 @@ class Menu:
 
 		pygame.init()
 		self.screen = pygame.display.set_mode([self.screen_width, self.screen_height])
-		pygame.display.set_caption("Dagobert - Menu")
+		pygame.display.set_caption("Road to Mordor")
 		DagobertIcon = pygame.Surface((64,64))
 		text = pygame.font.Font("alagard.ttf",64)
 		DagobertIcon.fill((0,0,0))
@@ -84,7 +84,7 @@ class Menu:
 		#Creation des texte
 		textS = pygame.font.Font("alagard.ttf",40)
 		text = pygame.font.Font("alagard.ttf",50)
-		m = text.render("Dagobert",True,(255,255,255))
+		m = text.render("Road to Mordor",True,(255,255,255))
 		j = textS.render("Jouer",True,(180,180,180))
 		c = textS.render("Credit",True,(180,180,180))
 		q = textS.render("Quitter",True,(180,180,180))

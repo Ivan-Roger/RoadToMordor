@@ -1,0 +1,18 @@
+Dans Road to Mordor vous incarnez les peuples libres que vous
+devez envoyer sur les terres du mal, le Mordor !
+
+Le but de votre perilleuse quete est de detruire la tour de Sauron,
+mais attention car le seigneur du mal et ses hordes d orcs
+sanguinaires vous attendent de pied ferme !
+
+Ces derniers ont egalement decides de raser votre sublime Minas Tirith
+et vous vous devez de la defendre au peril de votre vie !
+
+Construisez des tours de defenses sur la route menant
+a la cite blanche et terrassez les armees du Mordor !
+
+Modes :
+En appuyant sur la touche A vous pouvez passer du mode attaque au mode defense.
+
+En mode attaque vous envoyer vos soldats afin de combattre les soldats ennemis et detruire
+la tour de Sauron. Vous naviguer dans la barre de menu a l aide des touches Q et D.

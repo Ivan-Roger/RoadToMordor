@@ -95,8 +95,8 @@ class Batiment:
 		#r_x = range(self.pos['x']-self.distanceAtt,2*self.distanceAtt+1)
 		for i in range(self.pos['x']-self.distanceAtt,self.pos['x']+self.distanceAtt+1):
 			for j in range(self.pos['y']-self.distanceAtt,self.pos['y']+self.distanceAtt+1):
-				if cibleRestantes>0 and self.grille[i][j]['front']==grille_classe.CONST_FRONT_ROUTE and self.grille[i][j]['unit']!=grille_classe.CONST_UNIT_VIDE and self.grille[i][j]['item'].getEquipe()!=self.equipe:
+				if cibleRestantes>0 and self.grille.getGrille()[i][j]['front']==grille_classe.CONST_FRONT_ROUTE and self.grille.getGrille()[i][j]['unit']!=grille_classe.CONST_UNIT_VIDE and self.grille.getGrille()[i][j]['item'].getEquipe()!=self.equipe:
 					cibleRestantes-=1
-					self.grille[i][j]['item'].subirDegats(self.attAbs,'Abs')
-					self.grille[i][j]['item'].subirDegats(self.attPhy,'Phy')
-					self.grille[i][j]['item'].subirDegats(self.attMag,'Mag')
+					self.grille.getGrille()[i][j]['item'].subirDegats(self.attAbs,'Abs')
+					self.grille.getGrille()[i][j]['item'].subirDegats(self.attPhy,'Phy')
+					self.grille.getGrille()[i][j]['item'].subirDegats(self.attMag,'Mag')
