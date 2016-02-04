@@ -15,7 +15,7 @@ class Game:
 		self.paused=False
 
 		# Set the width and height of the screen [width, height]
-		self.screen_width = 1400
+		self.screen_width = 1410
 		self.screen_height = 910
 		os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -110,7 +110,7 @@ class Game:
 										self.hud.showMessage("Placement impossible !",70)
 										print('Placement impossible')
 								else:
-									if self.grille.canSpawn(self.grille.getRoute()):
+									if self.grille.canSpawn(self.grille.getRoute(),0):
 										unit = self.joueur.createUnit(self.hud.getSelected(),self.grille,self.grille.getRoute(),0)
 										if unit == False:
 											self.hud.showMessage("Argent insufisant ...",70)

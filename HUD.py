@@ -22,6 +22,7 @@ class UserInterface:
 		self.images['test'] = pygame.image.load("images/test.png")
 		self.images['sprites'] = pygame.image.load("images/sprites.png")
 
+		self.images['mur'] = self.images['sprites'].subsurface((520,310,5,50))
 		self.images['herbe'] = self.images['sprites'].subsurface((70,130,50,50))
 		self.images['terre'] = self.images['sprites'].subsurface((190,130,50,50))
 
@@ -93,7 +94,7 @@ class UserInterface:
 		pygame.draw.rect(self.screen,(193,46,26),(1390,10,-2*self.joueur2.getVieChateauPourcent(),30),0)
 		# Texte du % de vie
 		text = self.font.render(str(self.joueur2.getVieChateauPourcent())+"%",True,(25,25,25))
-		self.screen.blit(text, [1270, 15])
+		self.screen.blit(text, [1280, 15])
 
 		# Nom du Jeu
 		text = self.fontTitle.render("Road to Mordor",True,(75,75,75))
@@ -110,12 +111,16 @@ class UserInterface:
 		for i in range(4):
 			for j in range(16):
 				self.screen.blit(self.images['herbe'],(50*i,50+50*j))
+		for y in range(16):
+				self.screen.blit(self.images['mur'],(200,50+50*y))
 		self.screen.blit(self.images['chateau'][0],(0,50+400-self.images['chateau'][0].get_rect().centery))
 		# Chateau droit
 		for i in range(4):
 			for j in range(16):
-				self.screen.blit(self.images['terre'],(1200+50*i,50+50*j))
-		self.screen.blit(self.images['chateau'][1],(1200,50+400-self.images['chateau'][1].get_rect().centery))
+				self.screen.blit(self.images['terre'],(1210+50*i,50+50*j))
+		for y in range(16):
+				self.screen.blit(self.images['mur'],(1205,50+50*y))
+		self.screen.blit(self.images['chateau'][1],(1210,50+400-self.images['chateau'][1].get_rect().centery))
 
 		# Affichage des messages
 		ind=0
