@@ -263,21 +263,22 @@ class Grille:
 		else:
 			return self.grille[self.routes[self.selectR][0]['x']][self.routes[self.selectR][0]['y']]['unit'] == CONST_UNIT_VIDE
 
-	def canBuild(self,pos):
-		return self.grille[pos['x']][pos['y']]['front'] == CONST_FRONT_VIDE and pos['x']<self.cols/2
+	def canBuild(self,pos,equipe):
+		return self.grille[pos['x']][pos['y']]['front'] == CONST_FRONT_VIDE and ((equipe==1 and pos['x']<self.cols/2) or (equipe==0 and pos['x']>self.cols/2))
 
 	def canSpawn(self,road,pos):
 		return self.grille[road[pos]['x']][road[pos]['y']]['unit'] == CONST_UNIT_VIDE
 
 	def place(self,item):
 		if item.__class__.__name__ == 'Batiment':
-			if self.canBuild(item.getPos()):
-				print('JE construit !!!!!')
-				self.grille[self.selectX][self.selectY]['front'] = CONST_FRONT_BAT
-				self.grille[self.selectX][self.selectY]['item'] = item
+			if self.canBuild(item.getPos(),item.getEquipe()):
+				print('je construit')
+				self.grille[item.getPos()['x']][item.getPos()['y']]['front'] = CONST_FRONT_BAT
+				self.grille[item.getPos()['x']][item.getPos()['y']]['item'] = item
 				self.batiments.append(item)
 				return True
 			else:
+				print('construit PAS !!!!!')
 				return False
 		else:
 			if self.canSpawn(item.getRoute(),item.getPos()):

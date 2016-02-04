@@ -98,7 +98,7 @@ class Game:
 						elif event.key == pygame.K_RETURN:
 							if self.hud.canUse():
 								if self.hud.getMode()=='towers':
-									if self.grille.canBuild(self.grille.getSelected()):
+									if self.grille.canBuild(self.grille.getSelected(),1):
 										tour = self.joueur.createBuild(self.hud.getSelected(),self.grille,self.grille.getSelected())
 										if tour == False:
 											self.hud.showMessage("Argent insufisant ...",70)
@@ -111,7 +111,7 @@ class Game:
 										print('Placement impossible')
 								else:
 									if self.grille.canSpawn(self.grille.getRoute(),0):
-										unit = self.joueur.createUnit(self.hud.getSelected(),self.grille,self.grille.getRoute(),0)
+										unit = self.joueur.createUnit(self.hud.getSelected(),self.grille,self.grille.getRoute())
 										if unit == False:
 											self.hud.showMessage("Argent insufisant ...",70)
 											print('Argent insufisant')
@@ -145,6 +145,9 @@ class Game:
 			if not self.paused:
 				self.grille.draw()
 				self.hud.draw()
+				if turn%300==0:
+					self.joueur.recevoirArgent(10)
+					self.joueurIA.recevoirArgent(10)
 				self.IA.play()
 				if turn%10==0:
 					self.grille.play()

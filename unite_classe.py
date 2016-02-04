@@ -189,7 +189,6 @@ class Unite:
 						if item.getEquipe()!=self.equipe:
 							item.subirDegats(self.attPhy,'Phy')
 							item.subirDegats(self.attMag,'Mag')
-							item.subirDegats(self.attAbs,'Abs')
 				else: # On attaque le chateau
 					self.grille.getChateau(1-self.equipe).subirDegats(self.attPhy+self.attMag)
 		else:
@@ -202,12 +201,11 @@ class Unite:
 						if item.getEquipe()!=self.equipe:
 							item.subirDegats(self.attPhy,'Phy')
 							item.subirDegats(self.attMag,'Mag')
-							item.subirDegats(self.attAbs,'Abs')
 				else: # On attaque le chateau
 					self.grille.getChateau(1-self.equipe).subirDegats(self.attPhy+self.attMag)
 
 	def subirDegats(self,degats,type_d):
-		print('{} - Vie après dégats : {}'.format(self.nom,self.vie))
+		print(self,'{} - Vie après dégats : {}'.format(self.nom,self.vie))
 		if type_d=='Mag':
 			self.vie-=(degats-self.resMag)
 		elif type_d=='Phy':
@@ -216,4 +214,6 @@ class Unite:
 			self.vie-=degats
 		if self.vie<0:
 			self.vie=0
+			self.grille.getGrille()[self.route[self.posRoute]['x']][self.route[self.posRoute]['y']]['unit'] = grille_classe.CONST_UNIT_VIDE
+			self.grille.getGrille()[self.route[self.posRoute]['x']][self.route[self.posRoute]['y']]['item'] = None
 			self = None
