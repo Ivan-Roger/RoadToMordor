@@ -26,10 +26,13 @@ CONST_UNIT_USED = 1
 
 class Grille:
 
-	def __init__(self,rows,cols,count,screen,hud):
+	def __init__(self,rows,cols,count,screen,hud,joueur1,joueur2):
 		self.selectX = 5
 		self.selectY = 3
 		self.selectR = 0
+		self.chateau = []
+		self.chateau.append(joueur1)
+		self.chateau.append(joueur2)
 		self.hud = hud
 		self.rows = rows
 		self.cols = cols
@@ -293,13 +296,14 @@ class Grille:
 	def getRoute(self):
 		return self.routes[self.selectR]
 
+	def getChateau(self,equipe):
+		return self.chateau[equipe]
+
 	def play(self):
 		for val in self.batiments:
 			val.play()
 		for val in self.units:
 			val.play()
-
-
 
 	def fin_route(self,x,y,nb):
 		route = self.routes[nb]

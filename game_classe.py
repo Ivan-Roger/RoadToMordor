@@ -29,7 +29,7 @@ class Game:
 		self.joueur = joueur_classe.Joueur("Player 1","humain",1)
 		self.joueurIA = joueur_classe.Joueur("Computer","orc",0)
 		self.hud = HUD.UserInterface(self.screen,self.joueur,self.joueurIA)
-		self.grille = grille_classe.Grille(16,20,3,self.screen.subsurface((200,50,1000,800)),self.hud)
+		self.grille = grille_classe.Grille(16,20,3,self.screen.subsurface((200,50,1000,800)),self.hud,self.joueurIA,self.joueur)
 		self.ig_menu = ig_menu_classe.InGameMenu(self.screen)
 		self.rules = regles_classe.Regles(self.screen)
 		turn=0
@@ -96,7 +96,7 @@ class Game:
 							if self.hud.canUse():
 								if self.hud.getMode()=='towers':
 									if self.grille.canBuild(self.grille.getSelected()):
-										tour = self.joueur.createBuild(self.hud.getSelected(),self.grille.getGrille(),self.grille.getSelected())
+										tour = self.joueur.createBuild(self.hud.getSelected(),self.grille,self.grille.getSelected())
 										if tour == False:
 											self.hud.showMessage("Argent insufisant ...",70)
 											print('Argent insufisant')
@@ -108,7 +108,7 @@ class Game:
 										print('Placement impossible')
 								else:
 									if self.grille.canSpawn(self.grille.getRoute()):
-										unit = self.joueur.createUnit(self.hud.getSelected(),self.grille.getGrille(),self.grille.getRoute(),0)
+										unit = self.joueur.createUnit(self.hud.getSelected(),self.grille,self.grille.getRoute(),0)
 										if unit == False:
 											self.hud.showMessage("Argent insufisant ...",70)
 											print('Argent insufisant')
